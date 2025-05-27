@@ -1,41 +1,31 @@
-import { WixSession } from '../auth/auth';
-import { plans, orders } from '@wix/pricing-plans';
-import { safeCall } from '@app/model/utils';
+import { Plan } from '@/types/plan';
+import plansData from '@/data/plans.json';
 
-export const safeGetPaidPlans = (
-  wixSession: WixSession,
-  options?: { limit?: number; planIds?: string[] }
-) => {
-  return safeCall(
-    () => getPaidPlans(wixSession, options).then((res) => res.items),
-    [],
-    'Get Public Plans'
-  );
-};
+// Cache plans in memory with 1 hour TTL
+let cachedPlans: Plan[] | null = null;
+let cacheTimestamp = 0;
+const CACHE_TTL = 60 * 60 * 1000;
 
-export const getMyPlanOrders = (wixSession: WixSession) =>
-  safeCall(
-    () =>
-      wixSession!
-        .wixClient!.orders.memberListOrders()
-        .then((res) => res.orders),
-    [],
-    'Get My Plan Orders'
-  );
-
-export const getPaidPlans = (
-  wixSession: WixSession,
+export const getPaidPlans = async (
   { limit = 100, planIds = undefined as string[] | undefined } = {}
-): Promise<plans.PlansQueryResult> => {
-  let queryBuilder = wixSession!.wixClient!.plans.queryPublicPlans();
-  if (planIds?.length) {
-    queryBuilder = queryBuilder.in('_id', planIds);
+): Promise<Plan[]> => {
+  const now = Date.now();
+  
+  if (!cachedPlans || now - cacheTimestamp > CACHE_TTL) {
+    cachedPlans = plansData as Plan[];
+    cacheTimestamp = now;
   }
-  return queryBuilder.limit(limit).find();
+
+  let plans = [...cachedPlans];
+  
+  if (planIds?.length) {
+    plans = plans.filter(plan => planIds.includes(plan._id));
+  }
+  
+  return plans.slice(0, limit);
 };
 
-export const cancelPlanOrder = (wixSession: WixSession, planOrderId: string) =>
-  wixSession!.wixClient!.orders.requestCancellation(
-    planOrderId,
-    orders.CancellationEffectiveAt.IMMEDIATELY
-  );
+export const getPlanById = async (planId: string): Promise<Plan | undefined> => {
+  const plans = await getPaidPlans();
+  return plans.find(plan => plan._id === planId);
+};
