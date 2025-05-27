@@ -1,0 +1,125 @@
+  [
+    {
+      "_id": "premium_monthly_123",
+      "name": "Premium Monthly",
+      "description": "Best value for dedicated training",
+      "pricing": {
+        "price": {
+          "value": 89.99,
+          "currency": "USD"
+        },
+        "subscription": {
+          "cycleDuration": {
+            "count": 1,
+            "unit": "MONTH"
+          }
+        },
+        "singlePaymentUnlimited": false,
+        "singlePaymentForDuration": null
+      },
+      "perks": {
+        "values": [
+          "Unlimited gym access",
+          "4 personal training sessions",
+          "Custom meal plans",
+          "24/7 support",
+          "Progress tracking"
+        ]
+      }
+    },
+    {
+      "_id": "annual_subscription_456",
+      "name": "Annual Pro",
+      "description": "Save 20% with yearly commitment",
+      "pricing": {
+        "price": {
+          "value": 899,
+          "currency": "USD"
+        },
+        "subscription": {
+          "cycleDuration": {
+            "count": 1,
+            "unit": "YEAR"
+          }
+        }
+      },
+      "perks": {
+        "values": [
+          "All Premium benefits",
+          "2 free guest passes",
+          "Priority class booking",
+          "Annual fitness assessment",
+          "VIP locker"
+        ]
+      }
+    },
+    {
+      "_id": "lifetime_789",
+      "name": "Lifetime Membership",
+      "description": "One-time payment for permanent access",
+      "pricing": {
+        "price": {
+          "value": 2499,
+          "currency": "USD"
+        },
+        "singlePaymentUnlimited": true,
+        "subscription": null
+      },
+      "perks": {
+        "values": [
+          "Permanent access to all facilities",
+          "10 personal training sessions",
+          "Lifetime nutrition counseling",
+          "Family discount (25%)",
+          "Exclusive member events"
+        ]
+      }
+    },
+    {
+      "_id": "summer_special_101",
+      "name": "Summer Challenge",
+      "description": "3-month transformation program",
+      "pricing": {
+        "price": {
+          "value": 399,
+          "currency": "USD"
+        },
+        "singlePaymentForDuration": {
+          "count": 3,
+          "unit": "MONTH"
+        }
+      },
+      "perks": {
+        "values": [
+          "12-week workout plan",
+          "Weekly coaching",
+          "Nutrition guide",
+          "Before/after assessment",
+          "Community support"
+        ]
+      }
+    },
+    {
+      "_id": "trial_week_202",
+      "name": "7-Day Trial",
+      "description": "Experience our facilities",
+      "pricing": {
+        "price": {
+          "value": 19,
+          "currency": "USD"
+        },
+        "singlePaymentForDuration": {
+          "count": 7,
+          "unit": "DAY"
+        }
+      },
+      "perks": {
+        "values": [
+          "Full gym access",
+          "1 free class",
+          "Intro session with trainer",
+          "Facility tour"
+        ]
+      }
+    }
+  ]

@@ -1,0 +1,66 @@
+[
+    {
+      "id": "service_123",
+      "slug": "personal-training",
+      "info": {
+        "name": "Personal Training",
+        "description": "One-on-one coaching sessions",
+        "media": {
+          "mainMedia": {
+            "id": "media_123",
+            "url": "https://static.wixstatic.com/media/personal-trainer.jpg"
+          }
+        }
+      },
+      "payment": {
+        "paymentDetails": {
+          "price": 99,
+          "currency": "USD",
+          "discountedPrice": 89,
+          "paymentType": "PAID"
+        }
+      }
+    },
+    {
+      "id": "service_456",
+      "slug": "yoga-classes",
+      "info": {
+        "name": "Yoga Classes",
+        "description": "Group yoga sessions for all levels",
+        "media": {
+          "mainMedia": {
+            "id": "media_456",
+            "url": "https://static.wixstatic.com/media/yoga-class.jpg"
+          }
+        }
+      },
+      "payment": {
+        "paymentDetails": {
+          "price": 25,
+          "currency": "USD",
+          "paymentType": "PAID"
+        }
+      }
+    },
+    {
+      "id": "service_789",
+      "slug": "nutrition-consultation",
+      "info": {
+        "name": "Nutrition Consultation",
+        "description": "Personalized meal planning",
+        "media": {
+          "mainMedia": {
+            "id": "media_789",
+            "url": "https://static.wixstatic.com/media/nutrition.jpg"
+          }
+        }
+      },
+      "payment": {
+        "paymentDetails": {
+          "price": 75,
+          "currency": "USD",
+          "paymentType": "PAID"
+        }
+      }
+    }
+]

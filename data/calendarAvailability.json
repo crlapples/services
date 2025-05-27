@@ -1,0 +1,34 @@
+{
+    "availabilityEntries": [
+      {
+        "slot": {
+          "startDate": "2023-11-15T09:00:00.000Z",
+          "endDate": "2023-11-15T10:00:00.000Z",
+          "resource": {
+            "id": "resource_123",
+            "name": "Yoga Instructor"
+          },
+          "location": {
+            "id": "loc_456",
+            "name": "Main Studio"
+          }
+        },
+        "bookable": true,
+        "bookingPolicyViolations": null
+      },
+      {
+        "slot": {
+          "startDate": "2023-11-15T10:00:00.000Z",
+          "endDate": "2023-11-15T11:00:00.000Z",
+          "resource": {
+            "id": "resource_123",
+            "name": "Yoga Instructor"
+          }
+        },
+        "bookable": false,
+        "bookingPolicyViolations": {
+          "tooLateToBook": true
+        }
+      }
+    ]
+  }
