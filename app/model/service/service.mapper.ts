@@ -1,31 +1,32 @@
+// src/services/service.mapper.ts
 import { formatDuration, intervalToDuration } from 'date-fns';
-import { services } from '@wix/bookings';
-import { mapServiceOfferedAsDto } from '@app/model/service/service-offered-as.mapper';
-import { mapServicePaymentDto } from '@app/model/service/service-payment.mapper';
+import { Service, MediaItem, ServicePayment } from '@/types/service-types';
+import { mapServiceOfferedAsDto } from './service-offered-as.mapper';
+import { mapServicePaymentDto } from './service-payment.mapper';
 
 export type ServiceInfoViewModel = NonNullable<
   ReturnType<typeof mapServiceInfo>
 >;
 
-export type ServiceImage = services.MediaItem;
-
-export function mapServiceInfo(service?: services.Service) {
+export function mapServiceInfo(service?: Service) {
   if (!service) {
     return null;
   }
+  
   let mainMedia = service?.media?.mainMedia ?? service?.media?.items?.[0];
   let coverMedia = service?.media?.coverMedia ?? service?.media?.items?.[0];
   let otherMediaItems = service?.media?.items?.filter((item) => !!item) as
-    | ServiceImage[]
+    | MediaItem[]
     | undefined;
-  const { name, description, tagLine, _id: id } = service;
+  
+  const { name, description, tagLine, id } = service;
   const serviceDuration = getDuration(service);
 
   return {
-    id: id!,
-    scheduleId: service?.schedule?._id,
+    id,
+    scheduleId: service?.schedule?.id,
     info: {
-      name: name!,
+      name,
       description,
       tagLine,
       media: {
@@ -35,28 +36,26 @@ export function mapServiceInfo(service?: services.Service) {
       },
       formattedDuration: serviceDuration ? formatDuration(serviceDuration) : '',
     },
-    slug: service!.mainSlug!.name,
-    type: service!.type!,
-    categoryId: service!.category!._id!,
-    categoryName: service!.category!.name!,
+    slug: service.mainSlug.name,
+    type: service.type,
+    categoryId: service.category.id,
+    categoryName: service.category.name,
     payment: mapServicePayment(service),
   };
 }
 
-export function mapServicePayment(service: services.Service) {
+export function mapServicePayment(service: Service) {
   return {
     offeredAs: mapServiceOfferedAsDto(service),
     paymentDetails: mapServicePaymentDto(service),
   };
 }
-function getDuration(service?: services.Service) {
+
+function getDuration(service?: Service) {
   return service?.schedule?.availabilityConstraints?.sessionDurations?.length
     ? intervalToDuration({
         start: 0,
-        end:
-          service.schedule.availabilityConstraints.sessionDurations[0] *
-          60 *
-          1000,
+        end: service.schedule.availabilityConstraints.sessionDurations[0] * 60 * 1000,
       })
     : undefined;
 }

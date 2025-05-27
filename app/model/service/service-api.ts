@@ -1,82 +1,84 @@
-import {
-  mapServiceInfo,
-  ServiceInfoViewModel,
-} from '@app/model/service/service.mapper';
-import { WixSession } from '../auth/auth';
-import { safeCall } from '@app/model/utils';
-import { services } from '@wix/bookings';
+// src/services/service-api.ts
+import { Service, ServiceInfoViewModel } from '@/types/service-types';
+import { mapServiceInfo } from './service.mapper';
+import { safeCall } from './utils';
 
-export const safeGetServices = (
-  wixSession?: WixSession,
-  {
-    limit = 100,
-    categoryId = '',
-    types = undefined as services.ServiceType[] | undefined,
+// Mock data source - replace with your actual data source (API, database, etc.)
+const mockServices: Service[] = [
+  // Your service data here matching the Service interface
+];
+
+export const safeGetServices = async (
+  options: {
+    limit?: number;
+    categoryId?: string;
+    types?: string[];
   } = {}
-) =>
-  safeCall<{ services: ServiceInfoViewModel[] }>(
-    () => getServices(wixSession, { limit, categoryId, types }),
+): Promise<{ services: ServiceInfoViewModel[] }> => {
+  return safeCall(
+    () => getServices(options),
     { services: [] },
     'Query Services'
   );
+};
 
-export const getServices = (
-  wixSession?: WixSession,
+export const getServices = async (
   {
     limit = 100,
     categoryId = '',
-    types = undefined as services.ServiceType[] | undefined,
+    types = undefined as string[] | undefined,
   } = {}
 ): Promise<{ services: ServiceInfoViewModel[] }> => {
-  let queryBuilder = wixSession!
-    .wixClient!.services.queryServices()
-    .limit(limit);
+  // Simulate async operation
+  await new Promise(resolve => setTimeout(resolve, 100));
+  
+  let services = [...mockServices];
+  
   if (categoryId) {
-    queryBuilder = queryBuilder.eq('category.id', categoryId);
+    services = services.filter(service => service.category.id === categoryId);
   }
+  
   if (types) {
-    queryBuilder = queryBuilder.in('type', types);
+    services = services.filter(service => types.includes(service.type));
   }
-  return queryBuilder.find().then((result) => {
-    return {
-      services:
-        (result.items?.map(mapServiceInfo) as ServiceInfoViewModel[]) ?? [],
-    };
-  });
+  
+  return {
+    services: services.slice(0, limit).map(mapServiceInfo) as ServiceInfoViewModel[],
+  };
 };
 
-export const getServiceBySlug = (
-  wixSession: WixSession,
+export const getServiceBySlug = async (
   serviceSlug: string
 ): Promise<{
   data: ServiceInfoViewModel | null;
   hasError: boolean;
   errorMsg?: string;
-}> =>
-  safeCall<ServiceInfoViewModel | null>(
-    () =>
-      wixSession
-        .wixClient!.services.queryServices()
-        .eq('mainSlug.name', decodeURIComponent(serviceSlug))
-        .find()
-        .then((result) =>
-          result.items?.length ? mapServiceInfo(result.items[0]) : null
-        ),
+}> => {
+  return safeCall(
+    () => {
+      const service = mockServices.find(
+        s => s.mainSlug.name === decodeURIComponent(serviceSlug)
+      );
+      return service ? mapServiceInfo(service) : null;
+    },
     null,
     'Get Service By Slug'
   );
+};
 
-export const getServiceById = (
-  wixSession: WixSession,
+export const getServiceById = async (
   serviceId: string
 ): Promise<{
   data: ServiceInfoViewModel | null;
   hasError: boolean;
   errorMsg?: string;
-}> =>
-  safeCall<ServiceInfoViewModel | null>(
-    () =>
-      wixSession.wixClient!.services.getService(serviceId).then(mapServiceInfo),
+}> => {
+  return safeCall(
+    () => {
+      const service = mockServices.find(s => s.id === serviceId);
+      return service ? mapServiceInfo(service) : null;
+    },
     null,
     'Get Service By Id'
   );
+};

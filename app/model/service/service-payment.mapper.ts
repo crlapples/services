@@ -1,10 +1,11 @@
-import { services } from '@wix/bookings';
+// src/services/service-payment.mapper.ts
+import { Service, Money } from '@/types/service-types';
 
 export type ServicePaymentDto = ReturnType<typeof mapServicePaymentDto>;
 
 type PriceTypeDto = 'dynamic' | 'static' | 'text';
 
-export function mapServicePaymentDto(service: services.Service): {
+export function mapServicePaymentDto(service: Service): {
   defaultPrice?: MoneyDto;
   depositPrice?: MoneyDto;
   minPrice?: MoneyDto;
@@ -18,25 +19,27 @@ export function mapServicePaymentDto(service: services.Service): {
   let maxPrice = undefined;
   let priceText = undefined;
   let priceType: PriceTypeDto = 'text';
+
   switch (service.payment?.rateType) {
-    case services.RateType.FIXED:
-      defaultPrice = mapServiceMoneyDto(service?.payment?.fixed?.price);
-      depositPrice = mapServiceMoneyDto(service?.payment?.fixed?.price);
+    case 'FIXED':
+      defaultPrice = mapServiceMoneyDto(service.payment?.fixed?.price);
+      depositPrice = mapServiceMoneyDto(service.payment?.fixed?.price);
       priceType = 'static';
       break;
-    case services.RateType.VARIED:
-      defaultPrice = mapServiceMoneyDto(service?.payment?.varied?.defaultPrice);
-      depositPrice = mapServiceMoneyDto(service?.payment?.varied?.deposit);
-      minPrice = mapServiceMoneyDto(service?.payment?.varied?.minPrice);
-      maxPrice = mapServiceMoneyDto(service?.payment?.varied?.minPrice);
+    case 'VARIED':
+      defaultPrice = mapServiceMoneyDto(service.payment?.varied?.defaultPrice);
+      depositPrice = mapServiceMoneyDto(service.payment?.varied?.deposit);
+      minPrice = mapServiceMoneyDto(service.payment?.varied?.minPrice);
+      maxPrice = mapServiceMoneyDto(service.payment?.varied?.maxPrice);
       priceType = 'dynamic';
       break;
-    case services.RateType.NO_FEE:
-      priceText = service?.payment?.custom?.description ?? undefined;
+    case 'NO_FEE':
+      priceText = service.payment?.custom?.description ?? undefined;
       break;
     default:
       break;
   }
+
   return {
     defaultPrice,
     depositPrice,
@@ -49,7 +52,7 @@ export function mapServicePaymentDto(service: services.Service): {
 
 export type MoneyDto = ReturnType<typeof mapServiceMoneyDto>;
 
-export const mapServiceMoneyDto = (money?: services.Money) => {
+export const mapServiceMoneyDto = (money?: Money) => {
   return money
     ? {
         currency: money.currency,

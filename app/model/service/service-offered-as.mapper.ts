@@ -1,18 +1,16 @@
-import { OfferedAsType } from '@app/model/service/service-types.internal';
-import type { services } from '@wix/bookings';
+// src/services/service-offered-as.mapper.ts
+import { OfferedAsType } from '@/types/service-types';
+import { Service } from '@/types/service-types';
 
-export function determinePaymentOptionsBy(service: services.Service) {
+export function determinePaymentOptionsBy(service: Service) {
   return [
-    ...insertIf(
-      !!service?.payment?.options?.pricingPlan,
-      OfferedAsType.PRICING_PLAN
-    ),
+    ...insertIf(!!service?.payment?.options?.pricingPlan, OfferedAsType.PRICING_PLAN),
     ...insertIf(!!service?.payment?.options?.inPerson, OfferedAsType.OFFLINE),
     ...insertIf(!!service?.payment?.options?.online, OfferedAsType.ONLINE),
   ];
 }
 
-export function mapServiceOfferedAsDto(service: services.Service) {
+export function mapServiceOfferedAsDto(service: Service) {
   return determinePaymentOptionsBy(service);
 }
 
