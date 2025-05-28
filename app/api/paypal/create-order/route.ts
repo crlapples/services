@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import paypal from '@paypal/checkout-server-sdk';
-import { verifyAuthToken } from '@/lib/auth';
+import { verifyAuthToken } from 'lib/auth';
 
 const configureEnvironment = () => {
   const clientId = process.env.PAYPAL_CLIENT_ID!;

@@ -1,5 +1,5 @@
 // src/services/service-payment.mapper.ts
-import { Service, Money } from '@/types/service-types';
+import { Service, Money } from 'lib/service-types';
 
 export type ServicePaymentDto = ReturnType<typeof mapServicePaymentDto>;
 

@@ -1,42 +1,30 @@
-import { useQuery } from '@tanstack/react-query';
-import { getServiceAvailability } from '@app/model/availability/availability-api';
-import { useClientAuthSession } from '@app/hooks/useClientAuthSession';
+// hooks/useLocalAvailability.ts
+import { useState, useEffect } from 'react';
+import type { CalendarAvailability } from 'lib/calendar-availability';
 
-export const useAvailability = ({
-  serviceId,
-  from,
-  to,
-  timezone = Intl.DateTimeFormat().resolvedOptions().timeZone,
-  slotsPerDay,
-  limit,
-}: {
-  serviceId?: string | string[];
-  from: string;
-  to: string;
-  timezone?: string;
-  slotsPerDay?: number;
-  limit?: number;
-}) => {
-  const wixSession = useClientAuthSession();
-  return useQuery(
-    [
-      'calendar-availability',
-      serviceId,
-      from,
-      to,
-      wixSession,
-      timezone,
-      slotsPerDay,
-      limit,
-    ],
-    () =>
-      getServiceAvailability(wixSession, {
-        serviceId,
-        from,
-        to,
-        timezone,
-        slotsPerDay,
-        limit,
-      })
-  );
+export const useLocalAvailability = () => {
+  const [data, setData] = useState<CalendarAvailability | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/calendarAvailability.json');
+        if (!response.ok) {
+          throw new Error('Failed to fetch calendar availability');
+        }
+        const jsonData = await response.json();
+        setData(jsonData);
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('Unknown error'));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return { data, isLoading, error };
 };

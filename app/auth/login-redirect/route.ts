@@ -1,41 +1,23 @@
+// src/app/api/auth/login/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import {
-  AUTH_CALLBACK_PATHNAME,
-  AUTH_LOGIN_CALLBACK_PARAM,
-  OAUTH_COOKIE_STATE,
-  PROMPT_QUERY_PARAM,
-} from '@app/model/auth/auth.const';
-import { getServerWixClient } from '@app/model/auth/wix-client.server';
-import { getRequestUrl } from '@app/model/server-utils';
+import { AUTH_LOGIN_CALLBACK_PARAM, PROMPT_QUERY_PARAM } from 'app/model/auth/auth.const';
+import { signIn } from 'next-auth/react';
 
 export const fetchCache = 'force-no-store';
 export const revalidate = 0;
 
 export async function GET(request: NextRequest) {
-  const wixClient = getServerWixClient({
-    cookieStore: request.cookies,
-  });
-  const requestUrl = getRequestUrl(request);
-  const { searchParams } = new URL(requestUrl);
-  const originalUrl = searchParams.get(AUTH_LOGIN_CALLBACK_PARAM);
-  const prompt =
-    (searchParams.get(PROMPT_QUERY_PARAM) as 'login' | 'none') ?? 'login';
-  if (!originalUrl) {
-    throw new Error(
-      `${AUTH_LOGIN_CALLBACK_PARAM} is required for login redirect`
-    );
+  const { searchParams } = new URL(request.url);
+  const callbackUrl = searchParams.get(AUTH_LOGIN_CALLBACK_PARAM) || '/';
+  const prompt = searchParams.get(PROMPT_QUERY_PARAM) ?? 'login';
+
+  // NextAuth.js handles the redirect to the sign-in page
+  // Since this is an API route, we simulate the signIn redirect
+  const signInUrl = new URL('/auth/signin', request.url);
+  signInUrl.searchParams.set('callbackUrl', callbackUrl);
+  if (prompt) {
+    signInUrl.searchParams.set('prompt', prompt);
   }
-  const redirectUrl = new URL(AUTH_CALLBACK_PATHNAME, requestUrl).toString();
-  const oauthData = wixClient!.auth.generateOAuthData(redirectUrl, originalUrl);
-  const { authUrl } = await wixClient!.auth.getAuthUrl(oauthData, {
-    prompt,
-    responseMode: 'query',
-  });
-  const response = NextResponse.redirect(authUrl);
-  response.cookies.set({
-    name: OAUTH_COOKIE_STATE,
-    value: JSON.stringify(oauthData),
-    maxAge: 1800, // 30 minutes
-  });
-  return response;
+
+  return NextResponse.redirect(signInUrl);
 }

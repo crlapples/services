@@ -1,7 +1,6 @@
 'use client';
-import { SlotViewModel } from '@app/components/Calendar/calendar.view-model';
+import { SlotViewModel } from "../../calendar.view-model";
 import { formatDistanceStrict } from 'date-fns';
-import testIds from '@app/utils/test-ids';
 
 export default function ClassSlot({
   slot,
@@ -22,19 +21,18 @@ export default function ClassSlot({
           {slot?.slotAvailability?.slot?.startDate &&
           slot?.slotAvailability?.slot?.endDate
             ? formatDistanceStrict(
-                new Date(slot!.slotAvailability!.slot!.startDate),
-                new Date(slot!.slotAvailability!.slot!.endDate)
+                new Date(slot.slotAvailability.slot.startDate),
+                new Date(slot.slotAvailability.slot.endDate)
               )
             : null}
         </div>
         <div className="my-3 sm:text-xs">
           {slot.slotAvailability.bookable
-            ? `${slot.slotAvailability.openSpots} spots left`
+            ? 'Available'
             : 'Registration closed'}
         </div>
         <div>
           <button
-            data-testid={testIds.CLASSES_SCHEDULE.CLASS_SLOT_CTA}
             className="btn-main w-full px-0.5"
             type="button"
             onClick={() => onSelect(slot)}

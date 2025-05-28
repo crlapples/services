@@ -1,4 +1,4 @@
-import { Plan } from '@/types/plan';
+import { Plan } from 'lib/plan-types';
 
 export const getCheckoutUrl = (plan: Plan): string => {
   return `/checkout/${plan._id}`;

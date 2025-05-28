@@ -1,8 +1,9 @@
+// CalendarSlots.tsx
 'use client';
 import { PropsWithChildren } from 'react';
 import { Tooltip } from 'flowbite-react';
-import type { availabilityCalendar } from '@wix/bookings';
-import { SlotViewModel } from '@app/components/Calendar/calendar.view-model';
+import type { SlotAvailability } from 'lib/calendar-availability';
+import { SlotViewModel } from 'app/components/Calendar/calendar.view-model';
 
 const SlotTooltip = ({
   bookable,
@@ -10,7 +11,7 @@ const SlotTooltip = ({
   children,
 }: PropsWithChildren<
   Pick<
-    availabilityCalendar.SlotAvailability,
+    SlotAvailability,
     'bookable' | 'bookingPolicyViolations'
   >
 >) =>
@@ -22,7 +23,7 @@ const SlotTooltip = ({
       content={
         bookingPolicyViolations?.tooLateToBook
           ? 'This slot cannot be booked anymore'
-          : bookingPolicyViolations?.tooLateToBook
+          : bookingPolicyViolations?.tooEarlyToBook
           ? 'It is too early to book this slot'
           : 'This slot cannot be booked'
       }

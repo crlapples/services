@@ -1,5 +1,6 @@
 // src/services/member-api.ts
-import { getAuthSession } from '@/lib/auth'; // Your auth provider
+import { getAuthSession } from 'lib/auth';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
 export interface Member {
   id: string;
@@ -9,29 +10,38 @@ export interface Member {
   firstName?: string;
   lastName?: string;
   phone?: string;
-  // Add other fields you need
 }
 
 export const getCurrentMember = async (): Promise<Member | null> => {
   try {
-    // 1. Get current session (replace with your auth system)
+    // Get current session
     const session = await getAuthSession();
     if (!session?.userId) return null;
 
-    // 2. Fetch member data (replace with your actual data source)
-    // Option 1: Direct database access
-    // const member = await db.member.findUnique({ where: { id: session.userId } });
-    
-    // Option 2: API call to your backend
-    const response = await fetch('/api/members/current', {
-      headers: {
-        'Authorization': `Bearer ${session.token}` // If using JWT
-      }
-    });
+    // Initialize Firestore
+    const db = getFirestore();
 
-    if (!response.ok) throw new Error('Failed to fetch member');
-    
-    return await response.json();
+    // Fetch member data from Firestore
+    const memberDoc = await getDoc(doc(db, 'members', session.userId));
+    if (!memberDoc.exists()) {
+      return {
+        id: session.userId,
+        email: session.user?.email ?? undefined,
+        name: session.user?.name ?? undefined,
+        profilePicture: session.profilePicture,
+      };
+    }
+
+    const data = memberDoc.data() as Partial<Member>;
+    return {
+      id: session.userId,
+      email: data.email ?? session.user?.email ?? undefined,
+      name: data.name ?? session.user?.name ?? undefined,
+      profilePicture: data.profilePicture ?? session.profilePicture,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      phone: data.phone,
+    };
   } catch (error) {
     console.error('Error fetching current member:', error);
     return null;

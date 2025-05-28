@@ -1,39 +1,33 @@
+// src/components/PlanOrderActions.tsx
 'use client';
 import { useState } from 'react';
-import { useClientAuthSession } from '@app/hooks/useClientAuthSession';
-import { WixBookingsClientProvider } from '@app/components/Provider/WixBookingsClientProvider';
-import type { orders } from '@wix/pricing-plans';
-import { cancelPlanOrder } from '@app/model/paid-plans/paid-plans-api';
+import { useSession } from 'next-auth/react';
+import { cancelPlanOrder } from 'lib/plan-orders-api';
 
 export type PlanOrderActionsProps = {
-  planOrder: Pick<orders.Order, '_id'>;
+  id: string;
 };
 
-function PlanOrderActionsView({ planOrder }: PlanOrderActionsProps) {
-  const [error, setError] = useState<string | null>(null);
-  const wixSession = useClientAuthSession();
-  const onCancel = () =>
-    cancelPlanOrder(wixSession, planOrder!._id!)
-      .then(() => {
-        window.location.reload();
-      })
-      .catch((e) => {
-        console.error(e);
-        setError('Failed to cancel pricing plan');
-      });
+export default function PlanOrderActions({ id }: PlanOrderActionsProps) {
+  const [error, setError] = useState('');
+  const { data: session } = useSession();
+
+  const handleCancel = async () => {
+    try {
+      setError('');
+      await cancelPlanOrder(session, id);
+      window.location.reload();
+    } catch (e) {
+      console.error(e);
+      setError('Failed to cancel plan order');
+    }
+  };
+
   return error ? (
     <span className="text-red-600">{error}</span>
   ) : (
     <div className="text-highlight flex gap-2 underline text-sm">
-      <button onClick={onCancel}>Cancel Plan Order</button>
+      <button onClick={handleCancel}>Cancel Plan</button>
     </div>
-  );
-}
-
-export default function PlanOrderActions(props: PlanOrderActionsProps) {
-  return (
-    <WixBookingsClientProvider>
-      <PlanOrderActionsView {...props} />
-    </WixBookingsClientProvider>
   );
 }

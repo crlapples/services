@@ -1,5 +1,5 @@
-import { Plan } from '@/types/plan';
-import plansData from '@/data/plans.json';
+import { Plan } from 'lib/plan-types';
+import plansData from 'lib/plans.json';
 
 // Cache plans in memory with 1 hour TTL
 let cachedPlans: Plan[] | null = null;

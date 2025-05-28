@@ -1,4 +1,4 @@
-import { plans } from '@wix/pricing-plans';
+import plans from 'lib/plans.json';
 import { formatCurrencyToParts } from '@app/utils/price-formtter';
 import PlanSelect from '@app/components/Plan/PlanSelect';
 import { getCheckoutUrl } from '@app/model/paid-plans/paid-plans-checkout';

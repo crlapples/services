@@ -1,19 +1,16 @@
-import { ServiceImage } from '@app/model/service/service.mapper';
-import ImageGalleryClient from '@app/components/Image/ImageGallery/ImageGallery.client';
-import { getImageUrlForMedia } from '@app/components/Image/WixMediaImage';
+// src/components/ImageGallery.tsx
+import { Image } from 'lib/image-types';
+import ImageGalleryClient from './ImageGallery.client';
+import { getImageUrl } from '.././MediaImage';
 
-export default function ImageGallery({
-  mediaItems,
-}: {
-  mediaItems: ServiceImage[];
-}) {
+export default function ImageGallery({ mediaItems }: { mediaItems: Image[] }) {
   return (
     <ImageGalleryClient
       width={600}
       height={400}
       items={mediaItems.map((item) => ({
-        src: getImageUrlForMedia(item, 600, 400),
-        alt: '',
+        src: getImageUrl(item, 600, 400),
+        alt: item.alt ?? '',
       }))}
     />
   );

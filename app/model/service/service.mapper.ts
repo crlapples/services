@@ -1,14 +1,8 @@
 // src/services/service.mapper.ts
 import { formatDuration, intervalToDuration } from 'date-fns';
-import { Service, MediaItem, ServicePayment } from '@/types/service-types';
-import { mapServiceOfferedAsDto } from './service-offered-as.mapper';
-import { mapServicePaymentDto } from './service-payment.mapper';
+import { Service, ServiceInfoViewModel, MediaItem, ServiceOfferedAs, ServicePaymentDetails } from 'lib/service-types';
 
-export type ServiceInfoViewModel = NonNullable<
-  ReturnType<typeof mapServiceInfo>
->;
-
-export function mapServiceInfo(service?: Service) {
+export function mapServiceInfo(service?: Service): ServiceInfoViewModel | null {
   if (!service) {
     return null;
   }
@@ -44,10 +38,30 @@ export function mapServiceInfo(service?: Service) {
   };
 }
 
-export function mapServicePayment(service: Service) {
+export function mapServicePayment(service: Service): { offeredAs: ServiceOfferedAs; paymentDetails: ServicePaymentDetails } {
   return {
     offeredAs: mapServiceOfferedAsDto(service),
     paymentDetails: mapServicePaymentDto(service),
+  };
+}
+
+export function mapServiceOfferedAsDto(service: Service): ServiceOfferedAs {
+  return {
+    online: service.payment?.options?.online ?? false,
+    inPerson: service.payment?.options?.inPerson ?? false,
+    pricingPlan: service.payment?.options?.pricingPlan ?? false,
+  };
+}
+
+export function mapServicePaymentDto(service: Service): ServicePaymentDetails {
+  return {
+    rateType: service.payment?.rateType,
+    price: service.payment?.fixed?.price,
+    defaultPrice: service.payment?.varied?.defaultPrice,
+    deposit: service.payment?.varied?.deposit,
+    minPrice: service.payment?.varied?.minPrice,
+    maxPrice: service.payment?.varied?.maxPrice,
+    customDescription: service.payment?.custom?.description,
   };
 }
 

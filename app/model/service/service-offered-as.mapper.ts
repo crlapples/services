@@ -1,6 +1,6 @@
 // src/services/service-offered-as.mapper.ts
-import { OfferedAsType } from '@/types/service-types';
-import { Service } from '@/types/service-types';
+import { OfferedAsType } from 'lib/service-types';
+import { Service } from 'lib/service-types';
 
 export function determinePaymentOptionsBy(service: Service) {
   return [

@@ -1,4 +1,4 @@
-import calendarAvailability from 'data/calendarAvailability.json';
+import calendarAvailability from 'lib/calendarAvailability.json';
 
 // Define interfaces
 interface Slot {
