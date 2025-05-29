@@ -1,4 +1,5 @@
-import { redirects } from '@wix/redirects';
+// src/utils/redirect.utils.ts
+import { RedirectCallbacks } from 'lib/redirect-types';
 
 export const createRedirectCallbacks = ({
   baseUrl,
@@ -6,11 +7,11 @@ export const createRedirectCallbacks = ({
 }: {
   baseUrl: string;
   postFlowUrl?: string;
-}): redirects.CallbackParams => {
+}): RedirectCallbacks => {
   const fixedBaseUrl = baseUrl.replace(/\/$/, '');
   return {
     postFlowUrl,
-    planListUrl: fixedBaseUrl + '/plans',
-    bookingsServiceListUrl: fixedBaseUrl + '/book-now',
+    serviceListUrl: `${fixedBaseUrl}/bookings`,
+    planListUrl: `${fixedBaseUrl}/plans`,
   };
 };

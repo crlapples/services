@@ -1,20 +1,24 @@
-// src/types/booking.ts
 export enum BookingStatus {
-    PENDING = 'PENDING',
-    CONFIRMED = 'CONFIRMED',
-    CANCELED = 'CANCELED',
-  }
-  
-  export interface Booking {
-    _id: string;
-    revision?: string; // Optional, for optimistic concurrency
-    status: BookingStatus;
-    planId?: string; // Links to Plan._id from plans.json
-    serviceId?: string; // Links to Service.id from service-api.ts
-    memberId: string; // Links to Member.id from member-api.ts
-    createdAt: string;
-    updatedAt: string;
-  }
+  PENDING = 'PENDING',
+  CONFIRMED = 'CONFIRMED',
+  CANCELED = 'CANCELED',
+}
+
+export interface Booking {
+  id: string;
+  revision?: string;
+  status: BookingStatus;
+  planId?: string;
+  serviceId: string;
+  memberId: string;
+  createdAt: string;
+  startDate: string;
+  title?: string;
+  slot: {
+    startDateTime: string;
+    duration: number; // In minutes
+  };
+}
   
   export interface AllowedActions {
     cancel?: boolean;

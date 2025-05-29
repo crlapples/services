@@ -1,5 +1,5 @@
 // src/services/member-api.ts
-import { getAuthSession } from 'lib/auth';
+import getAuthSession from 'lib/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
 export interface Member {

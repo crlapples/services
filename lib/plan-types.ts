@@ -30,7 +30,7 @@ export interface Plan {
 
 export interface PlanOrder {
   _id: string;
-  planId: string;
+  planName: string;
   memberId: string;
   status: 'ACTIVE' | 'CANCELED' | 'PENDING';
   createdAt: string;

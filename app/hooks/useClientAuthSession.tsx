@@ -1,8 +1,8 @@
+// src/hooks/useClientAuthSession.ts
 'use client';
 import { useContext } from 'react';
-import { WixSessionContext } from '@app/components/Provider/WixBookingsClientProvider';
-import { WixSession } from '@app/model/auth/auth';
+import { AppContext } from 'lib/context';
 
-export const useClientAuthSession = (): WixSession => {
-  return useContext(WixSessionContext)!;
+export const useClientAuthSession = () => {
+  return useContext(AppContext);
 };

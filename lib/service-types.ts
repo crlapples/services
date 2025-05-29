@@ -1,6 +1,16 @@
 // src/types/service-types.ts
+// src/types/service.ts
+import { Image } from 'lib/image-types';
+
+export enum ServiceType {
+  INDIVIDUAL = 'INDIVIDUAL',
+  GROUP = 'GROUP',
+  COURSE = 'COURSE',
+}
+
 export interface Service {
   id: string;
+  slug: string;
   name: string;
   description?: string;
   tagLine?: string;
@@ -9,21 +19,11 @@ export interface Service {
     id: string;
     name: string;
   };
-  mainSlug: {
-    name: string;
+  mainMedia?: Image; // Simplified from media.mainMedia
+  price?: {
+    value: number; // Converted from Money.value (string to number)
+    currency: string;
   };
-  media?: {
-    mainMedia?: MediaItem;
-    coverMedia?: MediaItem;
-    items?: MediaItem[];
-  };
-  schedule?: {
-    id: string;
-    availabilityConstraints?: {
-      sessionDurations?: number[];
-    };
-  };
-  payment?: ServicePayment;
 }
 
 export interface MediaItem {
@@ -57,12 +57,6 @@ export interface ServicePayment {
 export interface Money {
   value: string;
   currency: string;
-}
-
-export enum ServiceType {
-  INDIVIDUAL = 'INDIVIDUAL',
-  GROUP = 'GROUP',
-  COURSE = 'COURSE',
 }
 
 export enum OfferedAsType {

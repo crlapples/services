@@ -1,12 +1,13 @@
+// src/components/ServiceListPreviewView.tsx
 'use client';
-import { ServiceInfoViewModel } from 'lib/service-types';
-import { useServiceFormattedPrice } from '@app/hooks/useServiceFormattedPrice';
-import WixMediaImage from '@app/components/Image/WixMediaImage';
+import { Service } from 'lib/service-types';
+import { useFormattedPrice } from 'app/hooks/useServiceFormattedPrice';
+import MediaImage from '../Image/MediaImage';
 
 export default function ServiceListPreviewView({
   services,
 }: {
-  services: ServiceInfoViewModel[];
+  services: Service[];
 }) {
   const smClassName = (services?.length ?? 0) > 1 ? 'sm:grid-cols-2' : '';
   const mdClassName = (services?.length ?? 0) > 2 ? 'md:grid-cols-3' : '';
@@ -17,44 +18,32 @@ export default function ServiceListPreviewView({
         <div
           className={`flex flex-wrap my-3 m-auto grid grid-cols-1 gap-6 ${smClassName} ${mdClassName}`}
         >
-          {services.map((service, index) => (
+          {services.map((service) => (
             <ServiceCardPreview service={service} key={service.id} />
           ))}
         </div>
       ) : (
         <div className="text-center">
-          No services found. Click{' '}
-          <a
-            href="https://manage.wix.com/account/site-selector?actionUrl=https%3A%2F%2Fmanage.wix.com%2Fdashboard%2F%7BmetaSiteId%7D%2Fbookings%2Fservices%2Ftemplates-catalog%3Forigin%3DHeadless"
-            target="_blank"
-            rel="noreferrer"
-            className="text-highlight"
-          >
-            here
-          </a>{' '}
-          to go to the business dashboard to add services. Once added, they will
-          appear here.
+          No services found. Please contact the administrator to add services.
         </div>
       )}
     </div>
   );
 }
 
-const ServiceCardPreview = ({ service }: { service: ServiceInfoViewModel }) => {
-  const formattedPrice = useServiceFormattedPrice(
-    service!.payment!.paymentDetails
-  );
+const ServiceCardPreview = ({ service }: { service: Service }) => {
+  const { userFormattedPrice } = useFormattedPrice(service.price as { value: number, currency: string });
 
   return (
     <div className="w-full rounded-none overflow-hidden mx-auto border-2 border-gray-c2 relative h-full min-h-[300px] text-white">
       <a href={`/service/${service.slug}`} className="font-bold text-xl">
-        <WixMediaImage
-          media={service.info.media.mainMedia}
+        <MediaImage
+          media={service.mainMedia}
           width={640}
           height={480}
         />
         <div className="pt-6 px-3 text-center hover:text-gray-300 transition-colors">
-          {service.info.name}
+          {service.name}
         </div>
       </a>
       <div className="font-open-sans-condensed text-sm text-center p-3">
@@ -63,7 +52,7 @@ const ServiceCardPreview = ({ service }: { service: ServiceInfoViewModel }) => {
             Read More
           </a>
         </div>
-        <p className="pb-3">{formattedPrice.userFormattedPrice}</p>
+        <p className="pb-3">{userFormattedPrice}</p>
       </div>
     </div>
   );

@@ -1,9 +1,14 @@
-import type { ServicePaymentDto } from '@app/model/service/service-payment.mapper';
-import { formatServicePrice } from '@app/utils/price-formtter';
+// src/hooks/useFormattedPrice.ts
+import { useMemo } from 'react';
 
-export const useServiceFormattedPrice = (
-  servicePayment: ServicePaymentDto
-): {
-  userFormattedPrice: string;
-  priceType: ServicePaymentDto['priceType'];
-} => formatServicePrice({ servicePayment });
+export const useFormattedPrice = (price: { value: number; currency: string }) => {
+  return useMemo(() => {
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: price.currency,
+    });
+    return {
+      userFormattedPrice: formatter.format(price.value),
+    };
+  }, [price]);
+};

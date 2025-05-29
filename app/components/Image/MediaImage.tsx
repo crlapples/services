@@ -7,9 +7,6 @@ export const getImageUrl = (
   height: number = 320
 ): string => {
   if (media?.url) {
-    // If using Firebase Storage, URLs are direct; add resizing if needed
-    // Example with Cloudinary or Imgix (optional):
-    // return `https://res.cloudinary.com/your-cloud/image/fetch/w_${width},h_${height},c_fill/${media.url}`;
     return media.url;
   }
   return `https://fakeimg.pl/${width}x${height}/?text=Image`;

@@ -1,8 +1,7 @@
-import { WixSession } from '@app/model/auth/auth';
-import { getServerWixClient } from '@app/model/auth/wix-client.server';
-import { cookies as nextCookies } from 'next/headers';
-export const useServerAuthSession = (): WixSession => {
-  return {
-    wixClient: getServerWixClient({ cookieStore: nextCookies() }),
-  };
+// src/hooks/useServerAuthSession.ts
+import getAuthSession from 'lib/auth';
+
+export const useServerAuthSession = async () => {
+  const session = await getAuthSession();
+  return { session };
 };
