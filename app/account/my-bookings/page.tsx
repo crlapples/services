@@ -10,7 +10,6 @@ import BookingActions from 'app/components/MyAccount/Bookings/BookingActions';
 import { format } from 'date-fns';
 import { getCurrentMember } from 'app/model/members/members-api';
 import { redirect } from 'next/navigation';
-import { Booking } from 'lib/booking-types';
 
 const DATE_TIME_FORMAT = 'MMM dd, yyyy, h:mm a';
 
@@ -64,37 +63,12 @@ export default async function MyBookingsPage({
           </a>
         ))}
       </nav>
-      {bookings.extendedBookings?.length ? (
-        bookings.extendedBookings?.map(({ booking, allowedActions }, index) => (
-          <div
-            key={booking!.id}
-            className="flex flex-wrap gap-5 py-6 border-b border-white border-opacity-30 hover:border-opacity-80 font-open-sans-condensed"
-          >
-            <div>{formatDateAndTime(new Date(booking!.startTime!))}</div>
-            <div>{booking?.bookedEntity?.title}</div>
-            <div>{booking?.status}</div>
-            <div className="ml-auto">
-              <BookingActions
-                booking={{
-                  id: booking?.id,
-                  revision: booking?.revision,
-                  status: booking?.status,
-                }}
-                serviceId={booking?.bookedEntity?.slot?.serviceId}
-                allowedActions={allowedActions}
-                showCancelOption={selectedTab === SelectedView.UPCOMING}
-              />
-            </div>
-          </div>
-        ))
-      ) : (
         <div className="py-12 text-center font-open-sans-condensed">
           <div className="mb-3">{"You've got nothing booked at the moment."}</div>
           <a href="/classes-schedule" className="text-sm text-highlight underline">
             Check Out Our Classes
           </a>
         </div>
-      )}
     </MyAccountSection>
   );
 }
