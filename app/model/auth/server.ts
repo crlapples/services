@@ -1,15 +1,11 @@
-import { CookieStore, getWixClient } from '@app/model/auth/wix-client.base';
-import { RequestCookies } from 'next/dist/compiled/@edge-runtime/cookies';
+// src/model/auth/server.ts
+import getAuthSession from 'lib/auth';
+import { AuthProvider } from './providers/base';
 
-export type RequestCookiesGetter = Pick<RequestCookies, 'get'>;
-const getCookieAdapter = (cookieStore: RequestCookiesGetter): CookieStore => {
-  return {
-    get: (name) => cookieStore.get(name)?.value,
-  };
-};
+export class ServerAuthProvider implements AuthProvider {
+  async getSession() {
+    return await getAuthSession();
+  }
+}
 
-export const getServerWixClient = ({
-  cookieStore,
-}: {
-  cookieStore: RequestCookiesGetter;
-}) => getWixClient({ cookieStore: getCookieAdapter(cookieStore) });
+export const authProvider = new ServerAuthProvider();

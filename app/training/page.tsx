@@ -1,15 +1,15 @@
-import PlansList from '@app/components/Plan/PlanList';
-import ServiceListPreviewView from '@app/components/ServiceList/ServiceListPreview';
-import { useServerAuthSession } from '@app/hooks/useServerAuthSession';
-import { safeGetServices } from '@app/model/service/service-api';
-import { safeGetPaidPlans } from '@app/model/paid-plans/paid-plans-api';
+// src/app/training/page.tsx
+import PlansList from 'app/components/Plan/PlanList';
+import ServiceListPreviewView from 'app/components/ServiceList/ServiceListPreview';
+import { getServices } from 'app/model/service/service-api';
+import { getPlans } from 'app/service/plans-api';
 
 export default async function TrainingPage() {
-  const wixSession = useServerAuthSession();
   const {
     data: { services },
-  } = await safeGetServices(wixSession, { limit: 3 });
-  const { data: plans } = await safeGetPaidPlans(wixSession, { limit: 3 });
+  } = await getServices({ limit: 3 });
+  const { data: plans } = await getPlans({ limit: 3 });
+
   return (
     <>
       <div className="px-3 py-12">

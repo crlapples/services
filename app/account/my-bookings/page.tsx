@@ -30,7 +30,7 @@ export const getMyUpcomingBookings = async (): Promise<{ extendedBookings: Exten
     const extendedBookings: ExtendedBooking[] = [];
 
     for (const doc of snapshot.docs) {
-      const booking = { _id: doc.id, ...doc.data() } as Booking;
+      const booking = { id: doc.id, ...doc.data() } as Booking;
       let title = booking.title;
 
       if (booking.planId) {
@@ -71,7 +71,7 @@ export const getMyBookingHistory = async (): Promise<{ extendedBookings: Extende
     const extendedBookings: ExtendedBooking[] = [];
 
     for (const doc of snapshot.docs) {
-      const booking = { _id: doc.id, ...doc.data() } as Booking;
+      const booking = { id: doc.id, ...doc.data() } as Booking;
       let title = booking.title;
 
       if (booking.planId) {

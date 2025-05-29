@@ -1,11 +1,21 @@
 // src/types/service-types.ts
-// src/types/service.ts
 import { Image } from 'lib/image-types';
 
 export enum ServiceType {
   INDIVIDUAL = 'INDIVIDUAL',
   GROUP = 'GROUP',
   COURSE = 'COURSE',
+}
+
+export enum OfferedAsType {
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
+  PRICING_PLAN = 'PRICING_PLAN',
+}
+
+export interface Money {
+  value: number;
+  currency: string;
 }
 
 export interface Service {
@@ -19,10 +29,32 @@ export interface Service {
     id: string;
     name: string;
   };
-  mainMedia?: Image; // Simplified from media.mainMedia
-  price?: {
-    value: number; // Converted from Money.value (string to number)
-    currency: string;
+  mainMedia?: Image;
+  otherMediaItems?: Image[];
+  price?: Money;
+  duration?: number; // in minutes
+  offeredAs: OfferedAsType[];
+  payment?: {
+    rateType?: 'FIXED' | 'VARIED' | 'NO_FEE';
+    fixed?: { price: Money };
+    varied?: {
+      defaultPrice?: Money;
+      deposit?: Money;
+      minPrice?: Money;
+      maxPrice?: Money;
+    };
+    custom?: { description?: string };
+    options?: {
+      online?: boolean;
+      inPerson?: boolean;
+      pricingPlan?: boolean;
+    };
+  };
+  schedule?: {
+    id?: string;
+    availabilityConstraints?: {
+      sessionDurations?: number[]; // in minutes
+    };
   };
 }
 
@@ -55,17 +87,10 @@ export interface ServicePayment {
 }
 
 export interface Money {
-  value: string;
+  value: number;
   currency: string;
 }
 
-export enum OfferedAsType {
-  ONLINE = 'ONLINE',
-  OFFLINE = 'OFFLINE',
-  PRICING_PLAN = 'PRICING_PLAN',
-}
-
-// Define interfaces for mapper return types
 export interface ServiceOfferedAs {
   online?: boolean;
   inPerson?: boolean;

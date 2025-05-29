@@ -7,7 +7,7 @@ import { Booking, BookingStatus, AllowedActions } from 'lib/booking-types';
 import { cancelBooking } from 'lib/bookings-api';
 
 export type BookingActionsProps = {
-  booking: Pick<Booking, '_id' | 'revision' | 'status'>;
+  booking: Pick<Booking, 'id' | 'revision' | 'status'>;
   serviceId?: string;
   allowedActions?: AllowedActions;
   showCancelOption: boolean;

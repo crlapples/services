@@ -1,6 +1,6 @@
+// src/model/auth/providers/base.ts
+import { Session } from 'next-auth';
+
 export interface AuthProvider {
-    login: (credentials: { email: string; password: string }) => Promise<AuthSession>;
-    logout: () => Promise<void>;
-    getSession: () => Promise<AuthSession | null>;
-    // Add other auth methods you need
-  }
+  getSession(): Promise<Session | null>;
+}

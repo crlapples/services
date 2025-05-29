@@ -1,11 +1,9 @@
+// src/app/page.tsx
 import './page.css';
 import Image from 'next/image';
-import {
-  GalleryItem,
-  galleryItems,
-} from '@app/model/gallery/fitness-instructor';
-import ScrollIntoView from '@app/components/ScrollIntoView/ScrollIntoView';
-import testIds from '@app/utils/test-ids';
+import { GalleryItem, galleryItems } from 'app/model/gallery/fitness-instructor';
+import ScrollIntoView from 'app/components/ScrollIntoView/ScrollIntoView';
+import testIds from 'app/utils/test-ids';
 
 const TrainingOptionSelection = ({
   text,
@@ -53,7 +51,7 @@ const AchievementItem = ({
   </li>
 );
 
-const GalleryItem = ({
+const GalleryItemComponent = ({
   item: { title, tagline, imgSrc, id },
 }: {
   item: GalleryItem;
@@ -104,7 +102,7 @@ export default async function Home() {
           <div className="pt-14 flex gap-8 justify-center">
             <a
               className="btn-secondary text-lg px-7"
-              href="/classes-schedule"
+              href="/bookings/new"
               data-testid={testIds.HOME_PAGE.BOOK_CLASS_CTA}
             >
               Book Now
@@ -142,24 +140,22 @@ export default async function Home() {
             </h2>
             <section className="font-open-sans-condensed text-base text-stone-300 tracking-wider">
               <p className="py-3">
-                {`Hi, I’m Joey Dixon and I’m a boxing coach with 15 years of boxing experience and 9 intercontinental cruiserweight titles. 
+                {`Hi, I’m Joey Dixon, a boxing coach with 15 years of experience and 9 intercontinental cruiserweight titles. 
                 I’ve trained many successful boxers at national and international levels. I love teaching people how to box like a pro,
-                whether they are beginners or advanced fighters.
-                `}
+                whether they are beginners or advanced fighters.`}
               </p>
               <p className="py-3">
-                {`To me, boxing is not only a sport, but also a way of life.
-                It teaches you discipline, resilience, confidence, and self-defense. It also keeps you fit, healthy, and mentally sharp.
-                That’s why I created this business to share my knowledge and skills with you.`}
+                {`Boxing is not only a sport but a way of life. It teaches discipline, resilience, confidence, and self-defense. 
+                It keeps you fit, healthy, and mentally sharp. That’s why I created this business to share my knowledge and skills.`}
               </p>
               <p className="py-3">
-                {`I have a friendly and supportive approach that will make you feel comfortable and motivated.
-                I also have a wealth of experience and expertise that will make you learn faster and better.
-                No matter what your age, level, or background, I can help you become the best boxer you can be.`}
+                {`I have a friendly and supportive approach that makes you feel comfortable and motivated. 
+                My experience and expertise help you learn faster and better. 
+                No matter your age, level, or background, I can help you become the best boxer you can be.`}
               </p>
               <p className="py-3">
-                {`If you are interested in working with me or learning more about me, please feel free to contact me or browse through my website.
-                I look forward to hearing from you and helping you on your boxing journey.`}
+                {`Interested in working with me? Contact me or browse my website. 
+                I look forward to helping you on your boxing journey.`}
               </p>
             </section>
             <section className="mt-5">
@@ -169,7 +165,7 @@ export default async function Home() {
               >
                 <li>
                   <a
-                    href="http://www.facebook.com/wix"
+                    href="https://www.facebook.com/yourbusiness"
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -177,34 +173,34 @@ export default async function Home() {
                       width={43}
                       height={43}
                       alt="Facebook"
-                      src="https://static.wixstatic.com/media/0fdef751204647a3bbd7eaa2827ed4f9.png"
+                      src="/social/facebook.png"
                     />
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://www.x.com/wix"
+                    href="https://x.com/yourbusiness"
                     target="_blank"
                     rel="noreferrer"
                   >
                     <Image
                       width={28}
                       height={28}
-                      src="https://static.wixstatic.com/media/2be684_ea277e5149dc4b86ab826475d4d64c41~mv2.png"
+                      src="/social/x.png"
                       alt="X"
                     />
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://instagram.com/wix/"
+                    href="https://instagram.com/yourbusiness"
                     target="_blank"
                     rel="noreferrer"
                   >
                     <Image
                       width={43}
                       height={43}
-                      src="https://static.wixstatic.com/media/01c3aff52f2a4dffa526d7a9843d46ea.png"
+                      src="/social/instagram.png"
                       alt="Instagram"
                     />
                   </a>
@@ -245,7 +241,7 @@ export default async function Home() {
             </h3>
             <a
               className="btn-secondary px-10 text-lg px-7"
-              href="/classes-schedule"
+              href="/bookings/new"
             >
               Book a Session
             </a>
@@ -253,7 +249,7 @@ export default async function Home() {
         </section>
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {galleryItems.map((item) => (
-            <GalleryItem item={item} key={item.id} />
+            <GalleryItemComponent item={item} key={item.id} />
           ))}
         </section>
       </div>
@@ -262,8 +258,8 @@ export default async function Home() {
         <div className="mx-auto max-w-md px-2">
           <h2 className="title tracking-widest">THE STUDIO</h2>
           <div className="pt-7 font-open-sans-condensed text-lg text-stone-300">
-            {`We train in a modern and spacious facility, conveniently located in the heart of San Francisco.
-            We have the equipment, facilities and expertise to take on clients of all ages and experience levels. Come by and check us out!`}
+            {`We train in a modern, spacious facility in the heart of San Francisco. 
+            Our equipment and expertise support clients of all ages and experience levels. Come check us out!`}
           </div>
           <section className="text-center uppercase pt-24 text-stone-200">
             <h4 className="text-3xl tracking-[.4em]">Address</h4>

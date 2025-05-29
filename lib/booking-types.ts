@@ -14,6 +14,7 @@ export interface Booking {
   createdAt: string;
   startDate: string;
   title?: string;
+  updatedAt?: string;
   slot: {
     startDateTime: string;
     duration: number; // In minutes

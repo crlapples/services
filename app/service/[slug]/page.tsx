@@ -2,8 +2,7 @@
 import { getServiceBySlug } from 'app/model/service/service-api';
 import ImageGallery from 'app/components/Image/ImageGallery/ImageGallery';
 import { formatPrice } from 'app/utils/price-formtter';
-import { OfferedAsType } from 'lib/service-types';
-import { Service } from 'lib/service-types';
+import { OfferedAsType, Service } from 'lib/service-types';
 
 const offeredAsToPaymentOptions = (offeredAs: OfferedAsType) =>
   offeredAs === OfferedAsType.OFFLINE
@@ -91,7 +90,7 @@ function ServicePageView({ service }: { service: Service }) {
             className="btn-main text-lg px-7"
           >
             Book Now
-          >
+          </a>
         </div>
       </div>
     </div>
