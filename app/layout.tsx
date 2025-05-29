@@ -1,7 +1,7 @@
-// src/app/layout.tsx
 import './globals.css';
 import Footer from 'app/components/Layout/Footer';
 import Header from 'app/components/Layout/Header';
+import { SessionProvider } from 'next-auth/react';
 
 // Manually opt out static rendering to reflect business asset changes immediately
 export const revalidate = 0;
@@ -19,9 +19,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className="parallax-background">
-        <Header />
-        <main className="bg-transparent min-h-[600px]">{children}</main>
-        <Footer />
+        <SessionProvider>
+          <Header />
+          <main className="bg-transparent min-h-[600px]">{children}</main>
+          <Footer />
+        </SessionProvider>
       </body>
     </html>
   );
