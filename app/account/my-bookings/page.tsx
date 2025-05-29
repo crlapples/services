@@ -1,4 +1,6 @@
 // src/app/account/my-bookings/page.tsx
+'use client'
+
 import MyAccountSection from 'app/components/MyAccount/MyAccountSection';
 import getAuthSession from 'lib/auth';
 import {

@@ -1,3 +1,5 @@
+'use client'
+
 import './globals.css';
 import Footer from 'app/components/Layout/Footer';
 import Header from 'app/components/Layout/Header';
