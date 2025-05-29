@@ -1,11 +1,19 @@
 // src/app/account/my-account/page.tsx
-import MyAccountSection from '@/components/MyAccount/MyAccountSection';
-import { getAuthSession } from '@/lib/auth';
-import { getCurrentMember } from '@/app/model/members/members-api';
+import MyAccountSection from 'app/components/MyAccount/MyAccountSection';
+import getAuthSession from 'lib/auth';
+import { getCurrentMember } from 'app/model/members/members-api';
 
 export default async function MyAccountPage() {
   const session = await getAuthSession();
   const { member } = await getCurrentMember(session);
+
+  if (!member) {
+    return (
+      <MyAccountSection member={null}>
+        <p>Please sign in to view your account details.</p>
+      </MyAccountSection>
+    );
+  }
 
   return (
     <MyAccountSection member={member}>
@@ -18,12 +26,11 @@ export default async function MyAccountPage() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8">
         <div>
-          Name:{' '}
-          {`${member?.contact?.firstName ?? ''} ${member?.contact?.lastName ?? ''}`}
+          Name: {member.contact?.firstName ?? ''} {member.contact?.lastName ?? ''}
         </div>
-        <div>Login Email: {`${member?.loginEmail ?? ''}`}</div>
-        <div>Nickname: {`${member?.profile?.nickname ?? ''}`}</div>
-        <div>Phone: {`${member?.contact?.phones?.[0] ?? ''}`}</div>
+        <div>Login Email: {member.loginEmail ?? ''}</div>
+        <div>Nickname: {member.profile?.nickname ?? ''}</div>
+        <div>Phone: {member.contact?.phones?.[0] ?? ''}</div>
       </div>
     </MyAccountSection>
   );

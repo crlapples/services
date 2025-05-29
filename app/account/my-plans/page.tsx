@@ -1,10 +1,10 @@
 // src/app/account/my-plans/page.tsx
-import MyAccountSection from '@/components/MyAccount/MyAccountSection';
-import { getAuthSession } from '@/lib/auth';
-import { getMyPlanOrders } from '@/app/model/paid-plans/paid-plans-api';
+import MyAccountSection from 'app/components/MyAccount/MyAccountSection';
+import getAuthSession from 'lib/auth';
+import { getMyPlanOrders } from 'app/model/paid-plans/paid-plans-api';
 import { format } from 'date-fns';
-import PlanOrderActions from '@/components/MyAccount/PricingPlans/PlanOrderActions';
-import { getCurrentMember } from '@/app/model/members/members-api';
+import PlanOrderActions from 'app/components/MyAccount/PricingPlans/PlanOrderActions';
+import { getCurrentMember } from 'app/model/members/members-api';
 import { redirect } from 'next/navigation';
 
 const DATE_FORMAT = 'MMM dd, yyyy';
@@ -44,7 +44,7 @@ export default async function MyPlansPage() {
             </div>
             <div>{order.status}</div>
             <div className="ml-auto">
-              <PlanOrderActions planOrder={{ _id: order.id }} />
+              <PlanOrderActions planOrder={{ id: order.id }} />
             </div>
           </div>
       ))): (

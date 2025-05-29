@@ -1,15 +1,16 @@
 // src/app/account/my-bookings/page.tsx
-import MyAccountSection from '@/components/MyAccount/MyAccountSection';
-import { getAuthSession } from '@/lib/auth';
+import MyAccountSection from 'app/components/MyAccount/MyAccountSection';
+import getAuthSession from 'lib/auth';
 import {
   getMyBookingHistory,
   getMyUpcomingBookings,
-} from '@/app/model/bookings/bookings-api';
-import { useFormattedTimezone } from '@/hooks/useFormattedTimezone';
-import BookingActions from '@/components/MyAccount/Bookings/BookingActions';
+} from 'app/model/bookings/bookings-api';
+import { useFormattedTimezone } from 'app/hooks/useFormattedTimezone';
+import BookingActions from 'app/components/MyAccount/Bookings/BookingActions';
 import { format } from 'date-fns';
-import { getCurrentMember } from '@/app/model/members/members-api';
+import { getCurrentMember } from 'app/model/members/members-api';
 import { redirect } from 'next/navigation';
+import { Booking } from 'lib/booking-types';
 
 const DATE_TIME_FORMAT = 'MMM dd, yyyy, h:mm a';
 
@@ -75,7 +76,7 @@ export default async function MyBookingsPage({
             <div className="ml-auto">
               <BookingActions
                 booking={{
-                  _id: booking?.id,
+                  id: booking?.id,
                   revision: booking?.revision,
                   status: booking?.status,
                 }}

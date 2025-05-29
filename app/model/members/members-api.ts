@@ -1,49 +1,60 @@
-// src/services/member-api.ts
-import getAuthSession from 'lib/auth';
+// src/app/model/members/members-api.ts
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { Session } from 'next-auth';
 
 export interface Member {
   id: string;
-  email?: string;
-  name?: string;
-  profilePicture?: string;
-  firstName?: string;
-  lastName?: string;
-  phone?: string;
+  loginEmail?: string;
+  contact?: {
+    firstName?: string;
+    lastName?: string;
+    phones?: string[];
+  };
+  profile?: {
+    nickname?: string;
+  };
 }
 
-export const getCurrentMember = async (): Promise<Member | null> => {
+export async function getCurrentMember(session: Session | null): Promise<{ member: Member | null }> {
+  if (!session?.userId) {
+    return { member: null };
+  }
+
   try {
-    // Get current session
-    const session = await getAuthSession();
-    if (!session?.userId) return null;
-
-    // Initialize Firestore
     const db = getFirestore();
+    const userRef = doc(db, 'users', session.userId);
+    const userSnap = await getDoc(userRef);
 
-    // Fetch member data from Firestore
-    const memberDoc = await getDoc(doc(db, 'members', session.userId));
-    if (!memberDoc.exists()) {
+    if (!userSnap.exists()) {
       return {
-        id: session.userId,
-        email: session.user?.email ?? undefined,
-        name: session.user?.name ?? undefined,
-        profilePicture: session.profilePicture,
+        member: {
+          id: session.userId,
+          loginEmail: session.user?.email || '',
+          contact: {
+            firstName: session.user?.name?.split(' ')[0],
+            lastName: session.user?.name?.split(' ')[1],
+            phones: [],
+          },
+          profile: { nickname: session.user?.name },
+        },
       };
     }
 
-    const data = memberDoc.data() as Partial<Member>;
+    const data = userSnap.data();
     return {
-      id: session.userId,
-      email: data.email ?? session.user?.email ?? undefined,
-      name: data.name ?? session.user?.name ?? undefined,
-      profilePicture: data.profilePicture ?? session.profilePicture,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      phone: data.phone,
+      member: {
+        id: session.userId,
+        loginEmail: data.email || session.user?.email,
+        contact: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          phones: data.phones || [],
+        },
+        profile: { nickname: data.nickname },
+      },
     };
   } catch (error) {
-    console.error('Error fetching current member:', error);
-    return null;
+    console.error('Error fetching member:', error);
+    return { member: null };
   }
-};
+}
