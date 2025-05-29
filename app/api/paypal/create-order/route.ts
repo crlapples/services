@@ -7,12 +7,12 @@ const getPayPalEnvironment = () => {
     throw new Error('Missing PayPal credentials in environment variables');
   }
 
-  return process.env.NODE_ENV === 'production'
-    ? new paypal.core.LiveEnvironment(
+  return process.env.NODE_ENV === 'development'
+    ? new paypal.core.SandboxEnvironment(
         process.env.PAYPAL_CLIENT_ID,
         process.env.PAYPAL_CLIENT_SECRET
       )
-    : new paypal.core.SandboxEnvironment(
+    : new paypal.core.LiveEnvironment(
         process.env.PAYPAL_CLIENT_ID,
         process.env.PAYPAL_CLIENT_SECRET
       );
