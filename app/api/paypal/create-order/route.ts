@@ -1,4 +1,3 @@
-// app/api/paypal/capture-order/route.ts
 import { NextResponse } from 'next/server';
 import paypal from '@paypal/checkout-server-sdk';
 
@@ -21,19 +20,7 @@ const getPayPalEnvironment = () => {
 
 const paypalClient = new paypal.core.PayPalHttpClient(getPayPalEnvironment());
 
-// 2. Simple token-based auth verification (replace with your actual auth logic)
-const verifyRequest = (authHeader: string | null): void => {
-  if (!authHeader) {
-    throw new Error('Authorization header missing');
-  }
-
-  const expectedToken = process.env.PAYPAL_API_TOKEN;
-  if (authHeader !== `Bearer ${expectedToken}`) {
-    throw new Error('Invalid authorization token');
-  }
-};
-
-// 3. Subscription plan mapping
+// 2. Subscription plan mapping
 const getPayPalPlanId = (internalPlanId: string): string => {
   const planMappings: Record<string, string> = {
     premium_monthly_123: 'P-123456789',
@@ -48,12 +35,9 @@ const getPayPalPlanId = (internalPlanId: string): string => {
   return planId;
 };
 
-// 4. Main route handler
+// 3. Main route handler
 export async function POST(request: Request) {
   try {
-    // Authentication
-    verifyRequest(request.headers.get('authorization'));
-
     const {
       orderId: internalOrderId,
       amount,
@@ -115,7 +99,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('PayPal processing error:', error);
     
-    const statusCode = error instanceof Error && error.message.includes('auth') ? 401 : 500;
+    const statusCode = 500;
     const errorMessage = error instanceof Error ? error.message : 'Payment processing failed';
 
     return NextResponse.json(
@@ -128,7 +112,7 @@ export async function POST(request: Request) {
   }
 }
 
-// 5. Handle unsupported methods
+// 4. Handle unsupported methods
 export async function GET() {
   return NextResponse.json(
     { error: 'Method not allowed' },
