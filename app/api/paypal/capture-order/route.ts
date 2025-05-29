@@ -1,5 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import paypal from '@paypal/checkout-server-sdk';
+// app/api/paypal/capture-order/route.ts
+import { NextResponse } from 'next/server'
+import paypal from '@paypal/checkout-server-sdk'
 
 const client = new paypal.core.PayPalHttpClient(
   process.env.NODE_ENV === 'production'
@@ -11,28 +12,32 @@ const client = new paypal.core.PayPalHttpClient(
         process.env.PAYPAL_CLIENT_ID!,
         process.env.PAYPAL_CLIENT_SECRET!
       )
-);
+)
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
+export async function POST(request: Request) {
   try {
-    const { orderId } = req.body;
+    const { orderId } = await request.json()
 
-    const request = new paypal.orders.OrdersCaptureRequest(orderId);
-    const response = await client.execute(request);
+    const captureRequest = new paypal.orders.OrdersCaptureRequest(orderId)
+    const response = await client.execute(captureRequest)
 
-    return res.status(200).json({
+    return NextResponse.json({
       status: response.result.status,
       details: response.result,
-    });
+    })
   } catch (error) {
-    console.error('PayPal capture error:', error);
-    return res.status(500).json({ error: 'Failed to capture PayPal order' });
+    console.error('PayPal capture error:', error)
+    return NextResponse.json(
+      { error: 'Failed to capture PayPal order' },
+      { status: 500 }
+    )
   }
+}
+
+// Optionally add other HTTP methods if needed
+export async function GET() {
+  return NextResponse.json(
+    { error: 'Method not allowed' },
+    { status: 405 }
+  )
 }
