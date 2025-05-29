@@ -1,55 +1,77 @@
 // app/api/paypal/capture-order/route.ts
-import { NextResponse } from 'next/server'
-import paypal from '@paypal/checkout-server-sdk'
-import verifyAuthToken from 'lib/auth'
+import { NextResponse } from 'next/server';
+import paypal from '@paypal/checkout-server-sdk';
 
-const configureEnvironment = () => {
-  const clientId = process.env.PAYPAL_CLIENT_ID!
-  const clientSecret = process.env.PAYPAL_CLIENT_SECRET!
-  
+// 1. Configure PayPal environment
+const getPayPalEnvironment = () => {
+  if (!process.env.PAYPAL_CLIENT_ID || !process.env.PAYPAL_CLIENT_SECRET) {
+    throw new Error('Missing PayPal credentials in environment variables');
+  }
+
   return process.env.NODE_ENV === 'production'
-    ? new paypal.core.LiveEnvironment(clientId, clientSecret)
-    : new paypal.core.SandboxEnvironment(clientId, clientSecret)
-}
+    ? new paypal.core.LiveEnvironment(
+        process.env.PAYPAL_CLIENT_ID,
+        process.env.PAYPAL_CLIENT_SECRET
+      )
+    : new paypal.core.SandboxEnvironment(
+        process.env.PAYPAL_CLIENT_ID,
+        process.env.PAYPAL_CLIENT_SECRET
+      );
+};
 
-const client = new paypal.core.PayPalHttpClient(configureEnvironment())
+const paypalClient = new paypal.core.PayPalHttpClient(getPayPalEnvironment());
 
-function getPayPalPlanId(planId: string): string {
-  const planMap: Record<string, string> = {
-    'premium_monthly_123': 'P-123456789',
-    'annual_subscription_456': 'P-987654321',
+// 2. Simple token-based auth verification (replace with your actual auth logic)
+const verifyRequest = (authHeader: string | null): void => {
+  if (!authHeader) {
+    throw new Error('Authorization header missing');
   }
-  
-  if (!planMap[planId]) {
-    throw new Error(`No PayPal plan configured for ${planId}`)
-  }
-  
-  return planMap[planId]
-}
 
+  const expectedToken = process.env.PAYPAL_API_TOKEN;
+  if (authHeader !== `Bearer ${expectedToken}`) {
+    throw new Error('Invalid authorization token');
+  }
+};
+
+// 3. Subscription plan mapping
+const getPayPalPlanId = (internalPlanId: string): string => {
+  const planMappings: Record<string, string> = {
+    premium_monthly_123: 'P-123456789',
+    annual_subscription_456: 'P-987654321',
+  };
+
+  const planId = planMappings[internalPlanId];
+  if (!planId) {
+    throw new Error(`No PayPal plan configured for ${internalPlanId}`);
+  }
+
+  return planId;
+};
+
+// 4. Main route handler
 export async function POST(request: Request) {
   try {
-    // Verify authentication
-    const authHeader = request.headers.get('authorization')
-    await verifyAuthToken(authHeader || '')
+    // Authentication
+    verifyRequest(request.headers.get('authorization'));
 
-    const { 
+    const {
       orderId: internalOrderId,
-      amount, 
-      currency, 
+      amount,
+      currency,
       description,
       isSubscription,
       returnUrl,
       cancelUrl,
       planId
-    } = await request.json()
+    } = await request.json();
 
     if (isSubscription) {
-      const subRequest = new paypal.billing.SubscriptionsCreateRequest()
-      subRequest.requestBody({
+      // Handle subscription flow
+      const subscriptionRequest = new paypal.billing.SubscriptionsCreateRequest();
+      subscriptionRequest.requestBody({
         plan_id: getPayPalPlanId(planId),
         application_context: {
-          brand_name: process.env.NEXT_PUBLIC_SITE_NAME,
+          brand_name: process.env.NEXT_PUBLIC_SITE_NAME || 'Our Service',
           locale: 'en-US',
           shipping_preference: 'NO_SHIPPING',
           user_action: 'SUBSCRIBE_NOW',
@@ -57,15 +79,16 @@ export async function POST(request: Request) {
           cancel_url: cancelUrl,
         },
         custom_id: internalOrderId,
-      })
+      });
 
-      const response = await client.execute(subRequest)
-      return NextResponse.json({ 
-        orderId: response.result.id,
-        subscriptionId: response.result.id
-      })
+      const subscription = await paypalClient.execute(subscriptionRequest);
+      return NextResponse.json({
+        orderId: subscription.result.id,
+        subscriptionId: subscription.result.id
+      });
     } else {
-      const orderRequest = new paypal.orders.OrdersCreateRequest()
+      // Handle one-time payment flow
+      const orderRequest = new paypal.orders.OrdersCreateRequest();
       orderRequest.requestBody({
         intent: 'CAPTURE',
         purchase_units: [{
@@ -77,30 +100,35 @@ export async function POST(request: Request) {
           description: description,
         }],
         application_context: {
-          brand_name: process.env.NEXT_PUBLIC_SITE_NAME,
+          brand_name: process.env.NEXT_PUBLIC_SITE_NAME || 'Our Service',
           locale: 'en-US',
           shipping_preference: 'NO_SHIPPING',
           user_action: 'PAY_NOW',
           return_url: returnUrl,
           cancel_url: cancelUrl,
         },
-      })
+      });
 
-      const response = await client.execute(orderRequest)
-      return NextResponse.json({ orderId: response.result.id })
+      const order = await paypalClient.execute(orderRequest);
+      return NextResponse.json({ orderId: order.result.id });
     }
   } catch (error) {
-    console.error('PayPal error:', error)
+    console.error('PayPal processing error:', error);
+    
+    const statusCode = error instanceof Error && error.message.includes('auth') ? 401 : 500;
+    const errorMessage = error instanceof Error ? error.message : 'Payment processing failed';
+
     return NextResponse.json(
       { 
-        error: 'Failed to create PayPal order',
-        details: error instanceof Error ? error.message : undefined
+        error: 'Payment processing failed',
+        details: errorMessage 
       },
-      { status: 500 }
-    )
+      { status: statusCode }
+    );
   }
 }
 
+// 5. Handle unsupported methods
 export async function GET() {
   return NextResponse.json(
     { error: 'Method not allowed' },
@@ -108,5 +136,25 @@ export async function GET() {
       status: 405,
       headers: { 'Allow': 'POST' } 
     }
-  )
+  );
+}
+
+export async function PUT() {
+  return NextResponse.json(
+    { error: 'Method not allowed' },
+    { 
+      status: 405,
+      headers: { 'Allow': 'POST' } 
+    }
+  );
+}
+
+export async function DELETE() {
+  return NextResponse.json(
+    { error: 'Method not allowed' },
+    { 
+      status: 405,
+      headers: { 'Allow': 'POST' } 
+    }
+  );
 }
