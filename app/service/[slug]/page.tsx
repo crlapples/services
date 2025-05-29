@@ -13,30 +13,6 @@ const offeredAsToPaymentOptions = (offeredAs: OfferedAsType) =>
     ? 'Paid Plans'
     : 'Other';
 
-export default async function ServicePage({ params }: { params: { slug: string } }) {
-  const { data: service } = await getServiceBySlug(params.slug);
-
-  return <ServicePageWithFallback service={service} />;
-}
-
-export function ServicePageWithFallback({
-  service,
-}: {
-  service?: Service | null;
-}) {
-  return (
-    <div className="max-w-full-content mx-auto px-6 sm:px-28">
-      {service ? (
-        <ServicePageView service={service} />
-      ) : (
-        <div className="text-3xl w-full text-center p-9 box-border">
-          The service was not found
-        </div>
-      )}
-    </div>
-  );
-}
-
 function ServicePageView({ service }: { service: Service }) {
   const formattedPrice = formatPrice(service.price);
   const formattedDuration = service.duration
@@ -93,6 +69,22 @@ function ServicePageView({ service }: { service: Service }) {
           </a>
         </div>
       </div>
+    </div>
+  );
+}
+
+export default async function ServicePage({ params }: { params: { slug: string } }) {
+  const { data: service } = await getServiceBySlug(params.slug);
+
+  return (
+    <div className="max-w-full-content mx-auto px-6 sm:px-28">
+      {service ? (
+        <ServicePageView service={service} />
+      ) : (
+        <div className="text-3xl w-full text-center p-9 box-border">
+          The service was not found
+        </div>
+      )}
     </div>
   );
 }
