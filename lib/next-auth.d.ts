@@ -1,6 +1,6 @@
 // src/types/next-auth.d.ts
-import { Session, User } from 'next-auth';
-import { JWT } from 'next-auth/jwt';
+import 'next-auth';
+import 'next-auth/jwt';
 
 declare module 'next-auth' {
   interface User {
@@ -14,9 +14,9 @@ declare module 'next-auth' {
     token?: string;
     user: {
       id: string;
-      name?: string;
-      email?: string;
-      image?: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
     };
   }
 }

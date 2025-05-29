@@ -30,18 +30,10 @@ export default async function MyBookingsPage({
     redirect('/auth/signin');
   }
 
-  const selectedTab = searchParams?.view || SelectedView.UPCOMING;
-  const [bookings, { member }] = await Promise.all([
-    selectedTab === SelectedView.UPCOMING
-      ? getMyUpcomingBookings(session)
-      : getMyBookingHistory(session),
-    getCurrentMember(session),
-  ]);
-
   const timezoneStr = useFormattedTimezone();
 
   return (
-    <MyAccountSection member={member}>
+    <>
       <h2 className="text-highlight text-4xl">Manage Your Bookings</h2>
       <div className="text-sm font-open-sans-condensed py-2">
         <p className="pt-2">View, cancel your bookings and easily book again.</p>
@@ -54,9 +46,7 @@ export default async function MyBookingsPage({
         ].map(({ name, value }) => (
           <a
             key={value}
-            className={`w-20 sm:w-28 inline-block text-center py-4 border-b-[3px] border-opacity-60 ${
-              value === selectedTab ? 'border-highlight' : 'border-transparent'
-            }`}
+            className={`w-20 sm:w-28 inline-block text-center py-4 border-b-[3px] border-opacity-60`}
             href={`?view=${value}`}
           >
             {name}
@@ -69,6 +59,7 @@ export default async function MyBookingsPage({
             Check Out Our Classes
           </a>
         </div>
-    </MyAccountSection>
+        
+</>
   );
 }
