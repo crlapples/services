@@ -136,26 +136,26 @@ export default async function Home() {
         <div className="max-w-full-content mx-auto box-content pt-2">
           <div className="max-w-[400px] pt-10 pb-2">
             <h2 className="uppercase text-7xl leading-tight py-7">
-              Meet The Engineer
+              Meet the Engineer
             </h2>
             <section className="font-open-sans-condensed text-base text-stone-300 tracking-wider">
               <p className="py-3">
-                {`Hi, I’m Joey Dixon, a boxing coach with 15 years of experience and 9 intercontinental cruiserweight titles. 
-                I’ve trained many successful boxers at national and international levels. I love teaching people how to box like a pro,
-                whether they are beginners or advanced fighters.`}
+                {`Hi, I’m Christopher Lee, a web developer with 2 years of hands-on experience and 3 certificates from FCC. 
+                I’ve coded many successful applications for several frameworks. I enjoy coding software for clients that need them,
+                whether they are small businesses or agencies.`}
               </p>
               <p className="py-3">
-                {`Boxing is not only a sport but a way of life. It teaches discipline, resilience, confidence, and self-defense. 
-                It keeps you fit, healthy, and mentally sharp. That’s why I created this business to share my knowledge and skills.`}
+                {`Crafting websites isn't just a job but it's a hobby. It builds a foundation of how engineering works with a level of creativity. 
+                It provides you with a gateway for your business, data management, and virtual toolbox. That’s why I created this business for sharing my knowledge and skills.`}
               </p>
               <p className="py-3">
-                {`I have a friendly and supportive approach that makes you feel comfortable and motivated. 
-                My experience and expertise help you learn faster and better. 
-                No matter your age, level, or background, I can help you become the best boxer you can be.`}
+                {`I have a reliable and open-minded approach that makes you feel relaxed and effecient. 
+                My experience and expertise build products you earn with faster and longer. 
+                No matter your age, level, or background, I can build you the best website you can pay for.`}
               </p>
               <p className="py-3">
                 {`Interested in working with me? Contact me or browse my website. 
-                I look forward to helping you on your boxing journey.`}
+                I look forward to helping you on your online journey.`}
               </p>
             </section>
             <section className="mt-5">
@@ -216,20 +216,20 @@ export default async function Home() {
             </h2>
             <ul className="grid grid-cols-2 lg:grid-cols-4 gap-16 pb-20 px-2">
               <AchievementItem
-                title="15"
-                tagline="15 YEARS OF BOXING EXPERIENCE"
+                title="2"
+                tagline="2 YEARS OF HANDS-ON EXPERIENCE"
               />
               <AchievementItem
                 title="3"
-                tagline="3 TIMES WBA INTERCONTINENTAL CRUISERWEIGHT"
+                tagline="3 COMPLETED CERTIFICATIONS FROM FCC"
               />
               <AchievementItem
-                title="4"
-                tagline="4 TIMES WBC INTERCONTINENTAL CRUISERWEIGHT"
+                title="5"
+                tagline="5 LANGUAGES PYTHON HTML CSS JS PHP"
               />
               <AchievementItem
                 title="2"
-                tagline="2 TIMES IBF INTERCONTINENTAL CRUISERWEIGHT"
+                tagline="2 DIMENSIONAL FRONTEND AND BACKEND"
               />
             </ul>
           </div>
@@ -237,7 +237,7 @@ export default async function Home() {
         <section className="bg-gray-c2">
           <div className="max-w-full-content px-4 mx-auto py-20 flex flex-col gap-10 items-center">
             <h3 className="text-3xl uppercase tracking-[.4em] pt-7">
-              Start Training Today
+              Start Development Today
             </h3>
             <a
               className="btn-secondary px-10 text-lg px-7"
@@ -256,23 +256,23 @@ export default async function Home() {
       <ScrollIntoView hashName="#studio" offset="-90px" />
       <div className="text-center py-24 bg-[url('/home/fitness-background-3.jpg')] parallax-background">
         <div className="mx-auto max-w-md px-2">
-          <h2 className="title tracking-widest">THE STUDIO</h2>
+          <h2 className="title tracking-widest">THE WORKSPACE</h2>
           <div className="pt-7 font-open-sans-condensed text-lg text-stone-300">
-            {`We train in a modern, spacious facility in the heart of San Francisco. 
-            Our equipment and expertise support clients of all ages and experience levels. Come check us out!`}
+            {`I work in a remote environment, with the ability to offer my service worldwide. 
+            This allows supporting clients of any schedule and all levels of technical knowledge. Message me!`}
           </div>
           <section className="text-center uppercase pt-24 text-stone-200">
             <h4 className="text-3xl tracking-[.4em]">Address</h4>
             <div className="pt-6">
-              <div className="text-2xl">500 Terry A Francois Blvd</div>
-              <div className="text-lg">San Francisco, CA 94158, USA</div>
+              <div className="text-2xl">Remote / Las Vegas, NV</div>
+              <div className="text-lg">Available Globally</div>
             </div>
           </section>
           <section className="text-center uppercase pt-20 text-stone-200">
             <h4 className="text-3xl tracking-[.4em]">Hours</h4>
             <div className="text-2xl pt-6">
               <div>Monday - Friday</div>
-              <div>6:30AM - 7:00PM</div>
+              <div>7:30AM - 7:00PM</div>
             </div>
           </section>
         </div>
