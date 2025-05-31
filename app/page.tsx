@@ -93,10 +93,10 @@ export default async function Home() {
         data-testid={testIds.HOME_PAGE.HEADER}
       >
         <section className="py-[355px]">
-          <h1 className="tracking-widest">Joey Dixon</h1>
+          <h1 className="tracking-widest">Pixel Vault</h1>
           <div className="pt-7">
             <div className="tracking-[.4em] text-3xl uppercase">
-              Training with a World Champion
+              Websites with an Expert Engineer
             </div>
           </div>
           <div className="pt-14 flex gap-8 justify-center">
@@ -136,7 +136,7 @@ export default async function Home() {
         <div className="max-w-full-content mx-auto box-content pt-2">
           <div className="max-w-[400px] pt-10 pb-2">
             <h2 className="uppercase text-7xl leading-tight py-7">
-              Meet The Coach
+              Meet The Engineer
             </h2>
             <section className="font-open-sans-condensed text-base text-stone-300 tracking-wider">
               <p className="py-3">
