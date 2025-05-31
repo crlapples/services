@@ -93,7 +93,7 @@ export default async function Home() {
         data-testid={testIds.HOME_PAGE.HEADER}
       >
         <section className="py-[355px]">
-          <h1 className="tracking-widest">Pixel Vault</h1>
+          <h1 className="tracking-widest">Code Mage</h1>
           <div className="pt-7">
             <div className="tracking-[.4em] text-3xl uppercase">
               Websites with an Expert Engineer
@@ -119,13 +119,13 @@ export default async function Home() {
         <section className="flex flex-col sm:flex-row pt-1 pb-7 bg-gray-c1 cursor-pointer">
           <TrainingOptionSelection
             href="/training"
-            text="Beginners"
+            text="Online Store"
             className="sm:justify-end"
             bgImageSrc="bg-[url('/home/beginners.jpg')]"
           />
           <TrainingOptionSelection
             href="/training"
-            text="Professionals"
+            text="Service Provider"
             className="sm:justify-start"
             bgImageSrc="bg-[url('/home/professionals.jpg')]"
           />
