@@ -12,13 +12,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <title>Fitness & Training Platform</title>
+        <title>Code Mage - Web Development Service</title>
         <meta
           name="description"
-          content="Book fitness services and explore training plans"
+          content="Book web development services and explore website builds"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="app/favicon.ico" />
       </head>
       <body className="parallax-background">
         <SessionProvider>

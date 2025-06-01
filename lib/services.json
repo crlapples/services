@@ -11,7 +11,7 @@
     },
     "mainMedia": {
       "id": "media_123",
-      "url": "https://static.wixstatic.com/media/personal-trainer.jpg",
+      "url": "https://codemage.vercel.app/1.jpg",
       "altText": "Personal Training",
       "type": "image"
     },
@@ -42,7 +42,7 @@
     },
     "mainMedia": {
       "id": "media_456",
-      "url": "https://static.wixstatic.com/media/yoga-class.jpg",
+      "url": "https://codemage.vercel.app/2-5.jpg",
       "altText": "Yoga Classes",
       "type": "image"
     },
@@ -73,7 +73,7 @@
     },
     "mainMedia": {
       "id": "media_789",
-      "url": "https://static.wixstatic.com/media/nutrition.jpg",
+      "url": "https://codemage.vercel.app/6+.jpg",
       "altText": "Nutrition Consultation",
       "type": "image"
     },
