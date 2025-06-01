@@ -44,7 +44,7 @@ export default async function TrainingPage() {
   return (
     <>
       <div className="px-3 py-12">
-        <h1 className="text-center">Training</h1>
+        <h1 className="text-center">Create</h1>
       </div>
       {/* Use the transformed servicesData which now conforms to Service[] */}
       <ServiceListPreviewView services={servicesData} />

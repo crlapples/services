@@ -8,8 +8,8 @@ import { StyledNavLink } from '@app/components/Layout/NavBar/NavLink';
 const navbarItems = [
   { scroll: true, ref: '/', label: 'Home' },
   { scroll: false, ref: '/#about', label: 'About' },
-  { scroll: false, ref: '/#studio', label: 'The Studio' },
-  { scroll: true, ref: '/training', label: 'Training' },
+  { scroll: false, ref: '/#workspace', label: 'Workspace' },
+  { scroll: true, ref: '/create', label: 'Create' },
   { scroll: true, ref: '/classes-schedule', label: 'Book Online' },
   { scroll: true, ref: '/plans', label: 'Plans & Pricing' },
   { scroll: false, ref: '/#contact', label: 'Contact' },

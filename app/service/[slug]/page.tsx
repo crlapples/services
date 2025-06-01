@@ -3,6 +3,7 @@ import { getServiceBySlug } from 'app/model/service/service-api';
 import ImageGallery from 'app/components/Image/ImageGallery/ImageGallery';
 import { formatPrice } from 'app/utils/price-formtter';
 import { OfferedAsType, Service } from 'lib/service-types';
+import serviceData from 'lib/services.json'
 
 const offeredAsToPaymentOptions = (offeredAs: OfferedAsType) =>
   offeredAs === OfferedAsType.OFFLINE

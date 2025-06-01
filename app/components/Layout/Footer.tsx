@@ -6,12 +6,12 @@ import testIds from '@app/utils/test-ids';
 
 const FooterNote = () => (
   <div className="text-sm font-open-sans-condensed text-gray-c1 float-right">
-    <span>©2035 BY JOEY DIXON </span>
-    <span>Powered and secured by </span>
+    <span>©2025 BY CHRISTOPHER RICHARD LEE </span>
+    <span>Built by crlapples </span>
     <span>
       <a
         className="underline"
-        href="https://wix.com/?utm_campaign=vir_created_with"
+        href="https://crlapples.vercel.app"
         target="_blank"
         rel="noreferrer noopener"
       >
@@ -40,8 +40,8 @@ const Footer = () => (
               </p>
             </section>
             <section className="mt-8 sm:mt-14">
-              <p>INFO@MYSITE.COM</p>
-              <p>123-456-7890</p>
+              <p>CRLAPPLES19@GMAIL.COM</p>
+              <p>385-227-1642</p>
             </section>
           </div>
           <div className="mt-10 sm:mt-24 mb-5">

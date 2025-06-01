@@ -1,92 +1,95 @@
 [
   {
-    "id": "service_123",
-    "slug": "personal-training",
-    "name": "Personal Training",
-    "description": "One-on-one coaching sessions",
+    "id": "service_001",
+    "slug": "landing-page",
+    "name": "Landing Page",
+    "tagLine": "Represent your product or service with a single page.",
+    "description": "Accelerate your business with a reliable, one-page site. Whether you're looking to promote a popular product, advertise your main service, or showcase your company and what it does, you'll get the reach you need to communicate your trade and express a better, more accessible venture.",
     "type": "INDIVIDUAL",
     "category": {
-      "id": "fitness",
-      "name": "Fitness"
+      "id": "web",
+      "name": "Web Development"
     },
     "mainMedia": {
-      "id": "media_123",
+      "id": "media_001",
       "url": "https://codemage.vercel.app/1.jpg",
-      "altText": "Personal Training",
+      "altText": "Landing Page Website",
       "type": "image"
     },
     "price": {
-      "value": 99,
+      "value": 500,
       "currency": "USD"
     },
-    "offeredAs": ["OFFLINE", "PRICING_PLAN"],
+    "offeredAs": ["ONLINE"],
     "payment": {
       "rateType": "FIXED",
       "fixed": {
         "price": {
-          "value": 99,
+          "value": 500,
           "currency": "USD"
         }
       }
     }
   },
   {
-    "id": "service_456",
-    "slug": "yoga-classes",
-    "name": "Yoga Classes",
-    "description": "Group yoga sessions for all levels",
-    "type": "GROUP",
-    "category": {
-      "id": "yoga",
-      "name": "Yoga"
-    },
-    "mainMedia": {
-      "id": "media_456",
-      "url": "https://codemage.vercel.app/2-5.jpg",
-      "altText": "Yoga Classes",
-      "type": "image"
-    },
-    "price": {
-      "value": 25,
-      "currency": "USD"
-    },
-    "offeredAs": ["OFFLINE", "PRICING_PLAN"],
-    "payment": {
-      "rateType": "FIXED",
-      "fixed": {
-        "price": {
-          "value": 25,
-          "currency": "USD"
-        }
-      }
-    }
-  },
-  {
-    "id": "service_789",
-    "slug": "nutrition-consultation",
-    "name": "Nutrition Consultation",
-    "description": "Personalized meal planning",
+    "id": "service_002",
+    "slug": "company-site",
+    "name": "Company Website (2–5 pages)",
+    "tagLine": "Sell a product or service and combine it with information about your business.",
+    "description": "This package is designed for those who want more than a single-page website. Here we will focus on improving your goals, audience, and accessibility, as well as introducing more advanced features such as about us, contact us, product(s) or service(s), CMS, database, APIs, and advanced marketing strategies. We'll also incorporate more SEO and A/B testing possibilities to improve your overall conversions and provide opportunities to evaluate the website you've received in a live production.",
     "type": "INDIVIDUAL",
     "category": {
-      "id": "nutrition",
-      "name": "Nutrition"
+      "id": "web",
+      "name": "Web Development"
     },
     "mainMedia": {
-      "id": "media_789",
-      "url": "https://codemage.vercel.app/6+.jpg",
-      "altText": "Nutrition Consultation",
+      "id": "media_002",
+      "url": "https://codemage.vercel.app/2-5.jpg",
+      "altText": "Company Website",
       "type": "image"
     },
     "price": {
-      "value": 75,
+      "value": 1000,
       "currency": "USD"
     },
-    "offeredAs": ["ONLINE", "OFFLINE"],
+    "offeredAs": ["ONLINE"],
     "payment": {
       "rateType": "FIXED",
       "fixed": {
         "price": {
-          "value": 75,
+          "value": 1000,
+          "currency": "USD"
+        }
+      }
+    }
+  },
+  {
+    "id": "service_003",
+    "slug": "multi-offer-site",
+    "name": "Multi-Purpose Platform (6+ pages)",
+    "tagLine": "Multiple products and/or services with user accounts, company info, etc.",
+    "description": "Multi-Purpose Platform is a bundle designed for individuals who want to create their idea and challenge themselves with one of the most demanding websites in the world. Here you will receive a complete online platform, including proper authentication, forum posts, AI chatbot and file management. You will also receive the basic features for products and services, as well as the ability to manage data such as user accounts, page content, and advertising. Whether you want to build a service, curate a community, or improve an existing platform, this bundle will help you achieve your website goals.",
+    "type": "INDIVIDUAL",
+    "category": {
+      "id": "web",
+      "name": "Web Development"
+    },
+    "mainMedia": {
+      "id": "media_003",
+      "url": "https://codemage.vercel.app/6+.jpg",
+      "altText": "Multi-Purpose Website",
+      "type": "image"
+    },
+    "price": {
+      "value": 1500,
+      "currency": "USD"
+    },
+    "offeredAs": ["ONLINE"],
+    "payment": {
+      "rateType": "FIXED",
+      "fixed": {
+        "price": {
+          "value": 1500,
           "currency": "USD"
         }
       }

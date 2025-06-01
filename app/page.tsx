@@ -253,7 +253,7 @@ export default async function Home() {
           ))}
         </section>
       </div>
-      <ScrollIntoView hashName="#studio" offset="-90px" />
+      <ScrollIntoView hashName="#workspace" offset="-90px" />
       <div className="text-center py-24 bg-[url('/home/fitness-background-3.jpg')] parallax-background">
         <div className="mx-auto max-w-md px-2">
           <h2 className="title tracking-widest">WORKSPACE</h2>
