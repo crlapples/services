@@ -1,9 +1,67 @@
 // src/app/service/[slug]/page.tsx
-import { getServiceBySlug } from 'app/model/service/service-api';
 import ImageGallery from 'app/components/Image/ImageGallery/ImageGallery';
 import { formatPrice } from 'app/utils/price-formtter';
-import { OfferedAsType, Service } from 'lib/service-types';
-import serviceData from 'lib/services.json'
+import { Service, ServiceType, OfferedAsType, Money } from 'lib/service-types';
+import { Image } from 'lib/image-types'
+import rawServicesData from 'lib/services.json';
+
+const transformRawService = (rawService: any): Service => {
+  return {
+    id: rawService.id,
+    slug: rawService.slug,
+    name: rawService.name,
+    description: rawService.description,
+    tagLine: rawService.tagLine,
+    type: rawService.type as ServiceType,
+    category: {
+      id: rawService.category.id,
+      name: rawService.category.name,
+    },
+    mainMedia: rawService.mainMedia ? {
+      id: rawService.mainMedia.id,
+      url: rawService.mainMedia.url,
+      altText: rawService.mainMedia.altText,
+      type: rawService.mainMedia.type as 'image' | 'video',
+    } as Image : undefined,
+    otherMediaItems: rawService.otherMediaItems ? rawService.otherMediaItems.map((item: any) => ({
+      id: item.id,
+      url: item.url,
+      altText: item.altText,
+      type: item.type as 'image' | 'video',
+    })) as Image[] : undefined,
+    price: rawService.price ? {
+      value: rawService.price.value,
+      currency: rawService.price.currency,
+    } as Money : undefined,
+    duration: rawService.duration,
+    offeredAs: rawService.offeredAs.map((oa: string) => oa as OfferedAsType),
+    payment: rawService.payment ? {
+      rateType: rawService.payment.rateType as 'FIXED' | 'VARIED' | 'NO_FEE' | undefined,
+      // Corrected 'fixed' property:
+      fixed: (rawService.payment.fixed && rawService.payment.fixed.price)
+        ? { price: rawService.payment.fixed.price as Money } // If fixed.price exists, it's Money
+        : undefined, // Otherwise, the entire 'fixed' object is undefined
+      varied: rawService.payment.varied ? {
+        defaultPrice: rawService.payment.varied.defaultPrice ? rawService.payment.varied.defaultPrice as Money : undefined,
+        deposit: rawService.payment.varied.deposit ? rawService.payment.varied.deposit as Money : undefined,
+        minPrice: rawService.payment.varied.minPrice ? rawService.payment.varied.minPrice as Money : undefined,
+        maxPrice: rawService.payment.varied.maxPrice ? rawService.payment.varied.maxPrice as Money : undefined,
+      } : undefined,
+      custom: rawService.payment.custom ? {
+        description: rawService.payment.custom.description,
+      } : undefined,
+      options: rawService.payment.options ? {
+        online: rawService.payment.options.online,
+        inPerson: rawService.payment.options.inPerson,
+        pricingPlan: rawService.payment.options.pricingPlan,
+      } : undefined,
+    } : undefined,
+    schedule: rawService.schedule,
+  };
+};
+
+// Transform the entire array of services from JSON
+const services: Service[] = (rawServicesData as any[]).map(transformRawService);
 
 const offeredAsToPaymentOptions = (offeredAs: OfferedAsType) =>
   offeredAs === OfferedAsType.OFFLINE
@@ -15,7 +73,7 @@ const offeredAsToPaymentOptions = (offeredAs: OfferedAsType) =>
     : 'Other';
 
 function ServicePageView({ service }: { service: Service }) {
-  const formattedPrice = formatPrice(service.price);
+  const formattedPrice = service.price ? formatPrice(service.price) : 'Price not available';
   const formattedDuration = service.duration
     ? `${service.duration} minutes`
     : '';
@@ -55,7 +113,7 @@ function ServicePageView({ service }: { service: Service }) {
           <p className="w-full mt-4">{service.description}</p>
         </>
       ) : null}
-      {service.otherMediaItems?.length ? (
+      {service.otherMediaItems && service.otherMediaItems.length > 0 ? (
         <section className="mt-10">
           <ImageGallery mediaItems={service.otherMediaItems} />
         </section>
@@ -74,8 +132,8 @@ function ServicePageView({ service }: { service: Service }) {
   );
 }
 
-export default async function ServicePage({ params }: { params: { slug: string } }) {
-  const { data: service } = await getServiceBySlug(params.slug);
+export default function ServicePage({ params }: { params: { slug: string } }) {
+  const service = services.find(s => s.slug === params.slug);
 
   return (
     <div className="max-w-full-content mx-auto px-6 sm:px-28">
