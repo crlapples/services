@@ -51,7 +51,7 @@ const Footer = () => (
             >
               <li>
                 <a
-                  href="http://www.facebook.com/wix"
+                  href="http://www.facebook.com"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -65,7 +65,7 @@ const Footer = () => (
               </li>
               <li>
                 <a
-                  href="https://www.x.com/wix"
+                  href="https://www.x.com/crlapples19"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -79,7 +79,7 @@ const Footer = () => (
               </li>
               <li>
                 <a
-                  href="https://instagram.com/wix/"
+                  href="https://instagram.com/crlapples19"
                   target="_blank"
                   rel="noreferrer"
                 >

@@ -173,34 +173,34 @@ export default async function Home() {
                       width={43}
                       height={43}
                       alt="Facebook"
-                      src="/social/facebook.png"
+                      src="https://static.wixstatic.com/media/4057345bcf57474b96976284050c00df.png"
                     />
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://x.com/yourbusiness"
+                    href="https://x.com/crlapples19"
                     target="_blank"
                     rel="noreferrer"
                   >
                     <Image
                       width={28}
                       height={28}
-                      src="/social/x.png"
+                      src="https://static.wixstatic.com/media/2be684_810b1f12e8d04a30b1ec920caf3af383~mv2.png"
                       alt="X"
                     />
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://instagram.com/yourbusiness"
+                    href="https://instagram.com/crlapples19"
                     target="_blank"
                     rel="noreferrer"
                   >
                     <Image
                       width={43}
                       height={43}
-                      src="/social/instagram.png"
+                      src="https://static.wixstatic.com/media/e1aa082f7c0747168d9cf43e77046142.png"
                       alt="Instagram"
                     />
                   </a>

@@ -16,6 +16,14 @@
       "altText": "Landing Page Website",
       "type": "image"
     },
+    "otherMediaItems": [
+      {
+        "id": "media_001_copy",
+        "url": "https://codemage.vercel.app/1.jpg",
+        "altText": "Landing Page Website",
+        "type": "image"
+      }
+    ],
     "price": {
       "value": 500,
       "currency": "USD"
@@ -48,6 +56,14 @@
       "altText": "Company Website",
       "type": "image"
     },
+    "otherMediaItems": [
+      {
+        "id": "media_002_copy",
+        "url": "https://codemage.vercel.app/2-5.jpg",
+        "altText": "Company Website",
+        "type": "image"
+      }
+    ],
     "price": {
       "value": 1000,
       "currency": "USD"
@@ -80,6 +96,14 @@
       "altText": "Multi-Purpose Website",
       "type": "image"
     },
+    "otherMediaItems": [
+      {
+        "id": "media_003_copy",
+        "url": "https://codemage.vercel.app/6+.jpg",
+        "altText": "Multi-Purpose Website",
+        "type": "image"
+      }
+    ],
     "price": {
       "value": 1500,
       "currency": "USD"
