@@ -64,22 +64,6 @@ const GalleryItemComponent = ({
         <p className="font-open-sans-condensed">{tagline}</p>
       </div>
       <div className="flex justify-between">
-        <a href="/#" className="cursor-pointer">
-          <Image
-            src="/common/like.svg"
-            height={24}
-            width={24}
-            alt="like image"
-          />
-        </a>
-        <a href="/#" className="cursor-pointer">
-          <Image
-            src="/common/share.svg"
-            height={24}
-            width={24}
-            alt="share image"
-          />
-        </a>
       </div>
     </div>
   </li>
@@ -161,7 +145,7 @@ export default async function Home() {
             <section className="mt-5">
               <ul
                 aria-label="Social Bar"
-                className="flex gap-2 invert -ml-3 items-center"
+                className="flex gap-2 invert items-center"
               >
                 <li>
                   <a
@@ -170,8 +154,8 @@ export default async function Home() {
                     rel="noreferrer"
                   >
                     <Image
-                      width={43}
-                      height={43}
+                      width={32}
+                      height={32}
                       alt="Facebook"
                       src="https://static.wixstatic.com/media/4057345bcf57474b96976284050c00df.png"
                     />
@@ -184,8 +168,8 @@ export default async function Home() {
                     rel="noreferrer"
                   >
                     <Image
-                      width={28}
-                      height={28}
+                      width={32}
+                      height={32}
                       src="https://static.wixstatic.com/media/2be684_810b1f12e8d04a30b1ec920caf3af383~mv2.png"
                       alt="X"
                     />
@@ -198,8 +182,8 @@ export default async function Home() {
                     rel="noreferrer"
                   >
                     <Image
-                      width={43}
-                      height={43}
+                      width={32}
+                      height={32}
                       src="https://static.wixstatic.com/media/e1aa082f7c0747168d9cf43e77046142.png"
                       alt="Instagram"
                     />

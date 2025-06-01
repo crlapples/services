@@ -9,7 +9,7 @@ const navbarItems = [
   { scroll: true, ref: '/', label: 'Home' },
   { scroll: false, ref: '/#about', label: 'About' },
   { scroll: false, ref: '/#workspace', label: 'Workspace' },
-  { scroll: true, ref: '/create', label: 'Create' },
+  { scroll: true, ref: '/purchase]', label: 'Purchase' },
   { scroll: true, ref: '/classes-schedule', label: 'Book Online' },
   { scroll: true, ref: '/plans', label: 'Plans & Pricing' },
   { scroll: false, ref: '/#contact', label: 'Contact' },
