@@ -99,7 +99,7 @@ function ServicePageView({ service }: { service: Service }) {
           </div>
           <div className="mt-14">
             <a
-              href={`/bookings/new?serviceId=${service.id}`}
+              href={`/confirmation?serviceId=${service.id}`}
               className="btn-main text-lg px-7"
             >
               Book Now
