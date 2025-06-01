@@ -142,7 +142,7 @@ export default async function Home() {
                 I look forward to helping you on your online journey.`}
               </p>
             </section>
-            <section className="mt-5">
+            <section className="my-5">
               <ul
                 aria-label="Social Bar"
                 className="flex gap-2 invert items-center"

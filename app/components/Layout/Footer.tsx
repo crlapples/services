@@ -7,17 +7,14 @@ import testIds from '@app/utils/test-ids';
 const FooterNote = () => (
   <div className="text-sm font-open-sans-condensed text-gray-c1 float-right">
     <span>©2025 BY CHRISTOPHER RICHARD LEE </span>
-    <span>Built by crlapples </span>
-    <span>
-      <a
+    <a
         className="underline"
         href="https://crlapples.vercel.app"
         target="_blank"
         rel="noreferrer noopener"
       >
-        Wix
-      </a>
-    </span>
+      <span>Built by crlapples </span>
+    </a>
   </div>
 );
 
