@@ -256,7 +256,7 @@ export default async function Home() {
       <ScrollIntoView hashName="#studio" offset="-90px" />
       <div className="text-center py-24 bg-[url('/home/fitness-background-3.jpg')] parallax-background">
         <div className="mx-auto max-w-md px-2">
-          <h2 className="title tracking-widest">THE WORKSPACE</h2>
+          <h2 className="title tracking-widest">WORKSPACE</h2>
           <div className="pt-7 font-open-sans-condensed text-lg text-stone-300">
             {`I work in a remote environment, with the ability to offer my service worldwide. 
             This allows supporting clients of any schedule and all levels of technical knowledge. Message me!`}
