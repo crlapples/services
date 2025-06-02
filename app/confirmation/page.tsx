@@ -207,7 +207,7 @@ export default function BookingFormPage() { // Renamed component for clarity
       </header>
 
       <main id="main-content" className="p-5 bg-gray-100" tabIndex={-1}>
-        <div className="max-w-5xl mx-auto bg-white shadow-lg p-6 md:p-8 rounded-full">
+        <div className="max-w-5xl mx-auto bg-white shadow-lg p-6 md:p-8 rounded-md">
           <div className="mb-6">
             <button
               className="text-blue-600 hover:text-blue-800 flex items-center gap-1 text-sm"
@@ -303,7 +303,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                       value={formData.message}
                       onChange={handleInputChange}
                       rows={3}
-                      className="w-full p-2 border border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-4 border border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
                 </div>
@@ -355,7 +355,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                   className="w-full flex justify-between items-center py-3 text-left"
                   // Removed sKFHfHm, using Tailwind for styling
                 >
-                  <h3 className="text-base font-lg font-semibold text-gray-800" data-hook="title"> {/* Adjusted font size/weight */}
+                  <h3 className="text-lg font-semibold text-gray-800" data-hook="title"> {/* Adjusted font size/weight */}
                     Plan Details
                   </h3>
                   <div aria-hidden="true"> {/* sgrK0VB equivalent */}
@@ -392,7 +392,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                 >
                   {/* The inner div for padding and content, only rendered when open for transition */}
                   {isOpen && (
-                    <div className="p-3 border-t border-gray-200"> {/* soTz_2r equivalent for padding */}
+                    <div className="py-3 border-t border-gray-200"> {/* soTz_2r equivalent for padding */}
                       <div className="text-sm space-y-1 text-gray-700"> {/* szBA5Bn equivalent */}
                         <p className="font-medium" data-hook="single-slot-details-service-name">
                           {service.name}
