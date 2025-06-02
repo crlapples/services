@@ -8,6 +8,7 @@ import { notFound, useRouter } from 'next/navigation'; // Added useRouter
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link'; // Import Link
+import '.././globals.css';
 
 // Transform raw service data (assuming this is correct from previous fixes)
 const transformRawServiceData = (rawService: any): Service => {
@@ -131,6 +132,11 @@ export default function BookingFormPage() { // Renamed component for clarity
   const [selectedPaymentOption, setSelectedPaymentOption] = useState(
     service.offeredAs.includes(OfferedAsType.PRICING_PLAN) ? OfferedAsType.PRICING_PLAN : service.offeredAs[0] || OfferedAsType.ONLINE
   );
+  const [isOpen, setIsOpen] = useState(false); // Start closed by default, as in your example
+
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
+  };
 
 
   const handleInputChange = (
@@ -201,7 +207,7 @@ export default function BookingFormPage() { // Renamed component for clarity
       </header>
 
       <main id="main-content" className="p-5 bg-gray-100" tabIndex={-1}>
-        <div className="max-w-5xl mx-auto bg-white shadow-lg p-6 md:p-8 rounded-md">
+        <div className="max-w-5xl mx-auto bg-white shadow-lg p-6 md:p-8 rounded-xl">
           <div className="mb-6">
             <button
               className="text-blue-600 hover:text-blue-800 flex items-center gap-1 text-sm"
@@ -238,36 +244,38 @@ export default function BookingFormPage() { // Renamed component for clarity
 
               <form onSubmit={handleSubmit} id="client-details-form">
                 <div className="space-y-4">
-                  <div>
-                    <label htmlFor="client-name-form" className="block text-sm font-medium text-gray-700 mb-1">
-                      Name<span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      id="client-name-form"
-                      name="name"
-                      maxLength={100}
-                      required
-                      type="text"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    />
-                    <div className="text-xs text-gray-500 text-right mt-1">{formData.name.length}/100</div>
-                  </div>
+                  <div className="flex flex-col md:flex-row md:gap-4">
+                    <div className="md:w-1/2 mb-4 md:mb-0">
+                      <label htmlFor="client-name-form" className="block text-sm font-medium text-gray-700 mb-1">
+                        Name<span className="text-red-500">*</span>
+                      </label>
+                      <input
+                          id="client-name-form"
+                        name="name"
+                        maxLength={100}
+                        required
+                        type="text"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      />
+                      <div className="text-xs text-gray-500 text-right mt-1">{formData.name.length}/100</div>
+                    </div>
 
-                  <div>
-                    <label htmlFor="client-email-form" className="block text-sm font-medium text-gray-700 mb-1">
-                      Email<span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      id="client-email-form"
-                      name="email"
-                      required
-                      type="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    />
+                    <div className="md:w-1/2">
+                      <label htmlFor="client-email-form" className="block text-sm font-medium text-gray-700 mb-1">
+                        Email<span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        id="client-email-form"
+                        name="email"
+                        required
+                        type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className="w-full p-2 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
                   </div>
 
                   <div>
@@ -280,7 +288,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                       type="tel"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-2 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
 
@@ -295,24 +303,25 @@ export default function BookingFormPage() { // Renamed component for clarity
                       value={formData.message}
                       onChange={handleInputChange}
                       rows={3}
-                      className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-2 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
                 </div>
 
-                <fieldset className="mt-6 pt-4 border-t border-gray-300">
+                <fieldset className="mt-6 pt-4 border-gray-300">
                   <legend className="text-xl font-semibold mb-2">Payment</legend>
-                  <div className="bg-gray-50 p-4 rounded-md">
+                  <hr className="text-gray-300 my-3" />
+                  <div className="bg-gray-50 py-4 rounded-xl">
                     <p className="font-medium text-gray-700">{service.name}</p>
                     <div className="mt-2">
                       <label htmlFor="payment-option-dropdown" className="sr-only">Payment Option</label>
-                      <div className="relative inline-block border border-gray-300 rounded-md shadow-sm w-full">
+                      <div className="relative inline-block border border-gray-300 rounded-xl shadow-sm w-full">
                         <select
                           id="payment-option-dropdown"
                           name="paymentOption"
                           value={selectedPaymentOption}
                           onChange={(e) => setSelectedPaymentOption(e.target.value as OfferedAsType)}
-                          className="w-full p-2.5 bg-white appearance-none pr-8 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                          className="w-full p-2.5 bg-white appearance-none pr-8 rounded-xl focus:ring-blue-500 focus:border-blue-500"
                         >
                           {service.offeredAs.map((option) => (
                             <option key={option} value={option}>
@@ -336,22 +345,77 @@ export default function BookingFormPage() { // Renamed component for clarity
 
             {/* Right Column: Summary */}
             <aside className="md:w-2/5 space-y-6">
-              <div>
-                <h3 className="text-lg font-semibold border-b border-gray-300 pb-2 mb-3">Booking Details</h3>
-                <div className="text-sm space-y-1 text-gray-700">
-                  <p className="font-medium">{service.name}</p>
-                  <p>{`${formattedDate} at ${formattedTime}`}</p>
-                  <p>Studio</p> {/* Placeholder location */}
-                  <p>Joey Dixon</p> {/* Placeholder staff */}
-                  <p>{formattedDuration}</p>
-                </div>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold border-b border-gray-300 pb-2 mb-3">Payment Details</h3>
-                <div className="text-sm space-y-1 text-gray-700">
-                  <p>{offeredAsToPaymentOptionsText(selectedPaymentOption)}</p>
-                  {/* Add more payment details if needed, e.g., price if not part of a plan */}
+              <div className="border border-gray-300 rounded-md overflow-hidden"> {/* Outer container for border */}
+                {/* Header Button */}
+                <button
+                  id="booking-details-header"
+                  onClick={toggleOpen}
+                  aria-expanded={isOpen}
+                  aria-controls="booking-details-content"
+                  className="w-full flex justify-between items-center p-3 text-left hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+                  // Removed sKFHfHm, using Tailwind for styling
+                >
+                  <h3 className="text-base font-medium text-gray-800" data-hook="title"> {/* Adjusted font size/weight */}
+                    Booking Details
+                  </h3>
+                  <div aria-hidden="true"> {/* sgrK0VB equivalent */}
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      width="20" // Adjusted size slightly for better fit
+                      height="20"
+                      className={`text-gray-600 transform transition-transform duration-200 ${
+                        isOpen ? 'rotate-180' : 'rotate-0'
+                      }`} // slESM_B equivalent for rotation
+                      data-hook="expandIcon"
+                      // data-label="Expand-ChevronDown" // data-label is not standard HTML
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18.2546728,8.18171329 L18.9617796,8.88882007 L12.5952867,15.2537133 L12.5978964,15.2558012 L11.8907896,15.962908 L11.8882867,15.9607133 L11.8874628,15.9617796 L11.180356,15.2546728 L11.1812867,15.2527133 L4.81828671,8.88882007 L5.52539349,8.18171329 L11.8882867,14.5457133 L18.2546728,8.18171329 Z"
+                      />
+                    </svg>
+                  </div>
+                </button>
+
+                {/* Collapsible Content Area */}
+                {/* Simulating rah-static rah-static--height-zero */}
+                <div
+                  id="booking-details-content"
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0' // Adjust max-h if content is taller
+                  }`}
+                  // style={isOpen ? {} : { height: '0px' }} // Alternative for direct height control
+                  role="group"
+                  aria-labelledby="booking-details-header"
+                  aria-hidden={!isOpen}
+                >
+                  {/* The inner div for padding and content, only rendered when open for transition */}
+                  {isOpen && (
+                    <div className="p-3 border-t border-gray-200"> {/* soTz_2r equivalent for padding */}
+                      <div className="text-sm space-y-1 text-gray-700"> {/* szBA5Bn equivalent */}
+                        <p className="font-medium" data-hook="single-slot-details-service-name">
+                          {service.name}
+                        </p>
+                        <div data-hook="booking-details-slot-date-and-time"> {/* sYrZmpS equivalent */}
+                          <p>{`${formattedDate} at ${formattedTime}`}</p>
+                        </div>
+                        <p className="text-gray-600" data-hook="booking-details-location"> {/* otLy4uS---type-9-secondary equivalent */}
+                          Las Vegas, NV
+                        </p>
+                        <p className="text-gray-600" data-hook="booking-details-staff-member">
+                          Code Mage
+                        </p>
+                        <p className="text-gray-600" data-hook="booking-details-duration">
+                          {formattedDuration}
+                        </p>
+                        {/* For accessibility, if the visual duration is like "1 hr", provide a more descriptive version for screen readers */}
+                        <div className="sr-only" data-hook="booking-details-duration-aria">
+                          {formattedDuration.replace("hr", "hour").replace("min", "minutes")}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -359,7 +423,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                 <button
                   type="submit"
                   form="client-details-form" // Links to the form
-                  className="w-full p-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="w-full p-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   {selectedPaymentOption === OfferedAsType.PRICING_PLAN ? 'Buy a plan' : 'Next'}
                 </button>

@@ -10,6 +10,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 // @ts-ignore
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import '.././globals.css'
 
 // Transform raw service data (assuming this is correct from previous fixes)
 const transformRawServiceData = (rawService: any): Service => {
