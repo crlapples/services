@@ -28,14 +28,14 @@ const transformRawServiceData = (rawService: any): Service => {
       ? {
           id: rawService.mainMedia.id || '',
           url: rawService.mainMedia.url || '',
-          alt: rawService.mainMedia.altText || '', // Assuming Image type uses 'alt'
+          alt: rawService.mainMedia.altText || '',
         } as Image
       : undefined,
     otherMediaItems: rawService.otherMediaItems
       ? rawService.otherMediaItems.map((item: any) => ({
           id: item?.id || '',
           url: item?.url || '',
-          alt: item?.altText || '', // Assuming Image type uses 'alt'
+          alt: item?.altText || '',
         } as Image))
       : undefined,
     price: rawService.price
@@ -90,14 +90,31 @@ const transformRawServiceData = (rawService: any): Service => {
 
 const services: Service[] = (rawServicesData as any[]).map(transformRawServiceData);
 
+const offeredAsToPaymentOptionsText = (offeredAs: OfferedAsType) =>
+  offeredAs === OfferedAsType.OFFLINE
+    ? 'In Person'
+    : offeredAs === OfferedAsType.ONLINE
+    ? 'Online'
+    : offeredAs === OfferedAsType.PRICING_PLAN
+    ? 'Paid Plans'
+    : 'Other';
+
+
 export default function PaymentPage() {
   const searchParams = useSearchParams();
   const serviceId = searchParams.get('serviceId');
-  const nameFromParams = searchParams.get('name') || '';
-  const emailFromParams = searchParams.get('email') || '';
-  const phoneFromParams = searchParams.get('phone') || '';
+
+  // Decode parameters after getting them
+  const nameParam = searchParams.get('name');
+  const emailParam = searchParams.get('email');
+  const phoneParam = searchParams.get('phone');
+
+  const nameFromParams = nameParam ? decodeURIComponent(nameParam) : '';
+  const emailFromParams = emailParam ? decodeURIComponent(emailParam) : '';
+  const phoneFromParams = phoneParam ? decodeURIComponent(phoneParam) : '';
+  
   const participants = parseInt(searchParams.get('participants') || '1', 10);
-  const paymentMethodFromUrl = searchParams.get('paymentMethod') || 'Pay now'; // Keep this for logging context
+  const paymentMethodFromUrl = searchParams.get('paymentMethod') || 'Pay now';
 
   const service = services.find((s) => s.id === serviceId);
 
@@ -115,13 +132,18 @@ export default function PaymentPage() {
     state: '',
     postalCode: '',
     country: '',
+    formPaymentChoice: service.payment?.options
+        ? Object.keys(service.payment.options).find(key => service.payment!.options![key as keyof typeof service.payment.options]) || 'Pay now'
+        : 'Pay now',
   });
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
-  const [isPaymentStepVisible, setIsPaymentStepVisible] = useState(false); // New state
+  const [isPaymentStepVisible, setIsPaymentStepVisible] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -142,7 +164,6 @@ export default function PaymentPage() {
     if (isFormValid) {
       setIsPaymentStepVisible(true);
     } else {
-      // Optionally, provide feedback to the user that the form is invalid
       alert('Please fill in all required customer details.');
     }
   };
@@ -162,7 +183,6 @@ export default function PaymentPage() {
       }}
     >
       <div className="max-w-7xl mx-auto font-sans text-gray-800 bg-gray-50">
-        {/* ... Skip to content and Header ... */}
         <button
           className="absolute -left-[9999px] focus:static focus:w-auto focus:h-auto focus:p-2 focus:bg-gray-200 focus:border focus:border-gray-300"
           onClick={() => document.getElementById('main-content')?.focus()}
@@ -199,7 +219,6 @@ export default function PaymentPage() {
 
             <div className="flex flex-wrap gap-8">
               <section className="flex-[3_1_0%] min-w-[320px] bg-white p-5 rounded shadow-sm" aria-label="Checkout form section">
-                {/* ... Express Checkout and Login Prompt ... */}
                 <div className="text-center py-2 mb-4 border-b border-gray-200">
                   <p className="text-sm text-gray-600">Express Checkout Options (e.g., PayPal, Apple Pay)</p>
                 </div>
@@ -224,7 +243,6 @@ export default function PaymentPage() {
                     </div>
                     <form aria-label="Customer Details Form" onSubmit={(e) => e.preventDefault()}>
                       <fieldset>
-                        {/* ... Customer detail input fields (Email, Name, Phone, Address) ... */}
                         <div className="mb-4">
                           <label htmlFor="checkout-email" className="block font-bold text-sm text-gray-600 mb-1">
                             Email<span className="text-red-500">*</span>
@@ -264,7 +282,7 @@ export default function PaymentPage() {
                       </fieldset>
                       <div className="text-right mt-5">
                         <button
-                          type="button" // Changed from submit
+                          type="button"
                           className="p-3 bg-green-600 text-white border border-green-600 rounded hover:bg-green-700 disabled:opacity-50"
                           disabled={!isFormValid}
                           onClick={handleContinueToPayment}
@@ -284,7 +302,7 @@ export default function PaymentPage() {
                     <div>
                       <PayPalButtons
                         style={{ layout: 'vertical' }}
-                        disabled={!isFormValid} // Keep this for safety, though section is already guarded
+                        disabled={!isFormValid}
                         createOrder={(data: any, actions: any) => {
                           return actions.order.create({
                             purchase_units: [
@@ -317,7 +335,7 @@ export default function PaymentPage() {
                               ...formData,
                               serviceId,
                               participants,
-                              paymentMethodFromUrl, // Log the payment method from the URL
+                              paymentMethodFromUrl,
                               paypalOrderId: data.orderID,
                               details,
                             });
@@ -334,7 +352,6 @@ export default function PaymentPage() {
                 )}
               </section>
 
-              {/* ... Order Summary Aside ... */}
               <aside className="flex-[2_1_0%] min-w-[280px] bg-white p-5 rounded shadow-sm" aria-labelledby="summary-section-title">
                 <div className="flex justify-between items-center mb-4">
                   <h2 id="summary-section-title" className="text-lg font-bold">Order summary</h2>
@@ -415,7 +432,6 @@ export default function PaymentPage() {
           </section>
         </main>
 
-        {/* ... Footer and Mobile Menu ... */}
         <footer className="bg-white p-4 border-t border-gray-200 text-center">
           <p>© 2025 Fitness Demo. All rights reserved.</p>
         </footer>

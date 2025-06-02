@@ -1,51 +1,51 @@
 'use client';
 
 import { formatPrice } from 'app/utils/price-formtter';
-// Import ServiceType here
 import { Service, OfferedAsType, Money, ServiceType } from 'lib/service-types';
-import { Image } from 'lib/image-types';
+import { Image } from "lib/image-types"
 import rawServicesData from 'lib/services.json';
-import { notFound } from 'next/navigation';
-import { useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation'; // Added useRouter
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link'; // Import Link
 
-// Transform raw service data
-const transformRawService = (rawService: any): Service => {
+// Transform raw service data (assuming this is correct from previous fixes)
+const transformRawServiceData = (rawService: any): Service => {
   return {
-    id: rawService.id,
-    slug: rawService.slug,
-    name: rawService.name,
-    description: rawService.description,
-    tagLine: rawService.tagLine,
-    type: rawService.type as ServiceType, // ServiceType is now imported
+    id: rawService.id || '',
+    slug: rawService.slug || '',
+    name: rawService.name || '',
+    description: rawService.description || '',
+    tagLine: rawService.tagLine || '',
+    type: rawService.type as ServiceType || ServiceType.INDIVIDUAL,
     category: {
-      id: rawService.category.id,
-      name: rawService.category.name,
+      id: rawService.category?.id || '',
+      name: rawService.category?.name || '',
     },
     mainMedia: rawService.mainMedia
       ? {
-          id: rawService.mainMedia.id,
-          url: rawService.mainMedia.url,
-          altText: rawService.mainMedia.altText, // Changed 'alt' to 'altText' to match common patterns and JSON
-          // Removed 'type' property as it's not in the 'Image' type
-        } as Image // Explicitly cast to Image
+          id: rawService.mainMedia.id || '',
+          url: rawService.mainMedia.url || '',
+          alt: rawService.mainMedia.altText || '',
+        } as Image
       : undefined,
     otherMediaItems: rawService.otherMediaItems
       ? rawService.otherMediaItems.map((item: any) => ({
-          id: item.id,
-          url: item.url,
-          altText: item.altText,
-          // Removed 'type' property as it's not in the 'Image' type
-        } as Image)) // Explicitly cast each item to Image
+          id: item?.id || '',
+          url: item?.url || '',
+          alt: item?.altText || '',
+        } as Image))
       : undefined,
     price: rawService.price
       ? {
-          value: rawService.price.value,
-          currency: rawService.price.currency,
-        } as Money // Cast to Money
+          value: rawService.price.value || 0,
+          currency: rawService.price.currency || 'USD',
+        } as Money
       : undefined,
-    duration: rawService.duration,
-    offeredAs: rawService.offeredAs.map((oa: string) => oa as OfferedAsType),
+    duration: rawService.duration || 0,
+    offeredAs: rawService.offeredAs
+      ? rawService.offeredAs.map((oa: string) => oa as OfferedAsType)
+      : [],
     payment: rawService.payment
       ? {
           rateType: rawService.payment.rateType as 'FIXED' | 'VARIED' | 'NO_FEE' | undefined,
@@ -55,115 +55,124 @@ const transformRawService = (rawService: any): Service => {
           varied: rawService.payment.varied
             ? {
                 defaultPrice: rawService.payment.varied.defaultPrice
-                  ? (rawService.payment.varied.defaultPrice as Money) // Added 'as Money' cast
+                  ? (rawService.payment.varied.defaultPrice as Money)
                   : undefined,
                 deposit: rawService.payment.varied.deposit
-                  ? (rawService.payment.varied.deposit as Money) // Added 'as Money' cast
+                  ? (rawService.payment.varied.deposit as Money)
                   : undefined,
                 minPrice: rawService.payment.varied.minPrice
-                  ? (rawService.payment.varied.minPrice as Money) // Added 'as Money' cast
+                  ? (rawService.payment.varied.minPrice as Money)
                   : undefined,
                 maxPrice: rawService.payment.varied.maxPrice
-                  ? (rawService.payment.varied.maxPrice as Money) // Added 'as Money' cast
+                  ? (rawService.payment.varied.maxPrice as Money)
                   : undefined,
               }
             : undefined,
           custom: rawService.payment.custom
             ? {
-                description: rawService.payment.custom.description,
+                description: rawService.payment.custom.description || '',
               }
             : undefined,
           options: rawService.payment.options
             ? {
-                online: rawService.payment.options.online,
-                inPerson: rawService.payment.options.inPerson,
-                pricingPlan: rawService.payment.options.pricingPlan,
+                online: rawService.payment.options.online || false,
+                inPerson: rawService.payment.options.inPerson || false,
+                pricingPlan: rawService.payment.options.pricingPlan || false,
               }
             : undefined,
         }
       : undefined,
-    schedule: rawService.schedule,
+    schedule: rawService.schedule || null,
   };
 };
 
-// Transform services data
-const services: Service[] = (rawServicesData as any[]).map(transformRawService);
+const services: Service[] = (rawServicesData as any[]).map(transformRawServiceData);
 
-// Utility to map offeredAs to payment options
-const offeredAsToPaymentOptions = (offeredAs: OfferedAsType) =>
+const offeredAsToPaymentOptionsText = (offeredAs: OfferedAsType) =>
   offeredAs === OfferedAsType.OFFLINE
     ? 'In Person'
     : offeredAs === OfferedAsType.ONLINE
     ? 'Online'
     : offeredAs === OfferedAsType.PRICING_PLAN
-    ? 'Paid Plans'
+    ? 'Paid Plans' // Or "Private Membership" as seen in the HTML
     : 'Other';
 
-export default function ConfirmationPage() {
+export default function BookingFormPage() { // Renamed component for clarity
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const router = useRouter(); // For navigation
   const serviceId = searchParams.get('serviceId');
+  
+  // Get initial values from URL, decode them
+  const nameParam = searchParams.get('name');
+  const emailParam = searchParams.get('email');
+  const phoneParam = searchParams.get('phone');
+
+  const initialName = nameParam ? decodeURIComponent(nameParam) : '';
+  const initialEmail = emailParam ? decodeURIComponent(emailParam) : '';
+  const initialPhone = phoneParam ? decodeURIComponent(phoneParam) : '';
+
   const service = services.find((s) => s.id === serviceId);
 
   if (!service) {
     notFound();
   }
 
-  // State for form inputs
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
+    name: initialName,
+    email: initialEmail,
+    phone: initialPhone,
     message: '',
-    participants: 1,
-    paymentMethod: 'Pay now',
+    // participants: 1, // This seems to be handled by the dropdown in the HTML, not part of this form
+    // paymentMethod: 'Private Membership', // This is also from a dropdown in the HTML
   });
 
-  // State for mobile menu
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [selectedParticipants, setSelectedParticipants] = useState(1); // For the participants dropdown
+  const [selectedPaymentOption, setSelectedPaymentOption] = useState(
+    service.offeredAs.includes(OfferedAsType.PRICING_PLAN) ? OfferedAsType.PRICING_PLAN : service.offeredAs[0] || OfferedAsType.ONLINE
+  );
 
-  // Handle form input changes
+
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Construct query parameters
+    console.log('Form submitted:', {
+        ...formData,
+        serviceId: service.id,
+        participants: selectedParticipants,
+        paymentChoice: selectedPaymentOption,
+    });
+    // Navigate to payment page or next step
     const queryParams = new URLSearchParams({
-      serviceId: serviceId || '',
-      name: encodeURIComponent(formData.name),
-      email: encodeURIComponent(formData.email),
-      phone: encodeURIComponent(formData.phone),
-      message: encodeURIComponent(formData.message),
-      participants: formData.participants.toString(),
-      paymentMethod: encodeURIComponent(formData.paymentMethod),
-    }).toString();
-    // Redirect to payment page with query parameters
-    router.push(`/payment?${queryParams}`);
+        serviceId: service.id,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        participants: selectedParticipants.toString(),
+        paymentMethod: selectedPaymentOption, // Pass the chosen payment method
+    });
+    router.push(`/payment?${queryParams.toString()}`);
   };
 
-  // Toggle mobile menu
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
-  // Format price and duration
   const formattedPrice = service.price ? formatPrice(service.price) : 'Price not available';
-  const formattedDuration = service.duration ? `${service.duration} minutes` : '';
-  const formattedDate = new Date().toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-  const formattedTime = '1:30 pm'; // Placeholder; could be dynamic based on schedule
+  const formattedDuration = service.duration
+    ? service.duration >= 60
+      ? `${Math.floor(service.duration / 60)} hr${service.duration % 60 > 0 ? ` ${service.duration % 60} min` : ''}`
+      : `${service.duration} min`
+    : '';
+  const formattedDate = searchParams.get('date') || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const formattedTime = searchParams.get('time') || '7:30 am'; // Example, make dynamic
 
   return (
-    <div className="max-w-7xl mx-auto font-sans text-gray-800">
+    <div className="font-sans text-gray-800">
       <button
         className="absolute -left-[9999px] focus:static focus:w-auto focus:h-auto focus:p-2 focus:bg-gray-200 focus:border focus:border-gray-300"
         onClick={() => document.getElementById('main-content')?.focus()}
@@ -171,17 +180,19 @@ export default function ConfirmationPage() {
         Skip to Main Content
       </button>
 
-      <header className="bg-gray-100 p-5 text-center">
-        <div className="flex justify-between items-center">
-          <div>{/* Logo or site title placeholder */}</div>
+      <header className="bg-gray-100 p-4 border-b">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <Link href="/" className="text-xl font-bold text-gray-800">
+            fitness-demo
+          </Link>
           <div>
             <button
-              className="p-2 m-1 border border-gray-300 bg-gray-200 hover:bg-gray-300 flex items-center gap-2"
-              onClick={toggleMobileMenu} // Assuming login button also toggles mobile menu or is a placeholder
+              className="p-2 m-1 border border-blue-600 bg-blue-600 text-white hover:bg-blue-700 rounded flex items-center gap-2"
+              onClick={toggleMobileMenu}
               aria-label="Log In"
             >
-              <svg viewBox="0 0 50 50" width="24" height="24" aria-hidden="true">
-                <path d="M25 48.077c-5.924 0-11.31-2.252-15.396-5.921 2.254-5.362 7.492-8.267 15.373-8.267 7.889 0 13.139 3.044 15.408 8.418-4.084 3.659-9.471 5.77-15.385 5.77m.278-35.3c4.927 0 8.611 3.812 8.611 8.878 0 5.21-3.875 9.456-8.611 9.456s-8.611-4.246-8.611-9.456c0-5.066 3.684-8.878 8.611-8.878M25 0C11.193 0 0 11.193 0 25c0 .915.056 1.816.152 2.705.032.295.091.581.133.873.085.589.173 1.176.298 1.751.073.338.169.665.256.996.135.515.273 1.027.439 1.529.114.342.243.675.37 1.01.18.476.369.945.577 1.406.149.331.308.657.472.98.225.446.463.883.714 1.313.182.312.365.619.56.922.272.423.56.832.856 1.237.207.284.41.568.629.841.325.408.671.796 1.02 1.182.22.244.432.494.662.728.405.415.833.801 1.265 1.186.173.154.329.325.507.475l.004-.011A24.886 24.886 0 0 0 25 50a24.881 24.881 0 0 0 16.069-5.861.126.126 0 0 1 .003.01c.172-.144.324-.309.49-.458.442-.392.88-.787 1.293-1.209.228-.232.437-.479.655-.72.352-.389.701-.78 1.028-1.191.218-.272.421-.556.627-.838.297-.405.587-.816.859-1.24a26.104 26.104 0 0 0 1.748-3.216c.208-.461.398-.93.579-1.406.127-.336.256-.669.369-1.012.167-.502.305-1.014.44-1.53.087-.332.183-.659.256-.996.126-.576.214-1.164.299-1.754.042-.292.101-.577.133-.872.095-.89.152-1.791.152-2.707C50 11.193 38.807 0 25 0" />
+              <svg viewBox="0 0 50 50" width="20" height="20" aria-hidden="true" fill="currentColor">
+                <path d="M25 48.077c-5.924 0-11.31-2.252-15.396-5.921 2.254-5.362 7.492-8.267 15.373-8.267 7.889 0 13.139 3.044 15.408 8.418-4.084 3.659-9.471 5.77-15.385 5.77m.278-35.3c4.927 0 8.611 3.812 8.611 8.878 0 5.21-3.875 9.456-8.611 9.456s-8.611-4.246-8.611-9.456c0-5.066 3.684-8.878 8.611-8.878M25 0C11.193 0 0 11.193 0 25c0 .915.056 1.816.152 2.705.032.295.091.581.133.873.085.589.173 1.176.298 1.751.073.338.169.665.256.997.135.515.273 1.027.439 1.529.114.342.243.675.37 1.01.18.476.369.945.577 1.406.149.331.308.657.472.98.225.446.463.883.714 1.313.182.312.365.619.56.922.272.423.56.832.856 1.237.207.284.41.568.629.841.325.408.671.796 1.02 1.182.22.244.432.494.662.728.405.415.833.801 1.265 1.186.173.154.329.325.507.475l.004-.011A24.886 24.886 0 0 0 25 50a24.881 24.881 0 0 0 16.069-5.861.126.126 0 0 1 .003.01c.172-.144.324-.309.49-.458.442-.392.88-.787 1.293-1.209.228-.232.437-.479.655-.72.352-.389.701-.78 1.028-1.191.218-.272.421-.556.627-.838.297-.405.587-.816.859-1.24a26.104 26.104 0 0 0 1.748-3.216c.208-.461.398-.93.579-1.406.127-.336.256-.669.369-1.012.167-.502.305-1.014.44-1.53.087-.332.183-.659.256-.996.126-.576.214-1.164.299-1.754.042-.292.101-.577.133-.872.095-.89.152-1.791.152-2.707C50 11.193 38.807 0 25 0" />
               </svg>
               <span>Log In</span>
             </button>
@@ -189,241 +200,195 @@ export default function ConfirmationPage() {
         </div>
       </header>
 
-      <main id="main-content" className="p-5" tabIndex={-1}>
-        <section>
-          <div>
-            <div className="mb-5">
-              <button
-                className="p-2 border border-gray-300 bg-gray-200 hover:bg-gray-300 flex items-center gap-2"
-                onClick={() => window.history.back()}
-                type="button"
-              >
-                <svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20" aria-hidden="true">
-                  <path d="M12.2929466,3.99983983 L13.0000534,4.70694661 L7.7015668,10.0028398 L13,15.293 L12.2928932,16.0001068 L6.2895668,10.0061485 L6.2925668,10.0028398 L6.29036026,10 L12.2929466,3.99983983 Z" />
-                </svg>
-                <span>Back</span>
-              </button>
-            </div>
+      <main id="main-content" className="p-5 bg-gray-100" tabIndex={-1}>
+        <div className="max-w-5xl mx-auto bg-white shadow-lg p-6 md:p-8 rounded-md">
+          <div className="mb-6">
+            <button
+              className="text-blue-600 hover:text-blue-800 flex items-center gap-1 text-sm"
+              onClick={() => window.history.back()}
+              type="button"
+            >
+              <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+                <path d="M12.2929466,3.99983983 L13.0000534,4.70694661 L7.7015668,10.0028398 L13,15.293 L12.2928932,16.0001068 L6.2895668,10.0061485 L6.2925668,10.0028398 L6.29036026,10 L12.2929466,3.99983983 Z" />
+              </svg>
+              <span>Back</span>
+            </button>
+          </div>
 
-            <div className="mb-5">
-              <h1 className="text-2xl font-bold mb-2">Client Details</h1>
-              <hr className="border-gray-200" />
-              <p className="mt-2">Tell us a bit about yourself</p>
-            </div>
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Left Column: Form */}
+            <div className="flex-grow md:w-3/5">
+              <div className="mb-6">
+                <h1 className="text-2xl font-semibold mb-1">Client Details</h1>
+                <hr className="border-gray-300" />
+                <p className="mt-2 text-gray-600">Tell us a bit about yourself</p>
+              </div>
 
-            <div className="mb-5">
-              <span>
-                Already have an account?{' '}
+              <div className="mb-6 text-sm">
+                <span>Already have an account? </span>
                 <button
-                  className="text-blue-600 hover:underline bg-none border-none p-0"
+                  className="text-blue-600 hover:underline font-semibold"
                   type="button"
-                  onClick={toggleMobileMenu} // Example: login might also open a modal or menu
+                  onClick={toggleMobileMenu} // Or a login modal
                 >
                   Log In
-                </button>{' '}
-                for faster booking.
-              </span>
-            </div>
+                </button>
+                <span> for faster booking.</span>
+              </div>
 
-            <div className="flex flex-wrap gap-5">
-              <form className="flex-2 min-w-[300px]" onSubmit={handleSubmit} id="booking-form">
-                <div className="flex flex-col gap-4">
+              <form onSubmit={handleSubmit} id="client-details-form">
+                <div className="space-y-4">
                   <div>
-                    <label htmlFor="client-name" className="block font-bold mb-1">
+                    <label htmlFor="client-name-form" className="block text-sm font-medium text-gray-700 mb-1">
                       Name<span className="text-red-500">*</span>
                     </label>
                     <input
-                      id="client-name"
+                      id="client-name-form"
                       name="name"
                       maxLength={100}
                       required
                       type="text"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded"
+                      className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     />
-                    <div className="text-sm text-gray-500 text-right">{formData.name.length}/100</div>
+                    <div className="text-xs text-gray-500 text-right mt-1">{formData.name.length}/100</div>
                   </div>
 
                   <div>
-                    <label htmlFor="client-email" className="block font-bold mb-1">
+                    <label htmlFor="client-email-form" className="block text-sm font-medium text-gray-700 mb-1">
                       Email<span className="text-red-500">*</span>
                     </label>
                     <input
-                      id="client-email"
+                      id="client-email-form"
                       name="email"
                       required
                       type="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded"
+                      className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="client-phone" className="block font-bold mb-1">
+                    <label htmlFor="client-phone-form" className="block text-sm font-medium text-gray-700 mb-1">
                       Phone Number
                     </label>
                     <input
-                      id="client-phone"
+                      id="client-phone-form"
                       name="phone"
                       type="tel"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded"
+                      className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="client-message" className="block font-bold mb-1">
+                    <label htmlFor="client-message-form" className="block text-sm font-medium text-gray-700 mb-1">
                       Add Your Message
                     </label>
                     <textarea
-                      id="client-message"
+                      id="client-message-form"
                       name="message"
                       aria-label="Add Your Message"
                       value={formData.message}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded min-h-[80px]"
+                      rows={3}
+                      className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
                 </div>
 
-                <div className="mt-5">
-                  <label htmlFor="participants-dropdown" className="block font-bold mb-1">
-                    Number of Participants
-                  </label>
-                  <div className="relative inline-block border border-gray-300 p-2 bg-white min-w-[150px]">
-                    <select
-                      id="participants-dropdown"
-                      name="participants"
-                      value={formData.participants}
-                      onChange={handleInputChange}
-                      className="w-full bg-transparent appearance-none pr-8"
-                    >
-                      {[1, 2, 3, 4, 5].map((num) => (
-                        <option key={num} value={num}>
-                          {num}
-                        </option>
-                      ))}
-                    </select>
-                    <svg
-                      className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M18.2546728,8.18171329 L18.9617796,8.88882007 L12.5952867,15.2537133 L12.5978964,15.2558012 L11.8907896,15.962908 L11.8882867,15.9607133 L11.8874628,15.9617796 L11.180356,15.2546728 L11.1812867,15.2527133 L4.81828671,8.88882007 L5.52539349,8.18171329 L11.8882867,14.5457133 L18.2546728,8.18171329 Z" />
-                    </svg>
-                  </div>
-                </div>
-
-                <fieldset className="mt-5">
-                  <legend className="font-bold">Payment</legend>
-                  <hr className="border-gray-200 my-2" />
-                  <div>
-                    <p>{service.name}</p>
-                    <div className="relative inline-block border border-gray-300 p-2 bg-white min-w-[150px]">
-                       <select
-                        id="payment-method-dropdown"
-                        name="paymentMethod"
-                        value={formData.paymentMethod}
-                        onChange={handleInputChange}
-                        className="w-full bg-transparent appearance-none pr-8"
-                      >
-                        {service.payment?.options
-                          ? Object.entries(service.payment.options)
-                              .filter(([_, value]) => value) // Filter for true options
-                              .map(([key]) => (
-                                <option key={key} value={key}>
-                                  {offeredAsToPaymentOptions(key as OfferedAsType)}
-                                </option>
-                              ))
-                          : <option value="Pay now">Pay now</option>}
-                      </select>
-                      <svg
-                        className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path d="M18.2546728,8.18171329 L18.9617796,8.88882007 L12.5952867,15.2537133 L12.5978964,15.2558012 L11.8907896,15.962908 L11.8882867,15.9607133 L11.8874628,15.9617796 L11.180356,15.2546728 L11.1812867,15.2527133 L4.81828671,8.88882007 L5.52539349,8.18171329 L11.8882867,14.5457133 L18.2546728,8.18171329 Z" />
-                      </svg>
+                <fieldset className="mt-6 pt-4 border-t border-gray-300">
+                  <legend className="text-xl font-semibold mb-2">Payment</legend>
+                  <div className="bg-gray-50 p-4 rounded-md">
+                    <p className="font-medium text-gray-700">{service.name}</p>
+                    <div className="mt-2">
+                      <label htmlFor="payment-option-dropdown" className="sr-only">Payment Option</label>
+                      <div className="relative inline-block border border-gray-300 rounded-md shadow-sm w-full">
+                        <select
+                          id="payment-option-dropdown"
+                          name="paymentOption"
+                          value={selectedPaymentOption}
+                          onChange={(e) => setSelectedPaymentOption(e.target.value as OfferedAsType)}
+                          className="w-full p-2.5 bg-white appearance-none pr-8 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                        >
+                          {service.offeredAs.map((option) => (
+                            <option key={option} value={option}>
+                              {offeredAsToPaymentOptionsText(option)}
+                            </option>
+                          ))}
+                           {/* Example if service.offeredAs is empty or doesn't include a default */}
+                          {!service.offeredAs.length && <option value="Pay now">Pay now</option>}
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.2546728,8.18171329 L18.9617796,8.88882007 L12.5952867,15.2537133 L12.5978964,15.2558012 L11.8907896,15.962908 L11.8882867,15.9607133 L11.8874628,15.9617796 L11.180356,15.2546728 L11.1812867,15.2527133 L4.81828671,8.88882007 L5.52539349,8.18171329 L11.8882867,14.5457133 L18.2546728,8.18171329 Z" />
+                          </svg>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </fieldset>
               </form>
-
-              <aside className="flex-1 min-w-[250px] border border-gray-200 p-4 bg-gray-50">
-                <div>
-                  <button
-                    className="w-full flex justify-between items-center text-left"
-                    aria-expanded="true" // Assuming it's expanded by default
-                    aria-controls="booking-details-content"
-                  >
-                    <h3 className="text-lg font-bold">Booking Details</h3>
-                    <svg
-                      className="w-6 h-6 transform rotate-180" // Icon points up for expanded
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path d="M11.8833796,8.18133292 L11.8872867,8.18433292 L11.8900332,8.1824613 L12.5971399,8.88956809 L12.5942867,8.89133292 L18.9617796,15.2535291 L18.2546728,15.9606359 L11.8862867,9.59933292 L5.52539349,15.9606359 L4.81828671,15.2535291 L11.1792867,8.89233292 L11.1762728,8.8884397 L11.8833796,8.18133292 Z" />
-                    </svg>
-                  </button>
-                  <div id="booking-details-content" role="group" className="mt-2">
-                    <p>{service.name}</p>
-                    <p>{`${formattedDate} at ${formattedTime}`}</p>
-                    <p>Joey Dixon</p> {/* Placeholder staff member */}
-                    <p>{formattedDuration}</p>
-                    <div className="sr-only">{formattedDuration}</div> {/* For screen readers */}
-                  </div>
-                </div>
-                <hr className="border-gray-200 my-4" />
-                <div>
-                  <h3 className="text-lg font-bold">Payment Details</h3>
-                  <div className="flex justify-between mb-2">
-                    <div>
-                      <p>Subtotal</p>
-                      <p>{`${formData.participants} participant${formData.participants > 1 ? 's' : ''} × ${formattedPrice}`}</p>
-                    </div>
-                    <span>{service.price ? `$${(service.price.value * formData.participants).toFixed(2)}` : 'N/A'}</span>
-                  </div>
-                  <hr className="border-gray-200 my-2" />
-                  <div className="flex justify-between">
-                    <p className="font-bold">Total</p>
-                    <strong>{service.price ? `$${(service.price.value * formData.participants).toFixed(2)}` : 'N/A'}</strong>
-                  </div>
-                </div>
-                <hr className="border-gray-200 my-4" />
-                <div className="text-center">
-                  <button
-                    className="p-2 border border-gray-300 bg-green-500 text-white hover:bg-green-600 rounded"
-                    type="submit"
-                    form="booking-form"
-                  >
-                    Book Now
-                  </button>
-                </div>
-              </aside>
             </div>
+
+            {/* Right Column: Summary */}
+            <aside className="md:w-2/5 space-y-6">
+              <div>
+                <h3 className="text-lg font-semibold border-b border-gray-300 pb-2 mb-3">Booking Details</h3>
+                <div className="text-sm space-y-1 text-gray-700">
+                  <p className="font-medium">{service.name}</p>
+                  <p>{`${formattedDate} at ${formattedTime}`}</p>
+                  <p>Studio</p> {/* Placeholder location */}
+                  <p>Joey Dixon</p> {/* Placeholder staff */}
+                  <p>{formattedDuration}</p>
+                </div>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-semibold border-b border-gray-300 pb-2 mb-3">Payment Details</h3>
+                <div className="text-sm space-y-1 text-gray-700">
+                  <p>{offeredAsToPaymentOptionsText(selectedPaymentOption)}</p>
+                  {/* Add more payment details if needed, e.g., price if not part of a plan */}
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <button
+                  type="submit"
+                  form="client-details-form" // Links to the form
+                  className="w-full p-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  {selectedPaymentOption === OfferedAsType.PRICING_PLAN ? 'Buy a plan' : 'Next'}
+                </button>
+              </div>
+            </aside>
           </div>
-        </section>
+        </div>
       </main>
 
-      <footer className="bg-gray-100 p-5 text-center">
-        <p>© 2025 Fitness Demo. All rights reserved.</p>
+      <footer className="bg-gray-100 p-4 border-t mt-8">
+        <div className="max-w-7xl mx-auto text-center text-sm text-gray-600">
+          <p>© 2025 Fitness Demo. All rights reserved.</p>
+        </div>
       </footer>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Overlay & Panel (same as before) */}
       <div 
         className={`fixed inset-0 bg-black bg-opacity-50 z-[1000] transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
         onClick={toggleMobileMenu}
+        aria-hidden={!isMobileMenuOpen}
       ></div>
-      {/* Mobile Menu Panel */}
       <div
         className={`fixed top-0 w-[280px] h-full bg-white p-5 shadow-lg transition-transform duration-300 z-[1001] ${
           isMobileMenuOpen ? 'translate-x-0 right-0' : 'translate-x-full right-0' 
         }`}
-        aria-hidden={!isMobileMenuOpen}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile Menu"
+        hidden={!isMobileMenuOpen}
       >
         <button
           className="float-right bg-transparent border-none cursor-pointer"
@@ -436,8 +401,7 @@ export default function ConfirmationPage() {
         </button>
         <nav aria-label="Site" className="mt-10">
           <ul className="list-none p-0">
-            <li><a href="/" className="block p-2 text-gray-800 no-underline hover:bg-gray-100">Home</a></li>
-            {/* Add other navigation items here */}
+            <li><Link href="/" className="block p-2 text-gray-800 no-underline hover:bg-gray-100">Home</Link></li>
           </ul>
         </nav>
       </div>
