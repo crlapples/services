@@ -207,7 +207,7 @@ export default function BookingFormPage() { // Renamed component for clarity
       </header>
 
       <main id="main-content" className="p-5 bg-gray-100" tabIndex={-1}>
-        <div className="max-w-5xl mx-auto bg-white shadow-lg p-6 md:p-8 rounded-xl">
+        <div className="max-w-5xl mx-auto bg-white shadow-lg p-6 md:p-8 rounded-full">
           <div className="mb-6">
             <button
               className="text-blue-600 hover:text-blue-800 flex items-center gap-1 text-sm"
@@ -257,7 +257,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                         type="text"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className="w-full p-2 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                       <div className="text-xs text-gray-500 text-right mt-1">{formData.name.length}/100</div>
                     </div>
@@ -273,7 +273,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                         type="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="w-full p-2 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                   </div>
@@ -288,7 +288,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                       type="tel"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-2 border border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
 
@@ -303,7 +303,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                       value={formData.message}
                       onChange={handleInputChange}
                       rows={3}
-                      className="w-full p-2 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-2 border border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
                 </div>
@@ -311,17 +311,17 @@ export default function BookingFormPage() { // Renamed component for clarity
                 <fieldset className="mt-6 pt-4 border-gray-300">
                   <legend className="text-xl font-semibold mb-2">Payment</legend>
                   <hr className="text-gray-300 my-3" />
-                  <div className="bg-gray-50 py-4 rounded-xl">
+                  <div className="bg-gray-50 py-4 rounded-full">
                     <p className="font-medium text-gray-700">{service.name}</p>
                     <div className="mt-2">
                       <label htmlFor="payment-option-dropdown" className="sr-only">Payment Option</label>
-                      <div className="relative inline-block border border-gray-300 rounded-xl shadow-sm w-full">
+                      <div className="relative inline-block border border-gray-300 rounded-full shadow-sm w-full">
                         <select
                           id="payment-option-dropdown"
                           name="paymentOption"
                           value={selectedPaymentOption}
                           onChange={(e) => setSelectedPaymentOption(e.target.value as OfferedAsType)}
-                          className="w-full p-2.5 bg-white appearance-none pr-8 rounded-xl focus:ring-blue-500 focus:border-blue-500"
+                          className="w-full p-2.5 bg-white appearance-none pr-8 rounded-full focus:ring-blue-500 focus:border-blue-500"
                         >
                           {service.offeredAs.map((option) => (
                             <option key={option} value={option}>
@@ -352,10 +352,10 @@ export default function BookingFormPage() { // Renamed component for clarity
                   onClick={toggleOpen}
                   aria-expanded={isOpen}
                   aria-controls="booking-details-content"
-                  className="w-full flex justify-between items-center p-3 text-left hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+                  className="w-full flex justify-between items-center py-3 text-left"
                   // Removed sKFHfHm, using Tailwind for styling
                 >
-                  <h3 className="text-base font-medium text-gray-800" data-hook="title"> {/* Adjusted font size/weight */}
+                  <h3 className="text-base font-lg font-semibold text-gray-800" data-hook="title"> {/* Adjusted font size/weight */}
                     Plan Details
                   </h3>
                   <div aria-hidden="true"> {/* sgrK0VB equivalent */}
@@ -431,7 +431,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                 <button
                   type="submit"
                   form="client-details-form" // Links to the form
-                  className="w-full p-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="w-full p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   {selectedPaymentOption === OfferedAsType.PRICING_PLAN ? 'Buy a plan' : 'Next'}
                 </button>
