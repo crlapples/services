@@ -132,7 +132,7 @@ export default function BookingFormPage() { // Renamed component for clarity
   const [selectedPaymentOption, setSelectedPaymentOption] = useState(
     service.offeredAs.includes(OfferedAsType.PRICING_PLAN) ? OfferedAsType.PRICING_PLAN : service.offeredAs[0] || OfferedAsType.ONLINE
   );
-  const [isOpen, setIsOpen] = useState(false); // Start closed by default, as in your example
+  const [isOpen, setIsOpen] = useState(true); // Start closed by default, as in your example
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -178,7 +178,7 @@ export default function BookingFormPage() { // Renamed component for clarity
   const formattedTime = searchParams.get('time') || '7:30 am'; // Example, make dynamic
 
   return (
-    <div className="font-sans text-gray-800">
+    <div className="text-gray-800">
       <button
         className="absolute -left-[9999px] focus:static focus:w-auto focus:h-auto focus:p-2 focus:bg-gray-200 focus:border focus:border-gray-300"
         onClick={() => document.getElementById('main-content')?.focus()}
@@ -345,7 +345,7 @@ export default function BookingFormPage() { // Renamed component for clarity
 
             {/* Right Column: Summary */}
             <aside className="md:w-2/5 space-y-6">
-              <div className="border border-gray-300 rounded-md overflow-hidden"> {/* Outer container for border */}
+              <div className="rounded-md overflow-hidden"> {/* Outer container for border */}
                 {/* Header Button */}
                 <button
                   id="booking-details-header"
@@ -356,7 +356,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                   // Removed sKFHfHm, using Tailwind for styling
                 >
                   <h3 className="text-base font-medium text-gray-800" data-hook="title"> {/* Adjusted font size/weight */}
-                    Booking Details
+                    Plan Details
                   </h3>
                   <div aria-hidden="true"> {/* sgrK0VB equivalent */}
                     <svg
@@ -416,6 +416,14 @@ export default function BookingFormPage() { // Renamed component for clarity
                       </div>
                     </div>
                   )}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-semibold border-b border-gray-300 pb-2 mb-3">Payment Details</h3>
+                <div className="text-sm space-y-1 text-gray-700">
+                  <p>{offeredAsToPaymentOptionsText(selectedPaymentOption)}</p>
+                  {/* Add more payment details if needed, e.g., price if not part of a plan */}
                 </div>
               </div>
 

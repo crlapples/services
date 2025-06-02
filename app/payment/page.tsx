@@ -183,7 +183,7 @@ export default function PaymentPage() {
         currency: 'USD',
       }}
     >
-      <div className="max-w-7xl mx-auto font-sans text-gray-800 bg-gray-50">
+      <div className="max-w-7xl mx-auto text-gray-800 bg-gray-50">
         <button
           className="absolute -left-[9999px] focus:static focus:w-auto focus:h-auto focus:p-2 focus:bg-gray-200 focus:border focus:border-gray-300"
           onClick={() => document.getElementById('main-content')?.focus()}
