@@ -7,6 +7,7 @@ import rawServicesData from 'lib/services.json';
 import { notFound, useRouter } from 'next/navigation'; // Added useRouter
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import CustomStyledPaymentDropdown from '@app/components/dropdownMenu';
 import Link from 'next/link'; // Import Link
 import '.././globals.css';
 
@@ -230,7 +231,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                         type="text"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className="w-full p-2 border border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-full shadow-sm"
                       />
                       <div className="text-xs text-gray-500 text-right mt-1">{formData.name.length}/100</div>
                     </div>
@@ -246,7 +247,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                         type="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="w-full p-2 border border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-full shadow-sm"
                       />
                     </div>
                   </div>
@@ -261,7 +262,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                       type="tel"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-2 border border-gray-300 rounded-full shadow-sm"
                     />
                   </div>
 
@@ -276,7 +277,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                       value={formData.message}
                       onChange={handleInputChange}
                       rows={3}
-                      className="w-full p-4 border border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-4 border border-gray-300 rounded-full shadow-sm"
                     />
                   </div>
                 </div>
@@ -286,31 +287,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                   <hr className="text-gray-300 my-3" />
                   <div className="bg-gray-50 py-4 rounded-full">
                     <p className="font-medium text-gray-700">{service.name}</p>
-                    <div className="mt-2">
-                      <label htmlFor="payment-option-dropdown" className="sr-only">Payment Option</label>
-                      <div className="relative inline-block border border-gray-300 rounded-full shadow-sm w-full">
-                        <select
-                          id="payment-option-dropdown"
-                          name="paymentOption"
-                          value={selectedPaymentOption}
-                          onChange={(e) => setSelectedPaymentOption(e.target.value as OfferedAsType)}
-                          className="w-full p-2.5 bg-white appearance-none pr-8 rounded-full focus:ring-blue-500 focus:border-blue-500"
-                        >
-                          {service.offeredAs.map((option) => (
-                            <option key={option} value={option}>
-                              {offeredAsToPaymentOptionsText(option)}
-                            </option>
-                          ))}
-                           {/* Example if service.offeredAs is empty or doesn't include a default */}
-                          {!service.offeredAs.length && <option value="Pay now">Pay now</option>}
-                        </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M18.2546728,8.18171329 L18.9617796,8.88882007 L12.5952867,15.2537133 L12.5978964,15.2558012 L11.8907896,15.962908 L11.8882867,15.9607133 L11.8874628,15.9617796 L11.180356,15.2546728 L11.1812867,15.2527133 L4.81828671,8.88882007 L5.52539349,8.18171329 L11.8882867,14.5457133 L18.2546728,8.18171329 Z" />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
+                    <CustomStyledPaymentDropdown service={service} />
                   </div>
                 </fieldset>
               </form>
