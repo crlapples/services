@@ -288,7 +288,7 @@ export default function BookingFormPage() {
                   aria-controls="booking-details-content"
                   className="w-full flex justify-between items-center p-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-t-lg"
                 >
-                  <h2 className="text-xl font-semibold text-gray-800">Booking Summary</h2>
+                  <h2 className="text-xl font-semibold text-gray-800">Plan Details</h2>
                   <div aria-hidden="true">
                     <svg
                       viewBox="0 0 20 20"
@@ -314,33 +314,20 @@ export default function BookingFormPage() {
                 >
                   {isPlanDetailsOpen && ( // Content only mounted when open for cleaner transitions
                     <div className="text-sm space-y-2 text-gray-700">
-                      <div className="flex justify-between">
-                        <span className="font-medium text-gray-600">Service:</span>
-                        <span className="font-semibold text-right">{service.name}</span>
+                      <div className="flex">
+                        <span className="font-semibold text-left">{service.name}</span>
                       </div>
-                       <div className="flex justify-between">
-                        <span className="font-medium text-gray-600">Date & Time:</span>
-                        <span className="text-right">{`${formattedDate} at ${formattedTime}`}</span>
+                       <div className="flex">
+                        <span className="text-left">{`${formattedDate} at ${formattedTime}`}</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="font-medium text-gray-600">Location:</span>
-                        <span className="text-right">Las Vegas, NV</span> {/* Placeholder */}
+                      <div className="flex">
+                        <span className="text-left">Las Vegas, NV</span> {/* Placeholder */}
                       </div>
-                      <div className="flex justify-between">
-                        <span className="font-medium text-gray-600">Provider:</span>
-                        <span className="text-right">Code Mage</span> {/* Placeholder */}
+                      <div className="flex">
+                        <span className="text-left">Code Mage</span> {/* Placeholder */}
                       </div>
-                      <div className="flex justify-between">
-                        <span className="font-medium text-gray-600">Duration:</span>
-                        <span className="text-right">{formattedDuration}</span>
-                      </div>
-                      <div className="sr-only">
-                        Duration: {formattedDuration.replace("hr", "hour").replace("min", "minutes")}
-                      </div>
-                       <hr className="my-3 border-gray-200"/>
-                       <div className="flex justify-between text-base">
-                        <span className="font-semibold text-gray-800">Total Price:</span>
-                        <span className="font-bold text-gray-900">{formattedPrice}</span>
+                       <div className="flex">
+                        <span className="text-left">{formattedPrice}</span>
                       </div>
                     </div>
                   )}
@@ -348,7 +335,7 @@ export default function BookingFormPage() {
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg shadow-md p-4">
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Selected Payment</h3>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">Payment Details</h3>
                 <div className="text-sm text-gray-700">
                   <p>{getPaymentOptionDisplayText(selectedPaymentOption)}</p>
                   {/* This uses the page's `selectedPaymentOption` state.

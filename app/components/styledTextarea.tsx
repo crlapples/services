@@ -15,7 +15,7 @@ const StyledTextarea: React.FC<StyledTextareaProps> = ({
   ...props
 }) => {
   const baseClasses = "w-full p-4 bg-white border border-gray-300 rounded-2xl shadow-sm appearance-none"; // rounded-2xl for textarea
-  const focusClasses = "focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:border-transparent";
+  const focusClasses = "focus:outline-none";
   // If you want a different color for focus ring, e.g., blue:
   // const focusClasses = "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-transparent";
 
