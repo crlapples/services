@@ -231,7 +231,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                         type="text"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className="w-full p-2 border border-gray-300 rounded-full shadow-sm"
+                        className="w-full p-2 border border-gray-300 rounded-full shadow-sm focus:outline-none"
                       />
                       <div className="text-xs text-gray-500 text-right mt-1">{formData.name.length}/100</div>
                     </div>
@@ -247,7 +247,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                         type="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="w-full p-2 border border-gray-300 rounded-full shadow-sm"
+                        className="w-full p-2 border border-gray-300 rounded-full shadow-sm focus:outline-none"
                       />
                     </div>
                   </div>
@@ -262,7 +262,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                       type="tel"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded-full shadow-sm"
+                      className="w-full p-2 border border-gray-300 rounded-full shadow-sm focus:outline-none"
                     />
                   </div>
 
@@ -277,7 +277,7 @@ export default function BookingFormPage() { // Renamed component for clarity
                       value={formData.message}
                       onChange={handleInputChange}
                       rows={3}
-                      className="w-full p-4 border border-gray-300 rounded-full shadow-sm"
+                      className="w-full p-4 border border-gray-300 rounded-full shadow-sm focus:outline-none"
                     />
                   </div>
                 </div>
