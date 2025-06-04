@@ -19,7 +19,7 @@ const StyledInput: React.FC<StyledInputProps> = ({
   ...props
 }) => {
   const baseClasses = "w-full p-2.5 bg-white border border-gray-300 rounded-full shadow-sm appearance-none";
-  const focusClasses = "focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 focus-visible:border-transparent";
+  const focusClasses = "focus:outline-none focus-visible:ring-2 focus-visible:ring-transparent focus-visible:border-transparent";
   // If you want a different color for focus ring, e.g., blue:
   // const focusClasses = "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-transparent";
 
