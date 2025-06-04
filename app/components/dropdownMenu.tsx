@@ -91,11 +91,7 @@ const CustomStyledPaymentDropdown: React.FC<PaymentOptionDropdownProps> = ({
           <Listbox.Button
             className="relative w-full cursor-default bg-white text-gray-900
                        py-2.5 pl-4 pr-10 text-left shadow-sm
-                       border border-gray-300 rounded-full
-                       focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2
-                       focus-visible:ring-white focus-visible:ring-opacity-75
-                       focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300
-                       hover:bg-gray-50 sm:text-sm"
+                       border border-gray-300 rounded-full sm:text-sm"
           >
             <span className="block truncate">
               {offeredAsToPaymentOptionsText(selectedPaymentOption)}
@@ -125,7 +121,7 @@ const CustomStyledPaymentDropdown: React.FC<PaymentOptionDropdownProps> = ({
                   key={optionIdx} // Using index is okay if options don't reorder/change
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4
-                     ${active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'}
+                     ${active ? 'bg-gray-100 text-black' : 'text-gray-900'}
                      ${availableOptions.length === 1 ? 'rounded-full' :
                        (optionIdx === 0 ? 'rounded-t-full' : '') +
                        (optionIdx === availableOptions.length - 1 ? ' rounded-b-full' : '')
@@ -141,7 +137,7 @@ const CustomStyledPaymentDropdown: React.FC<PaymentOptionDropdownProps> = ({
                         {offeredAsToPaymentOptionsText(optionValue)}
                       </span>
                       {selected ? (
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black">
                           <CheckIcon className="h-5 w-5" aria-hidden="true" />
                         </span>
                       ) : null}
