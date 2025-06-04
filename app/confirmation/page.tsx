@@ -181,7 +181,7 @@ export default function BookingFormPage() {
         <div className="max-w-5xl mx-auto bg-white shadow-xl p-6 md:p-10 rounded-lg"> {/* Enhanced shadow and rounding */}
           <div className="mb-8">
             <button
-              className="text-gray-700 hover:text-blue-600 flex items-center gap-1.5 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
+              className="text-gray-700 hover:text-blue-600 flex items-center gap-1.5 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
               onClick={() => router.back()} // Use router.back() for SPA navigation
               type="button"
             >
@@ -201,10 +201,10 @@ export default function BookingFormPage() {
                 <p className="mt-3 text-gray-600">Tell us a bit about yourself to complete your booking.</p>
               </div>
 
-              <div className="mb-8 px-1 w-full bg-gray-300 text-sm text-gray-600">
+              <div className="mb-8 p-4 w-full bg-gray-300 text-sm text-gray-600">
                 <span>Already have an account? </span>
                 <button
-                  className="text-blue-600 hover:text-blue-700 underline font-semibold focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 rounded"
+                  className="text-gray-600 hover:text-black underline font-semibold focus:outline-none rounded"
                   type="button"
                   onClick={toggleMobileMenu} // Or trigger a login modal
                 >
