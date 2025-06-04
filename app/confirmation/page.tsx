@@ -201,7 +201,7 @@ export default function BookingFormPage() {
                 <p className="mt-3 text-gray-600">Tell us a bit about yourself to complete your booking.</p>
               </div>
 
-              <div className="mb-8 px-1 text-sm text-gray-600">
+              <div className="mb-8 px-1 w-full bg-gray-300 text-sm text-gray-600">
                 <span>Already have an account? </span>
                 <button
                   className="text-blue-600 hover:text-blue-700 underline font-semibold focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 rounded"
