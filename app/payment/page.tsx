@@ -194,8 +194,8 @@ export default function PaymentPage() {
         <main id="main-content" className="p-5" tabIndex={-1}>
           <section>
             <div className="flex justify-between items-center mb-5">
-              <div className="flex">
-                <Link href="/" className="text-lg font-bold no-underline">fitness-demo</Link>
+              <div className="flex gap-2">
+                <Link href="/" className="text-lg mt-2 font-bold no-underline">fitness-demo</Link>
                 <h1 className="text-2xl mt-2" aria-label="CHECKOUT">CHECKOUT</h1>
               </div>
               <Link href="/" className="text-black hover:underline">Continue Browsing</Link>
@@ -323,7 +323,7 @@ export default function PaymentPage() {
                 )}
               </section>
 
-              <aside className="flex-[2_1_0%] min-w-[280px] bg-gray-100 p-5" aria-labelledby="summary-section-title">
+              <aside className="flex-[2_1_0%] h-full min-w-[280px] bg-gray-100 p-5" aria-labelledby="summary-section-title">
                 <div className="flex justify-between items-center mb-4">
                   <h2 id="summary-section-title" className="text-lg font-bold">Order summary</h2>
                   <hr className="text-gray-600" />
@@ -391,7 +391,7 @@ export default function PaymentPage() {
                       </div>
                     </dl>
                 </section>
-                <div className="flex justify-center bg-white items-center text-sm text-black mt-4">
+                <div className="w-full flex justify-center bg-white items-center text-sm text-black mt-4">
                   <svg className="w-3 h-3.5 mr-2" viewBox="0 0 11 14" aria-hidden="true">
                     <g fill="currentColor" fillRule="evenodd">
                       <path d="M0 12.79c0 .558.445 1.01.996 1.01h9.008A1 1 0 0 0 11 12.79V6.01c0-.558-.445-1.01-.996-1.01H.996A1 1 0 0 0 0 6.01v6.78Z"></path>
