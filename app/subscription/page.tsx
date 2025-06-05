@@ -82,7 +82,7 @@ const SubscriptionCheckoutPage: React.FC = () => {
       <Head>
         <title>Checkout - {planDetails.name}</title>
       </Head>
-      <div className="max-w-4xl mx-auto py-8 px-4">
+      <div className="max-w-4xl bg-white mx-auto py-8 px-4">
         <h1 className="text-3xl font-semibold text-gray-800 mb-2">Checkout</h1>
         <hr className="mb-8 border-gray-300" />
 
@@ -90,9 +90,9 @@ const SubscriptionCheckoutPage: React.FC = () => {
           {/* Left Column: Steps */}
           <div className="w-full md:w-2/3 space-y-6">
             {/* Step 1: Sign Up */}
-            <div className={`p-6 border rounded-lg ${activeStep === 1 ? 'border-blue-500 bg-white' : 'border-gray-300 bg-gray-50'}`}>
+            <div className={`p-6 ${activeStep === 1 ? 'border-blue-500 bg-white' : 'border-gray-300 bg-gray-50'}`}>
               <header className="flex items-center mb-4">
-                <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 text-white ${activeStep === 1 ? 'bg-blue-600' : 'bg-gray-400'}`}>1</span>
+                <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 text-black ${activeStep === 1 ? 'bg-white' : 'bg-white'}`}>1</span>
                 <h2 className="text-xl font-semibold text-gray-700">Sign Up</h2>
               </header>
               {activeStep === 1 && (
@@ -121,10 +121,10 @@ const SubscriptionCheckoutPage: React.FC = () => {
             <hr className="border-gray-300 md:hidden" />
 
             {/* Step 2: Payment */}
-            <div className={`p-6 border rounded-lg ${activeStep === 2 ? 'border-blue-500 bg-white' : 'border-gray-300 bg-gray-50'}`}>
+            <div className={`p-6 rounded-lg ${activeStep === 2 ? 'border-blue-500 bg-white' : 'border-gray-300 bg-gray-50'}`}>
               <header className="flex items-center mb-4">
-                <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 text-white ${activeStep === 2 ? 'bg-blue-600' : 'bg-gray-400'}`}>2</span>
-                <h2 className="text-xl font-semibold text-gray-700">Payment</h2>
+                <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 text-gray-300 ${activeStep === 2 ? 'bg-white' : 'bg-white'}`}>2</span>
+                <h2 className="text-xl font-semibold text-gray-300">Payment</h2>
               </header>
               {activeStep === 2 && (
                 <div>
