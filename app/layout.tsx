@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   // Define paths that should have a minimal or custom layout
   // (i.e., exclude the default Header and Footer)
-  const minimalLayoutPaths = ['/confirmation', '/payment'];
+  const minimalLayoutPaths = ['/confirmation', '/payment', '/subscription'];
   // Example: exclude for /admin/* routes as well
   const isMinimalLayout = minimalLayoutPaths.some(p => pathname === p) || pathname.startsWith('/admin/');
 

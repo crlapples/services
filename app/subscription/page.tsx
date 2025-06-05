@@ -10,6 +10,7 @@ import type {
     OnApproveData,
     OrderResponseBody,
 } from '@paypal/paypal-js';
+import '.././globals.css'
 
 const SubscriptionCheckoutPage: React.FC = () => {
   const [activeStep, setActiveStep] = useState<1 | 2>(1);
@@ -102,13 +103,13 @@ const SubscriptionCheckoutPage: React.FC = () => {
                   <div className="flex space-x-3">
                     <button
                       onClick={() => handleAuthAction('signup')}
-                      className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-150"
+                      className="px-6 md:w-1/2 py-2 bg-black text-white hover:underline"
                     >
                       Sign Up
                     </button>
                     <button
                       onClick={() => handleAuthAction('login')}
-                      className="px-6 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 transition duration-150"
+                      className="px-6 md:w-1/2 py-2 bg-white border border-black text-black hover:underline"
                     >
                       Log In
                     </button>
@@ -155,7 +156,7 @@ const SubscriptionCheckoutPage: React.FC = () => {
 
           {/* Right Column: Order Summary */}
           <div className="w-full md:w-1/3">
-            <div className="bg-white p-6 border border-gray-200 rounded-lg shadow-sm">
+            <div className="bg-white p-6 border border-gray-200">
               <h2 className="text-xl font-semibold text-gray-700 mb-4">Order summary</h2>
               
               <div className="space-y-2 mb-4">
@@ -169,7 +170,7 @@ const SubscriptionCheckoutPage: React.FC = () => {
 
               <hr className="my-4 border-gray-200" />
               
-              <button className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm mb-4">
+              <button className="flex items-center space-x-2 text-black underline text-sm mb-4">
                 <FiTag className="w-4 h-4" />
                 <span>Enter a coupon code</span>
               </button>
@@ -185,7 +186,7 @@ const SubscriptionCheckoutPage: React.FC = () => {
                 <p className="text-xs text-gray-500 mt-1">{planDetails.disclaimer}</p>
               </div>
             </div>
-            <div className="mt-4 flex items-center justify-center text-sm text-gray-500">
+            <div className="mt-4 flex items-center justify-center text-sm text-black">
               <FiLock className="w-4 h-4 mr-2" />
               <span>Secure Checkout</span>
             </div>
