@@ -183,7 +183,7 @@ export default function PaymentPage() {
         currency: 'USD',
       }}
     >
-      <div className="max-w-7xl mx-auto text-gray-800 bg-white">
+      <div className="max-w-7xl text-gray-800 bg-white">
         <button
           className="absolute -left-[9999px] focus:static focus:w-auto focus:h-auto focus:p-2 focus:bg-gray-200 focus:border focus:border-gray-300"
           onClick={() => document.getElementById('main-content')?.focus()}
@@ -193,16 +193,16 @@ export default function PaymentPage() {
 
         <main id="main-content" className="p-5" tabIndex={-1}>
           <section>
-            <div className="flex justify-between items-center mb-5">
+            <div className="flex justify-between items-center mx-20 mb-5">
               <div className="flex gap-2">
-                <Link href="/" className="text-lg mt-2 font-bold no-underline">fitness-demo</Link>
+                <Link href="/" className="text-2xl mt-2 font-bold no-underline uppercase">fitness-demo</Link>
                 <h1 className="text-2xl mt-2" aria-label="CHECKOUT">CHECKOUT</h1>
               </div>
               <Link href="/" className="text-black hover:underline">Continue Browsing</Link>
             </div>
             <hr className="border-gray-200 mb-5" />
 
-            <div className="flex flex-wrap gap-8">
+            <div className="flex flex-wrap gap-8 mx-20">
               <section className="flex-[3_1_0%] min-w-[320px] bg-white p-5 rounded shadow-sm" aria-label="Checkout form section">
                 <div className="bg-gray-100 p-2 mb-5">
                   <span>
@@ -372,7 +372,7 @@ export default function PaymentPage() {
                   </button>
                 </div>
 
-                <hr className="border-gray-600 mt-4 w-full mx-[10px]" />
+                <hr className="border-gray-600 mt-4 mx-5" />
 
                 <section className="mt-4 mb-5 mx-5" aria-label="Total due breakdown">
                     <dl className="flex flex-col space-y-2">
