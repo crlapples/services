@@ -183,7 +183,7 @@ export default function PaymentPage() {
         currency: 'USD',
       }}
     >
-      <div className="max-w-7xl mx-auto text-gray-800 bg-gray-50">
+      <div className="max-w-7xl mx-auto text-gray-800 bg-white">
         <button
           className="absolute -left-[9999px] focus:static focus:w-auto focus:h-auto focus:p-2 focus:bg-gray-200 focus:border focus:border-gray-300"
           onClick={() => document.getElementById('main-content')?.focus()}
@@ -191,44 +191,24 @@ export default function PaymentPage() {
           Skip to Main Content
         </button>
 
-        <header className="bg-white p-4 border-b border-gray-200 flex justify-between items-center">
-          <div>{/* Logo or site title placeholder */}</div>
-          <div>
-            <button
-              className="p-2 m-1 border border-blue-600 bg-blue-600 text-white hover:bg-blue-700 rounded flex items-center gap-2"
-              onClick={toggleMobileMenu}
-              aria-label="Log In"
-            >
-              <svg viewBox="0 0 50 50" width="24" height="24" aria-hidden="true">
-                <path d="M25 48.077c-5.924 0-11.31-2.252-15.396-5.921 2.254-5.362 7.492-8.267 15.373-8.267 7.889 0 13.139 3.044 15.408 8.418-4.084 3.659-9.471 5.77-15.385 5.77m.278-35.3c4.927 0 8.611 3.812 8.611 8.878 0 5.21-3.875 9.456-8.611 9.456s-8.611-4.246-8.611-9.456c0-5.066 3.684-8.878 8.611-8.878M25 0C11.193 0 0 11.193 0 25c0 .915.056 1.816.152 2.705.032.295.091.581.133.873.085.589.173 1.176.298 1.751.073.338.169.665.256.997.135.515.273 1.027.439 1.529.114.342.243.675.37 1.01.18.476.369.945.577 1.406.149.331.308.657.472.98.225.446.463.883.714 1.313.182.312.365.619.56.922.272.423.56.832.856 1.237.207.284.41.568.629.841.325.408.671.796 1.02 1.182.22.244.432.494.662.728.405.415.833.801 1.265 1.186.173.154.329.325.507.475l.004-.011A24.886 24.886 0 0 0 25 50a24.881 24.881 0 0 0 16.069-5.861.126.126 0 0 1 .003.01c.172-.144.324-.309.49-.458.442-.392.88-.787 1.293-1.209.228-.232.437-.479.655-.72.352-.389.701-.78 1.028-1.191.218-.272.421-.556.627-.838.297-.405.587-.816.859-1.24a26.104 26.104 0 0 0 1.748-3.216c.208-.461.398-.93.579-1.406.127-.336.256-.669.369-1.012.167-.502.305-1.014.44-1.53.087-.332.183-.659.256-.996.126-.576.214-1.164.299-1.754.042-.292.101-.577.133-.872.095-.89.152-1.791.152-2.707C50 11.193 38.807 0 25 0" />
-              </svg>
-              <span>Log In</span>
-            </button>
-          </div>
-        </header>
-
         <main id="main-content" className="p-5" tabIndex={-1}>
           <section>
             <div className="flex justify-between items-center mb-5">
-              <div>
-                <Link href="/" className="text-lg font-bold text-gray-800 no-underline">fitness-demo</Link>
-                <h1 className="text-2xl font-bold mt-2" aria-label="CHECKOUT">CHECKOUT</h1>
+              <div className="flex">
+                <Link href="/" className="text-lg font-bold no-underline">fitness-demo</Link>
+                <h1 className="text-2xl mt-2" aria-label="CHECKOUT">CHECKOUT</h1>
               </div>
-              <Link href="/" className="text-blue-600 hover:underline">Continue Browsing</Link>
+              <Link href="/" className="text-black hover:underline">Continue Browsing</Link>
             </div>
             <hr className="border-gray-200 mb-5" />
 
             <div className="flex flex-wrap gap-8">
               <section className="flex-[3_1_0%] min-w-[320px] bg-white p-5 rounded shadow-sm" aria-label="Checkout form section">
-                <div className="text-center py-2 mb-4 border-b border-gray-200">
-                  <p className="text-sm text-gray-600">Express Checkout Options (e.g., PayPal, Apple Pay)</p>
-                </div>
-
-                <div className="bg-blue-50 border border-blue-200 p-3 rounded mb-5">
+                <div className="bg-gray-100 p-2 mb-5">
                   <span>
                     Have an account?{' '}
                     <button
-                      className="text-blue-600 hover:underline bg-none border-none p-0 font-bold"
+                      className="text-black underline bg-none border-none p-0"
                       type="button"
                       onClick={toggleMobileMenu}
                     >
@@ -246,49 +226,39 @@ export default function PaymentPage() {
                       <fieldset>
                         <div className="mb-4">
                           <label htmlFor="checkout-email" className="block font-bold text-sm text-gray-600 mb-1">
-                            Email<span className="text-red-500">*</span>
+                            Email<span className="text-black">*</span>
                           </label>
                           <input id="checkout-email" name="email" type="email" required value={formData.email} onChange={handleInputChange} className="w-full p-2 border border-gray-300 rounded"/>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                           <div>
                             <label htmlFor="checkout-first-name" className="block font-bold text-sm text-gray-600 mb-1">
-                              First name<span className="text-red-500">*</span>
+                              First name<span className="text-black">*</span>
                             </label>
                             <input id="checkout-first-name" name="firstName" type="text" required value={formData.firstName} onChange={handleInputChange} className="w-full p-2 border border-gray-300 rounded"/>
                           </div>
                           <div>
                             <label htmlFor="checkout-last-name" className="block font-bold text-sm text-gray-600 mb-1">
-                              Last name<span className="text-red-500">*</span>
+                              Last name<span className="text-black">*</span>
                             </label>
                             <input id="checkout-last-name" name="lastName" type="text" required value={formData.lastName} onChange={handleInputChange} className="w-full p-2 border border-gray-300 rounded"/>
                           </div>
                         </div>
                         <div className="mb-4">
                           <label htmlFor="checkout-phone" className="block font-bold text-sm text-gray-600 mb-1">
-                            Phone<span className="text-red-500">*</span>
+                            Phone<span className="text-black">*</span>
                           </label>
                           <input id="checkout-phone" name="phone" type="tel" required value={formData.phone} onChange={handleInputChange} className="w-full p-2 border border-gray-300 rounded"/>
-                        </div>
-                        <div className="mb-4">
-                          <label htmlFor="checkout-address" className="block font-bold text-sm text-gray-600 mb-1">Address</label>
-                          <input id="checkout-address" name="address" type="text" placeholder="Street Address" value={formData.address} onChange={handleInputChange} className="w-full p-2 border border-gray-300 rounded mb-2"/>
-                          <input name="city" type="text" placeholder="City" value={formData.city} onChange={handleInputChange} className="w-full p-2 border border-gray-300 rounded mb-2"/>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <input name="state" type="text" placeholder="State/Province" value={formData.state} onChange={handleInputChange} className="w-full p-2 border border-gray-300 rounded"/>
-                            <input name="postalCode" type="text" placeholder="Zip/Postal Code" value={formData.postalCode} onChange={handleInputChange} className="w-full p-2 border border-gray-300 rounded"/>
-                          </div>
-                          <input name="country" type="text" placeholder="Country" value={formData.country} onChange={handleInputChange} className="w-full p-2 border border-gray-300 rounded mt-2"/>
                         </div>
                       </fieldset>
                       <div className="text-right mt-5">
                         <button
                           type="button"
-                          className="p-3 bg-green-600 text-white border border-green-600 rounded hover:bg-green-700 disabled:opacity-50"
+                          className="p-3 w-full bg-black text-white"
                           disabled={!isFormValid}
                           onClick={handleContinueToPayment}
                         >
-                          Continue to Payment
+                          Continue
                         </button>
                       </div>
                     </form>
@@ -353,14 +323,15 @@ export default function PaymentPage() {
                 )}
               </section>
 
-              <aside className="flex-[2_1_0%] min-w-[280px] bg-white p-5 rounded shadow-sm" aria-labelledby="summary-section-title">
+              <aside className="flex-[2_1_0%] min-w-[280px] bg-gray-100 p-5" aria-labelledby="summary-section-title">
                 <div className="flex justify-between items-center mb-4">
                   <h2 id="summary-section-title" className="text-lg font-bold">Order summary</h2>
+                  <hr className="text-gray-600" />
                   <span>({participants})<span className="sr-only"> item{participants > 1 ? 's' : ''}</span></span>
                 </div>
 
                 <ul className="list-none p-0" aria-label="Items in your order">
-                  <li className="flex gap-4 mb-4 pb-4 border-b border-gray-200">
+                  <li className="flex gap-4 mb-4 pb-4 border-b border-gray-600">
                     <div className="w-[60px]">
                       <img
                         src={service.mainMedia?.url || 'https://via.placeholder.com/60x34.png?text=Service'}
@@ -373,12 +344,12 @@ export default function PaymentPage() {
                         <span className="font-bold">{service.name}</span>
                         <span className="font-bold">{service.price ? `$${(service.price.value * participants).toFixed(2)}` : 'N/A'}</span>
                       </div>
-                      <div className="text-sm text-gray-600 mt-1">
+                      <div className="text-sm text-black mt-1">
                         <span>{`${formattedDate} at ${formattedTime}`}</span>
                       </div>
                       <button
                         type="button"
-                        className="text-blue-600 hover:underline bg-none border-none p-0 text-sm mt-1 flex items-center gap-1"
+                        className="text-black hover:underline bg-none border-none p-0 text-sm mt-1 flex items-center gap-1"
                       >
                         More Details
                         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -392,7 +363,7 @@ export default function PaymentPage() {
                 <div>
                   <button
                     type="button"
-                    className="text-blue-600 hover:underline flex items-center gap-1"
+                    className="text-black hover:underline flex items-center gap-1"
                   >
                     <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M14.5,3.9997 C15.327,3.9997 16,4.6727 16,5.4997 L16,5.4997 L16,9.6577 C16,10.1847 15.787,10.6997 15.414,11.0727 L15.414,11.0727 L9.925,16.5607 C9.643,16.8437 9.266,16.9997 8.865,16.9997 C8.464,16.9997 8.087,16.8437 7.804,16.5607 L7.804,16.5607 L3.439,12.1957 C2.854,11.6107 2.854,10.6597 3.439,10.0747 L3.439,10.0747 L8.928,4.5857 C9.306,4.2077 9.808,3.9997 10.342,3.9997 L10.342,3.9997 Z M14.5,4.9997 L10.342,4.9997 C10.075,4.9997 9.824,5.1037 9.635,5.2927 L9.635,5.2927 L4.146,10.7817 C3.952,10.9767 3.952,11.2937 4.146,11.4887 L4.146,11.4887 L8.511,15.8537 C8.701,16.0427 9.031,16.0427 9.218,15.8537 L9.218,15.8537 L14.707,10.3657 C14.893,10.1787 15,9.9207 15,9.6577 L15,9.6577 L15,5.4997 C15,5.2237 14.776,4.9997 14.5,4.9997 Z M11.293,7.293 C11.684,6.902 12.316,6.902 12.707,7.293 C13.098,7.684 13.098,8.316 12.707,8.707 C12.316,9.098 11.684,9.098 11.293,8.707 C10.902,8.316 10.902,7.684 11.293,7.293 Z" />
@@ -401,34 +372,35 @@ export default function PaymentPage() {
                   </button>
                 </div>
 
+                <hr className="text-gray-600 py-4" />
+
                 <section className="mt-4" aria-label="Total due breakdown">
                     <dl className="flex flex-col space-y-2">
                       <div className="flex justify-between">
-                        <dt className="text-sm text-gray-600">Subtotal</dt>
+                        <dt className="text-sm text-black">Subtotal</dt>
                         <dd className="font-bold">{service.price ? `$${(service.price.value * participants).toFixed(2)}` : 'N/A'}</dd>
                       </div>
                       <div className="flex justify-between">
-                        <dt className="text-sm text-gray-600">Sales Tax</dt>
+                        <dt className="text-sm text-black">Sales Tax</dt>
                         <dd className="font-bold">$0.00</dd>
                       </div>
-                      <hr className="border-gray-200 my-2" />
+                      <hr className="border-gray-600 my-2" />
                       <div className="flex justify-between text-lg font-bold">
                         <dt>Total</dt>
                         <dd>{service.price ? `$${totalAmount}` : 'N/A'}</dd>
                       </div>
                     </dl>
                 </section>
-
-                <div className="flex justify-center items-center text-sm text-gray-600 mt-4">
-                  <svg className="w-3 h-3.5 mr-2" viewBox="0 0 11 14" aria-hidden="true">
-                    <g fill="currentColor" fillRule="evenodd">
-                      <path d="M0 12.79c0 .558.445 1.01.996 1.01h9.008A1 1 0 0 0 11 12.79V6.01c0-.558-.445-1.01-.996-1.01H.996A1 1 0 0 0 0 6.01v6.78Z"></path>
-                      <path d="M9.5 5v-.924C9.5 2.086 7.696.5 5.5.5c-2.196 0-4 1.586-4 3.576V5h1v-.924c0-1.407 1.33-2.576 3-2.576s3 1.17 3 2.576V5h1Z" fillRule="nonzero" />
-                    </g>
-                  </svg>
-                  <span>Secure Checkout</span>
-                </div>
               </aside>
+              <div className="flex justify-center items-center text-sm text-black mt-4">
+                <svg className="w-3 h-3.5 mr-2" viewBox="0 0 11 14" aria-hidden="true">
+                  <g fill="currentColor" fillRule="evenodd">
+                    <path d="M0 12.79c0 .558.445 1.01.996 1.01h9.008A1 1 0 0 0 11 12.79V6.01c0-.558-.445-1.01-.996-1.01H.996A1 1 0 0 0 0 6.01v6.78Z"></path>
+                    <path d="M9.5 5v-.924C9.5 2.086 7.696.5 5.5.5c-2.196 0-4 1.586-4 3.576V5h1v-.924c0-1.407 1.33-2.576 3-2.576s3 1.17 3 2.576V5h1Z" fillRule="nonzero" />
+                  </g>
+                </svg>
+                <span>Secure Checkout</span>
+              </div>
             </div>
           </section>
         </main>
