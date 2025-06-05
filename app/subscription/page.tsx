@@ -78,7 +78,7 @@ const SubscriptionCheckoutPage: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="bg-white w-full h-full">
       <Head>
         <title>Checkout - {planDetails.name}</title>
       </Head>
@@ -121,10 +121,10 @@ const SubscriptionCheckoutPage: React.FC = () => {
             <hr className="border-gray-300 md:hidden" />
 
             {/* Step 2: Payment */}
-            <div className={`p-6 rounded-lg ${activeStep === 2 ? 'border-blue-500 bg-white' : 'border-gray-300 bg-gray-50'}`}>
+            <div className={`p-6 border-t ${activeStep === 2 ? 'border-gray-500 bg-white' : 'border-gray-500 bg-white'}`}>
               <header className="flex items-center mb-4">
-                <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 text-gray-300 ${activeStep === 2 ? 'bg-white' : 'bg-white'}`}>2</span>
-                <h2 className="text-xl font-semibold text-gray-300">Payment</h2>
+                <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 text-gray-500 ${activeStep === 2 ? 'bg-white' : 'bg-white'}`}>2</span>
+                <h2 className="text-xl text-gray-500">Payment</h2>
               </header>
               {activeStep === 2 && (
                 <div>
@@ -193,7 +193,7 @@ const SubscriptionCheckoutPage: React.FC = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
