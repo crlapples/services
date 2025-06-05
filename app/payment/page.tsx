@@ -203,8 +203,8 @@ export default function PaymentPage() {
             <hr className="border-gray-200 mb-5" />
 
             <div className="flex flex-wrap gap-8 mx-20">
-              <section className="flex-[3_1_0%] min-w-[320px] bg-white p-5 rounded shadow-sm" aria-label="Checkout form section">
-                <div className="bg-gray-100 p-2 mb-5">
+              <section className="flex-[3_1_0%] min-w-[320px] bg-white py-5 pr-5 rounded shadow-sm" aria-label="Checkout form section">
+                <div className="bg-gray-100 py-2 pr-2 mb-5">
                   <span>
                     Have an account?{' '}
                     <button

@@ -176,12 +176,12 @@ export default function BookingFormPage() {
   const formattedTime = searchParams.get('time') || 'Time not specified'; // Make dynamic if available
 
   return (
-    <div className="text-gray-800 bg-gray-50 min-h-screen"> {/* Added bg-gray-50 for overall page */}
+    <div className="text-gray-800 bg-white min-h-screen"> {/* Added bg-gray-50 for overall page */}
       <main id="main-content" className="p-4 md:p-8" tabIndex={-1}>
-        <div className="max-w-5xl mx-auto bg-white shadow-xl p-6 md:p-10 rounded-lg"> {/* Enhanced shadow and rounding */}
+        <div className="max-w-5xl mx-auto bg-white p-6 md:p-10"> {/* Enhanced shadow and rounding */}
           <div className="mb-8">
             <button
-              className="text-gray-700 hover:text-blue-600 flex items-center gap-1.5 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
+              className="text-gray-700 flex items-center gap-1.5 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
               onClick={() => router.back()} // Use router.back() for SPA navigation
               type="button"
             >
