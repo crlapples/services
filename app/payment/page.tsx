@@ -228,7 +228,7 @@ export default function PaymentPage() {
                           <label htmlFor="checkout-email" className="block font-bold text-sm text-gray-600 mb-1">
                             Email<span className="text-black">*</span>
                           </label>
-                          <input id="checkout-email" name="email" type="email" required value={formData.email} onChange={handleInputChange} className="w-full p-2 border border-gray-300 rounded"/>
+                          <input id="checkout-email" name="email" type="email" required value={formData.email} onChange={handleInputChange} className="w-full p-2 border border-gray-600 focus:outline-none focus:border-gray-600 focus:ring-1 focus:ring-gray-600"/>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                           <div>
@@ -264,12 +264,12 @@ export default function PaymentPage() {
                     </form>
                   </div>
                 )}
-
-                {isPaymentStepVisible && (
-                  <div className="mt-5">
-                    <div className="border-b border-gray-200 pb-2 mb-5">
-                      <h2 className="text-lg font-bold">Payment</h2>
-                    </div>
+                
+                <div className="mt-5">
+                  <div className="border-b border-gray-200 pb-2 mb-5">
+                    <h2 className="text-lg text-gray-300 font-bold">Payment</h2>
+                  </div>
+                  {isPaymentStepVisible && (
                     <div>
                       <PayPalButtons
                         style={{ layout: 'vertical' }}
@@ -319,15 +319,15 @@ export default function PaymentPage() {
                         }}
                       />
                     </div>
+                  )}
                   </div>
-                )}
               </section>
 
               <aside className="flex-[2_1_0%] h-full min-w-[280px] bg-gray-100" aria-labelledby="summary-section-title">
                 <div className="flex justify-between items-center mx-5 mt-5 mb-4">
                   <h2 id="summary-section-title" className="text-lg font-bold">Order summary</h2>
                   <hr className="text-gray-600" />
-                  <span>({participants})<span className="sr-only"> item{participants > 1 ? 's' : ''}</span></span>
+                  <span><span className="sr-only"> item{participants > 1 ? 's' : ''}</span></span>
                 </div>
 
                 <ul className="list-none mx-5" aria-label="Items in your order">
@@ -363,7 +363,7 @@ export default function PaymentPage() {
                 <div>
                   <button
                     type="button"
-                    className="text-black hover:underline flex items-center mx-5 gap-1"
+                    className="text-black underline hover:underline flex items-center mx-5 gap-1"
                   >
                     <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M14.5,3.9997 C15.327,3.9997 16,4.6727 16,5.4997 L16,5.4997 L16,9.6577 C16,10.1847 15.787,10.6997 15.414,11.0727 L15.414,11.0727 L9.925,16.5607 C9.643,16.8437 9.266,16.9997 8.865,16.9997 C8.464,16.9997 8.087,16.8437 7.804,16.5607 L7.804,16.5607 L3.439,12.1957 C2.854,11.6107 2.854,10.6597 3.439,10.0747 L3.439,10.0747 L8.928,4.5857 C9.306,4.2077 9.808,3.9997 10.342,3.9997 L10.342,3.9997 Z M14.5,4.9997 L10.342,4.9997 C10.075,4.9997 9.824,5.1037 9.635,5.2927 L9.635,5.2927 L4.146,10.7817 C3.952,10.9767 3.952,11.2937 4.146,11.4887 L4.146,11.4887 L8.511,15.8537 C8.701,16.0427 9.031,16.0427 9.218,15.8537 L9.218,15.8537 L14.707,10.3657 C14.893,10.1787 15,9.9207 15,9.6577 L15,9.6577 L15,5.4997 C15,5.2237 14.776,4.9997 14.5,4.9997 Z M11.293,7.293 C11.684,6.902 12.316,6.902 12.707,7.293 C13.098,7.684 13.098,8.316 12.707,8.707 C12.316,9.098 11.684,9.098 11.293,8.707 C10.902,8.316 10.902,7.684 11.293,7.293 Z" />

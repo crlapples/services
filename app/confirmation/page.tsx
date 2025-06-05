@@ -177,8 +177,8 @@ export default function BookingFormPage() {
 
   return (
     <div className="text-gray-800 bg-white min-h-screen"> {/* Added bg-gray-50 for overall page */}
-      <main id="main-content" className="p-4 md:p-8" tabIndex={-1}>
-        <div className="max-w-5xl mx-auto bg-white p-6 md:p-10"> {/* Enhanced shadow and rounding */}
+      <main id="main-content" className="p-2 md:p-4" tabIndex={-1}>
+        <div className="max-w-5xl mx-auto bg-white p-2 md:p-4"> {/* Enhanced shadow and rounding */}
           <div className="mb-8">
             <button
               className="text-gray-700 flex items-center gap-1.5 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
@@ -252,7 +252,7 @@ export default function BookingFormPage() {
                   name="message"
                   value={formData.message}
                   onChange={(e) => handleFormInputChange(e.target.name, e.target.value)}
-                  rows={4}
+                  rows={2}
                 />
 
                 <fieldset className="mt-8 pt-1">
