@@ -78,12 +78,12 @@ const SubscriptionCheckoutPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-white w-full h-full">
+    <div className="bg-white min-w-screen min-h-screen">
       <Head>
         <title>Checkout - {planDetails.name}</title>
       </Head>
       <div className="max-w-4xl bg-white mx-auto py-8 px-4">
-        <h1 className="text-3xl font-semibold text-gray-800 mb-2">Checkout</h1>
+        <h1 className="text-3xl text-gray-500 mb-2">Checkout</h1>
         <hr className="mb-8 border-gray-300" />
 
         <div className="flex flex-col md:flex-row gap-8">
@@ -123,8 +123,8 @@ const SubscriptionCheckoutPage: React.FC = () => {
             {/* Step 2: Payment */}
             <div className={`p-6 border-t ${activeStep === 2 ? 'border-gray-500 bg-white' : 'border-gray-500 bg-white'}`}>
               <header className="flex items-center mb-4">
-                <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 text-gray-500 ${activeStep === 2 ? 'bg-white' : 'bg-white'}`}>2</span>
-                <h2 className="text-xl text-gray-500">Payment</h2>
+                <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 text-gray-300 ${activeStep === 2 ? 'bg-white' : 'bg-white'}`}>2</span>
+                <h2 className="text-xl text-gray-300">Payment</h2>
               </header>
               {activeStep === 2 && (
                 <div>
@@ -170,7 +170,7 @@ const SubscriptionCheckoutPage: React.FC = () => {
 
               <hr className="my-4 border-gray-200" />
               
-              <button className="flex items-center space-x-2 text-black underline text-sm mb-4">
+              <button className="flex items-center space-x-2 text-black hover:text-gray-600 underline text-sm mb-4">
                 <FiTag className="w-4 h-4" />
                 <span>Enter a coupon code</span>
               </button>
