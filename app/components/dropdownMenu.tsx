@@ -91,7 +91,7 @@ const CustomStyledPaymentDropdown: React.FC<PaymentOptionDropdownProps> = ({
           <Listbox.Button
             className="relative w-full cursor-default bg-white text-gray-900
                        py-2.5 pl-4 pr-10 text-left shadow-sm
-                       border border-gray-300 rounded-full sm:text-sm focus:outline-none"
+                       border border-gray-600 rounded-full sm:text-sm focus:outline-none"
           >
             <span className="block truncate">
               {offeredAsToPaymentOptionsText(selectedPaymentOption)}

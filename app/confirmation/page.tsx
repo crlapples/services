@@ -255,9 +255,10 @@ export default function BookingFormPage() {
                   rows={4}
                 />
 
-                <fieldset className="mt-8 pt-6 border-t border-gray-200">
+                <fieldset className="mt-8 pt-6">
+                  <hr className="text-gray-300" />
                   <legend className="text-2xl font-semibold text-gray-900 mb-4">Payment Option</legend>
-                  <div className="bg-gray-100 p-5 rounded-xl space-y-3"> {/* Changed background, padding, rounding */}
+                  <div className="bg-white rounded-xl space-y-3"> {/* Changed background, padding, rounding */}
                     <p className="font-semibold text-lg text-gray-800">{service.name}</p>
                     <CustomStyledPaymentDropdown
                         service={service}
@@ -314,7 +315,7 @@ export default function BookingFormPage() {
                         <span className="font-semibold text-left">{service.name}</span>
                       </div>
                        <div className="flex">
-                        <span className="text-left">{`${formattedDate} at ${formattedTime}`}</span>
+                        <span className="text-left">{`${formattedDate}`}</span>
                       </div>
                       <div className="flex">
                         <span className="text-left">Las Vegas, NV</span> {/* Placeholder */}
