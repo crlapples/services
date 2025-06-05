@@ -324,13 +324,13 @@ export default function PaymentPage() {
               </section>
 
               <aside className="flex-[2_1_0%] h-full min-w-[280px] bg-gray-100" aria-labelledby="summary-section-title">
-                <div className="flex justify-between items-center px-5 pt-5 mb-4">
+                <div className="flex justify-between items-center mx-5 mt-5 mb-4">
                   <h2 id="summary-section-title" className="text-lg font-bold">Order summary</h2>
                   <hr className="text-gray-600" />
                   <span>({participants})<span className="sr-only"> item{participants > 1 ? 's' : ''}</span></span>
                 </div>
 
-                <ul className="list-none py-5" aria-label="Items in your order">
+                <ul className="list-none my-5" aria-label="Items in your order">
                   <li className="flex gap-4 mb-4 pb-4 border-b border-gray-600">
                     <div className="w-[60px]">
                       <img
@@ -374,7 +374,7 @@ export default function PaymentPage() {
 
                 <hr className="border-gray-600 mt-4 w-full mx-[10px]" />
 
-                <section className="mt-4 py-5 pb-5" aria-label="Total due breakdown">
+                <section className="mt-4 mb-5 mx-5" aria-label="Total due breakdown">
                     <dl className="flex flex-col space-y-2">
                       <div className="flex justify-between">
                         <dt className="text-sm text-black">Subtotal</dt>
