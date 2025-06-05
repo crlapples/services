@@ -372,7 +372,7 @@ export default function PaymentPage() {
                   </button>
                 </div>
 
-                <hr className="text-gray-600 py-4" />
+                <hr className="border-gray-600 mt-4" />
 
                 <section className="mt-4" aria-label="Total due breakdown">
                     <dl className="flex flex-col space-y-2">
@@ -391,23 +391,19 @@ export default function PaymentPage() {
                       </div>
                     </dl>
                 </section>
+                <div className="flex justify-center bg-white items-center text-sm text-black mt-4">
+                  <svg className="w-3 h-3.5 mr-2" viewBox="0 0 11 14" aria-hidden="true">
+                    <g fill="currentColor" fillRule="evenodd">
+                      <path d="M0 12.79c0 .558.445 1.01.996 1.01h9.008A1 1 0 0 0 11 12.79V6.01c0-.558-.445-1.01-.996-1.01H.996A1 1 0 0 0 0 6.01v6.78Z"></path>
+                      <path d="M9.5 5v-.924C9.5 2.086 7.696.5 5.5.5c-2.196 0-4 1.586-4 3.576V5h1v-.924c0-1.407 1.33-2.576 3-2.576s3 1.17 3 2.576V5h1Z" fillRule="nonzero" />
+                    </g>
+                  </svg>
+                  <span>Secure Checkout</span>
+                </div>
               </aside>
-              <div className="flex justify-center items-center text-sm text-black mt-4">
-                <svg className="w-3 h-3.5 mr-2" viewBox="0 0 11 14" aria-hidden="true">
-                  <g fill="currentColor" fillRule="evenodd">
-                    <path d="M0 12.79c0 .558.445 1.01.996 1.01h9.008A1 1 0 0 0 11 12.79V6.01c0-.558-.445-1.01-.996-1.01H.996A1 1 0 0 0 0 6.01v6.78Z"></path>
-                    <path d="M9.5 5v-.924C9.5 2.086 7.696.5 5.5.5c-2.196 0-4 1.586-4 3.576V5h1v-.924c0-1.407 1.33-2.576 3-2.576s3 1.17 3 2.576V5h1Z" fillRule="nonzero" />
-                  </g>
-                </svg>
-                <span>Secure Checkout</span>
-              </div>
             </div>
           </section>
         </main>
-
-        <footer className="bg-white p-4 border-t border-gray-200 text-center">
-          <p>© 2025 Fitness Demo. All rights reserved.</p>
-        </footer>
 
         <div 
           className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
