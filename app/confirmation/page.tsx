@@ -255,8 +255,8 @@ export default function BookingFormPage() {
                   rows={4}
                 />
 
-                <fieldset className="mt-8 pt-6">
-                  <hr className="text-gray-300" />
+                <fieldset className="mt-8 pt-1">
+                  <hr className="text-gray-300 mb-2" />
                   <legend className="text-2xl font-semibold text-gray-900 mb-4">Payment Option</legend>
                   <div className="bg-white rounded-xl space-y-3"> {/* Changed background, padding, rounding */}
                     <p className="font-semibold text-lg text-gray-800">{service.name}</p>
