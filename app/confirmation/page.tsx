@@ -201,7 +201,7 @@ export default function BookingFormPage() {
                 <p className="mt-3 text-gray-600">Tell us a bit about yourself to complete your booking.</p>
               </div>
 
-              <div className="mb-8 p-4 w-full bg-gray-300 text-sm text-gray-600">
+              <div className="mb-8 p-2 w-full bg-gray-100 text-sm text-gray-600">
                 <span>Already have an account? </span>
                 <button
                   className="text-gray-600 hover:text-black underline font-semibold focus:outline-none rounded"
@@ -224,7 +224,6 @@ export default function BookingFormPage() {
                     type="text"
                     value={formData.name}
                     onChange={(e) => handleFormInputChange(e.target.name, e.target.value)}
-                    placeholder="e.g., Jane Doe"
                     showCharCount
                   />
                   <StyledInput
@@ -235,7 +234,6 @@ export default function BookingFormPage() {
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleFormInputChange(e.target.name, e.target.value)}
-                    placeholder="you@example.com"
                   />
                 </div>
 
@@ -246,7 +244,6 @@ export default function BookingFormPage() {
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => handleFormInputChange(e.target.name, e.target.value)}
-                  placeholder="(555) 123-4567"
                 />
 
                 <StyledTextarea
@@ -256,7 +253,6 @@ export default function BookingFormPage() {
                   value={formData.message}
                   onChange={(e) => handleFormInputChange(e.target.name, e.target.value)}
                   rows={4}
-                  placeholder="Any special requests or notes..."
                 />
 
                 <fieldset className="mt-8 pt-6 border-t border-gray-200">
@@ -280,7 +276,7 @@ export default function BookingFormPage() {
 
             {/* Right Column: Summary */}
             <aside className="lg:w-2/5 space-y-8 sticky top-8 self-start"> {/* Made summary sticky */}
-              <div className="bg-white border border-gray-200 rounded-lg shadow-md">
+              <div className="bg-white rounded-lg">
                 <button
                   id="booking-details-header"
                   onClick={togglePlanDetails}
@@ -334,7 +330,7 @@ export default function BookingFormPage() {
                 </div>
               </div>
 
-              <div className="bg-white border border-gray-200 rounded-lg shadow-md p-4">
+              <div className="bg-white border-t border-gray-200 p-4">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Payment Details</h3>
                 <div className="text-sm text-gray-700">
                   <p>{getPaymentOptionDisplayText(selectedPaymentOption)}</p>
