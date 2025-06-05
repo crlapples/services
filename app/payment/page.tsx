@@ -193,7 +193,7 @@ export default function PaymentPage() {
 
         <main id="main-content" className="p-5" tabIndex={-1}>
           <section>
-            <div className="flex justify-between items-center mx-20 mb-5">
+            <div className="flex justify-between items-center md:mx-20 mb-5">
               <div className="flex gap-2">
                 <Link href="/" className="text-2xl mt-2 font-bold no-underline uppercase">fitness-demo</Link>
                 <h1 className="text-2xl mt-2" aria-label="CHECKOUT">CHECKOUT</h1>
@@ -202,9 +202,9 @@ export default function PaymentPage() {
             </div>
             <hr className="border-gray-200 mb-5" />
 
-            <div className="flex flex-wrap gap-8 mx-20">
+            <div className="flex flex-wrap gap-8 md:mx-20">
               <section className="flex-[3_1_0%] min-w-[320px] bg-white py-5 pr-5 rounded shadow-sm" aria-label="Checkout form section">
-                <div className="bg-gray-100 py-2 pr-2 mb-5">
+                <div className="bg-gray-100 p-2 mb-5">
                   <span>
                     Have an account?{' '}
                     <button
@@ -235,20 +235,20 @@ export default function PaymentPage() {
                             <label htmlFor="checkout-first-name" className="block font-bold text-sm text-gray-600 mb-1">
                               First name<span className="text-black">*</span>
                             </label>
-                            <input id="checkout-first-name" name="firstName" type="text" required value={formData.firstName} onChange={handleInputChange} className="w-full p-2 border border-gray-300 rounded"/>
+                            <input id="checkout-first-name" name="firstName" type="text" required value={formData.firstName} onChange={handleInputChange} className="w-full p-2 border border-gray-600 focus:outline-none focus:border-gray-600 focus:ring-1 focus:ring-gray-600"/>
                           </div>
                           <div>
                             <label htmlFor="checkout-last-name" className="block font-bold text-sm text-gray-600 mb-1">
                               Last name<span className="text-black">*</span>
                             </label>
-                            <input id="checkout-last-name" name="lastName" type="text" required value={formData.lastName} onChange={handleInputChange} className="w-full p-2 border border-gray-300 rounded"/>
+                            <input id="checkout-last-name" name="lastName" type="text" required value={formData.lastName} onChange={handleInputChange} className="w-full p-2 border border-gray-600 focus:outline-none focus:border-gray-600 focus:ring-1 focus:ring-gray-600"/>
                           </div>
                         </div>
                         <div className="mb-4">
                           <label htmlFor="checkout-phone" className="block font-bold text-sm text-gray-600 mb-1">
                             Phone<span className="text-black">*</span>
                           </label>
-                          <input id="checkout-phone" name="phone" type="tel" required value={formData.phone} onChange={handleInputChange} className="w-full p-2 border border-gray-300 rounded"/>
+                          <input id="checkout-phone" name="phone" type="tel" required value={formData.phone} onChange={handleInputChange} className="w-full p-2 border border-gray-600 focus:outline-none focus:border-gray-600 focus:ring-1 focus:ring-gray-600"/>
                         </div>
                       </fieldset>
                       <div className="text-right mt-5">

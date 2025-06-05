@@ -276,7 +276,7 @@ export default function BookingFormPage() {
             </div>
 
             {/* Right Column: Summary */}
-            <aside className="lg:w-2/5 space-y-8 sticky top-8 self-start"> {/* Made summary sticky */}
+            <aside className="lg:w-1/4 space-y-8 sticky top-8 self-start"> {/* Made summary sticky */}
               <div className="bg-white rounded-lg">
                 <button
                   id="booking-details-header"
@@ -331,7 +331,7 @@ export default function BookingFormPage() {
                 </div>
               </div>
 
-              <div className="bg-white border-t border-gray-200 p-4">
+              <div className="bg-white border-t border-b border-gray-200 p-4">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Payment Details</h3>
                 <div className="text-sm text-gray-700">
                   <p>{getPaymentOptionDisplayText(selectedPaymentOption)}</p>
