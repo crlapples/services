@@ -244,9 +244,9 @@ export default function PaymentPage() {
                     <h2 className={`text-lg font-bold ${isPaymentStepVisible ? 'text-black' : 'text-gray-300'}`}>Payment</h2>
                   </div>
                   {isPaymentStepVisible && (
-                    <div className="border-t border-gray-200 pt-4">
+                    <div className="border-gray-200 pt-4">
                       <PayPalButtons
-                        style={{ layout: 'vertical', color: 'white' }}
+                        style={{ layout: 'vertical', color: 'black' }}
                         disabled={!isFormValid}
                         createOrder={(data: any, actions: any) => {
                           return actions.order.create({

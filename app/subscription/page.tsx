@@ -161,7 +161,7 @@ const SubscriptionCheckoutPage: React.FC = () => {
               <div className={`p-6 border-t ${activeStep === 2 ? 'border-gray-500 bg-white' : 'border-gray-300 bg-gray-50'}`}>
                 <header className="flex items-center mb-4">
                   <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 ${activeStep === 2 ? 'bg-black text-white' : 'bg-gray-200 text-gray-400'}`}>2</span>
-                  <h2 className={`text-xl font-semibold ${activeStep === 2 ? 'text-gray-700' : 'text-gray-400'}`}>Payment</h2>
+                  <h2 className={`text-xl font-semibold ${activeStep === 2 ? 'text-black' : 'text-gray-400'}`}>Payment</h2>
                 </header>
                 {activeStep === 2 && (
                   <div>
@@ -177,7 +177,7 @@ const SubscriptionCheckoutPage: React.FC = () => {
                           Please complete your payment using PayPal.
                         </p>
                         <PayPalButtons
-                          style={{ layout: "vertical", color: "white", shape: "rect", label: "paypal" }}
+                          style={{ layout: "vertical", color: "black", shape: "rect", label: "paypal" }}
                           createOrder={createOrder}
                           onApprove={onApprove}
                           onError={onError}
