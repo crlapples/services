@@ -9,10 +9,6 @@ import { Service, OfferedAsType } from 'lib/service-types';
 import { Plan } from 'lib/plan-types';
 import { formatPrice } from 'app/utils/price-formtter';
 
-/**
- * Interface for the new, complex display object for each option.
- * EXPORTED so other components can use it.
- */
 export interface DisplayOption {
   value: OfferedAsType | string;
   title: string;
@@ -20,10 +16,6 @@ export interface DisplayOption {
   priceText: string;
 }
 
-/**
- * Builds the array of complex DisplayOption objects to be rendered.
- * EXPORTED so other components can use it.
- */
 export const buildDisplayOptions = (service: Service, plan?: Plan): DisplayOption[] => {
   const options: DisplayOption[] = [];
 
@@ -48,10 +40,6 @@ export const buildDisplayOptions = (service: Service, plan?: Plan): DisplayOptio
   return options;
 };
 
-/**
- * A simple text getter for the main button display.
- * EXPORTED so other components can use it.
- */
 export const getButtonDisplayText = (
   optionValue: OfferedAsType | string,
   options: DisplayOption[]
@@ -118,6 +106,7 @@ const CustomStyledPaymentDropdown: React.FC<PaymentOptionDropdownProps> = ({
                   key={optionIdx}
                   className={({ active }) =>
                     `relative cursor-default select-none p-3 group ${
+                      // Use light gray for active/hover background
                       active ? 'bg-gray-100' : 'bg-white'
                     }`
                   }
@@ -126,22 +115,26 @@ const CustomStyledPaymentDropdown: React.FC<PaymentOptionDropdownProps> = ({
                   {({ selected }) => (
                     <>
                       <div className="flex flex-col">
-                        <span className={`block text-xs font-semibold uppercase tracking-wider ${selected ? 'text-blue-700' : 'text-gray-500'}`}>
+                        {/* Line 1: Title - No color change on hover */}
+                        <span className={`block text-xs font-semibold uppercase tracking-wider ${selected ? 'text-gray-800' : 'text-gray-500'}`}>
                           {option.title}
                         </span>
                         
                         <div className="pl-4 mt-1">
-                          <span className={`block truncate font-medium text-gray-900 transition-colors duration-150 ${selected ? 'font-bold' : ''} group-hover:text-blue-600`}>
+                          {/* Line 2: Action Text - Text color changes to black on hover */}
+                          <span className={`block truncate font-medium text-gray-700 transition-colors duration-150 ${selected ? 'font-bold text-black' : ''} group-hover:text-black`}>
                             {option.actionText}
                           </span>
-                          <span className={`block text-sm text-gray-700 transition-colors duration-150 ${selected ? 'font-bold' : ''} group-hover:text-blue-600`}>
+                          {/* Line 3: Price Text - Text color changes to black on hover */}
+                          <span className={`block text-sm text-gray-600 transition-colors duration-150 ${selected ? 'font-bold text-black' : ''} group-hover:text-black`}>
                             {option.priceText}
                           </span>
                         </div>
                       </div>
 
+                      {/* Checkmark for selected state */}
                       {selected ? (
-                        <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600">
+                        <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-black">
                           <CheckIcon className="h-5 w-5" aria-hidden="true" />
                         </span>
                       ) : null}

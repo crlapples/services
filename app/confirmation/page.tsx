@@ -13,10 +13,9 @@ import { Plan } from 'lib/plan-types';
 import rawServicesData from 'lib/services.json';
 import rawPlansData from 'lib/plans.json';
 
-// --- CORRECTED IMPORT ---
 import CustomStyledPaymentDropdown, {
   buildDisplayOptions,
-  getButtonDisplayText,
+  DisplayOption, // Import DisplayOption type
 } from '@app/components/dropdownMenu';
 import StyledInput from "@app/components/styledInput";
 import StyledTextarea from '@app/components/styledTextarea';
@@ -79,6 +78,40 @@ const transformRawServiceData = (rawService: any): Service => {
 
 const services: Service[] = (rawServicesData as any[]).map(transformRawServiceData);
 const plans: Plan[] = rawPlansData as Plan[];
+
+/**
+ * NEW HELPER FUNCTION
+ * Generates the specific display text for the Payment Details summary box.
+ */
+const getPaymentDetailsDisplayText = (
+  selectedOptionValue: string | OfferedAsType,
+  displayOptions: DisplayOption[]
+): React.ReactNode => {
+  const selectedOption = displayOptions.find(opt => opt.value === selectedOptionValue);
+
+  if (!selectedOption) {
+    return 'N/A';
+  }
+
+  // If it's a subscription, show only the plan name.
+  if (selectedOption.title === 'Subscription') {
+    return <span>{selectedOption.actionText}</span>;
+  }
+
+  // If it's a one-time payment, show "Total" and the price with space between.
+  if (selectedOption.title === 'One-Time Payment') {
+    return (
+      <div className="flex justify-between w-full">
+        <span>Total</span>
+        <span>{selectedOption.priceText}</span>
+      </div>
+    );
+  }
+
+  // Fallback for any other types
+  return <span>{selectedOption.actionText}</span>;
+};
+
 
 // --- BookingFormPage Component ---
 export default function BookingFormPage() {
@@ -152,8 +185,6 @@ export default function BookingFormPage() {
   const formattedDate = searchParams.get('date') || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const formattedTime = searchParams.get('time') || 'Time not specified';
   
-  // --- ADDED THIS LINE ---
-  // We need to build the display options here to pass to the display text function
   const displayOptions = buildDisplayOptions(service, firstMonthlyPlan);
   const isPlanSelected = firstMonthlyPlan && selectedPaymentOption === firstMonthlyPlan._id;
 
@@ -309,9 +340,9 @@ export default function BookingFormPage() {
 
               <div className="bg-white border-t border-b border-gray-200 p-4">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Payment Details</h3>
-                <div className="text-sm text-gray-700">
-                  {/* --- CORRECTED FUNCTION CALL --- */}
-                  <p>{getButtonDisplayText(selectedPaymentOption, displayOptions)}</p>
+                <div className="text-sm text-gray-700 font-medium">
+                  {/* --- UPDATED TO USE THE NEW HELPER FUNCTION --- */}
+                  {getPaymentDetailsDisplayText(selectedPaymentOption, displayOptions)}
                 </div>
               </div>
 
