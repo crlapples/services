@@ -51,7 +51,9 @@ export default async function TrainingPage() {
       <div className="px-3 py-12">
         <h2 className="title text-center">Plans & Pricing</h2>
       </div>
-      <PlansList plans={plans} />
+      <div className="mb-2">
+        <PlansList plans={plans} />
+      </div>
     </>
   );
 }
