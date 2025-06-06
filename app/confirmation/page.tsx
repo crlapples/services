@@ -95,7 +95,7 @@ const getPaymentDetailsDisplayText = (
 
   // If it's a subscription, show only the plan name.
   if (selectedOption.title === 'Subscription') {
-    return <span>{selectedOption.actionText}</span>;
+    return <span>Subscription - {selectedOption.actionText}</span>;
   }
 
   // If it's a one-time payment, show "Total" and the price with space between.
@@ -210,7 +210,7 @@ export default function BookingFormPage() {
               <div className="mb-8">
                 <h1 className="text-3xl font-semibold text-gray-900 mb-2">Client Details</h1>
                 <hr className="border-gray-200" />
-                <p className="mt-3 text-gray-600">Tell us a bit about yourself to complete your booking.</p>
+                <p className="mt-3 text-gray-600">Tell us a bit about yourself to complete the transaction.</p>
               </div>
 
               <div className="mb-8 p-2 w-full bg-gray-100 text-sm text-gray-600">

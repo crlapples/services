@@ -12,6 +12,17 @@ import Link from 'next/link';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import '.././globals.css'
 
+// --- Helper Component for Details ---
+// This makes the code cleaner by separating the details view.
+const BookingDetails = ({ date, time, location }: { date: string, time: string, location: string }) => (
+  <div className="text-sm text-gray-600 mt-2 space-y-1 pl-1">
+    <p><strong>Date:</strong> {date}</p>
+    <p><strong>Time:</strong> {time}</p>
+    <p><strong>Location:</strong> {location}</p>
+  </div>
+);
+
+
 // Transform raw service data (assuming this is correct from previous fixes)
 const transformRawServiceData = (rawService: any): Service => {
   return {
@@ -91,21 +102,10 @@ const transformRawServiceData = (rawService: any): Service => {
 
 const services: Service[] = (rawServicesData as any[]).map(transformRawServiceData);
 
-const offeredAsToPaymentOptionsText = (offeredAs: OfferedAsType) =>
-  offeredAs === OfferedAsType.OFFLINE
-    ? 'In Person'
-    : offeredAs === OfferedAsType.ONLINE
-    ? 'Online'
-    : offeredAs === OfferedAsType.PRICING_PLAN
-    ? 'Paid Plans'
-    : 'Other';
-
-
 export default function PaymentPage() {
   const searchParams = useSearchParams();
   const serviceId = searchParams.get('serviceId');
 
-  // Decode parameters after getting them
   const nameParam = searchParams.get('name');
   const emailParam = searchParams.get('email');
   const phoneParam = searchParams.get('phone');
@@ -124,8 +124,8 @@ export default function PaymentPage() {
   }
 
   const [formData, setFormData] = useState({
-    firstName: nameFromParams.split(' ')[0] || 'Christopher',
-    lastName: nameFromParams.split(' ').slice(1).join(' ') || 'Lee',
+    firstName: nameFromParams.split(' ')[0] || 'John',
+    lastName: nameFromParams.split(' ').slice(1).join(' ') || 'Doe',
     email: emailFromParams,
     phone: phoneFromParams,
     address: '',
@@ -141,6 +141,9 @@ export default function PaymentPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const [isPaymentStepVisible, setIsPaymentStepVisible] = useState(false);
+  
+  // --- STATE FOR DETAILS VISIBILITY ---
+  const [isDetailsVisible, setIsDetailsVisible] = useState(false);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -160,6 +163,9 @@ export default function PaymentPage() {
   }, [formData]);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  
+  // --- HANDLER TO TOGGLE DETAILS ---
+  const toggleDetails = () => setIsDetailsVisible(!isDetailsVisible);
 
   const handleContinueToPayment = () => {
     if (isFormValid) {
@@ -195,7 +201,7 @@ export default function PaymentPage() {
           <section>
             <div className="flex justify-between items-center md:mx-20 mb-5">
               <div className="flex gap-2">
-                <Link href="/" className="text-2xl mt-2 font-bold no-underline uppercase">fitness-demo</Link>
+                <Link href="/" className="text-2xl mt-2 font-bold no-underline uppercase">Code Mage</Link>
                 <h1 className="text-2xl mt-2" aria-label="CHECKOUT">CHECKOUT</h1>
               </div>
               <Link href="/" className="text-black hover:underline">Continue Browsing</Link>
@@ -208,7 +214,7 @@ export default function PaymentPage() {
                   <span>
                     Have an account?{' '}
                     <button
-                      className="text-black underline bg-none border-none p-0"
+                      className="text-black hover:text-gray-600 underline bg-none border-none p-0"
                       type="button"
                       onClick={toggleMobileMenu}
                     >
@@ -331,32 +337,41 @@ export default function PaymentPage() {
                 </div>
 
                 <ul className="list-none mx-5" aria-label="Items in your order">
-                  <li className="flex gap-4 mb-4 pb-4 border-b border-gray-600">
-                    <div className="w-[60px]">
-                      <img
-                        src={service.mainMedia?.url || 'https://via.placeholder.com/60x34.png?text=Service'}
-                        alt={service.mainMedia?.alt || service.name}
-                        className="w-full h-auto rounded"
+                  <li className="flex flex-col gap-4 mb-4 pb-4 border-b border-gray-600">
+                    <div className="flex gap-4">
+                      <div className="w-[60px] flex-shrink-0">
+                        <img
+                          src={service.mainMedia?.url || 'https://via.placeholder.com/60x34.png?text=Service'}
+                          alt={service.mainMedia?.alt || service.name}
+                          className="w-full h-auto rounded"
+                        />
+                      </div>
+                      <div className="flex-grow">
+                        <div className="flex justify-between">
+                          <span className="font-bold">{service.name}</span>
+                          <span className="font-bold">{service.price ? `$${(service.price.value * participants).toFixed(2)}` : 'N/A'}</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={toggleDetails} // --- ADDED ONCLICK HANDLER ---
+                          aria-expanded={isDetailsVisible} // --- ADDED ARIA ATTRIBUTE ---
+                          className="text-black hover:underline bg-none border-none p-0 text-sm mt-1 flex items-center gap-1"
+                        >
+                          More Details
+                          <svg className={`w-4 h-4 transition-transform duration-200 ${isDetailsVisible ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.2546728,8.18171329 L18.9617796,8.88882007 L12.5952867,15.2537133 L12.5978964,15.2558012 L11.8907896,15.962908 L11.8882867,15.9607133 L11.8874628,15.9617796 L11.180356,15.2546728 L11.1812867,15.2527133 L4.81828671,8.88882007 L5.52539349,8.18171329 L11.8882867,14.5457133 L18.2546728,8.18171329 Z" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    {/* --- CONDITIONAL RENDERING OF DETAILS --- */}
+                    {isDetailsVisible && (
+                      <BookingDetails 
+                        date={formattedDate} 
+                        time={formattedTime} 
+                        location="Las Vegas, NV" // Placeholder location
                       />
-                    </div>
-                    <div className="flex-grow">
-                      <div className="flex justify-between">
-                        <span className="font-bold">{service.name}</span>
-                        <span className="font-bold">{service.price ? `$${(service.price.value * participants).toFixed(2)}` : 'N/A'}</span>
-                      </div>
-                      <div className="text-sm text-black mt-1">
-                        <span>{`${formattedDate} at ${formattedTime}`}</span>
-                      </div>
-                      <button
-                        type="button"
-                        className="text-black hover:underline bg-none border-none p-0 text-sm mt-1 flex items-center gap-1"
-                      >
-                        More Details
-                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M18.2546728,8.18171329 L18.9617796,8.88882007 L12.5952867,15.2537133 L12.5978964,15.2558012 L11.8907896,15.962908 L11.8882867,15.9607133 L11.8874628,15.9617796 L11.180356,15.2546728 L11.1812867,15.2527133 L4.81828671,8.88882007 L5.52539349,8.18171329 L11.8882867,14.5457133 L18.2546728,8.18171329 Z" />
-                        </svg>
-                      </button>
-                    </div>
+                    )}
                   </li>
                 </ul>
 
