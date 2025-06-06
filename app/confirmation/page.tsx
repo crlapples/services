@@ -213,10 +213,10 @@ export default function BookingFormPage() {
                 <p className="mt-3 text-gray-600">Tell us a bit about yourself to complete the transaction.</p>
               </div>
 
-              <div className="mb-8 p-2 w-full bg-gray-100 text-sm text-gray-600">
+              <div className="mb-8 p-2 w-full bg-gray-100 text-sm text-black">
                 <span>Already have an account? </span>
                 <button
-                  className="text-gray-600 hover:text-black underline font-semibold focus:outline-none rounded"
+                  className="text-black hover:text-gray-600 underline font-semibold focus:outline-none rounded"
                   type="button"
                   onClick={toggleMobileMenu}
                 >

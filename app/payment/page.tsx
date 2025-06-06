@@ -13,12 +13,12 @@ import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import '.././globals.css'
 
 // --- Helper Component for Details ---
-// This makes the code cleaner by separating the details view.
-const BookingDetails = ({ date, time, location }: { date: string, time: string, location: string }) => (
-  <div className="text-sm text-gray-600 mt-2 space-y-1 pl-1">
-    <p><strong>Date:</strong> {date}</p>
-    <p><strong>Time:</strong> {time}</p>
-    <p><strong>Location:</strong> {location}</p>
+const BookingDetails = ({ date, location, provider, price }: { date: string, location: string, provider: string, price: string }) => (
+  <div className="text-sm text-black mt-2 space-y-1 pl-1">
+    <p>{date}</p>
+    <p>{location}</p>
+    <p>{provider}</p>
+    <p>{price}</p>
   </div>
 );
 
@@ -142,7 +142,6 @@ export default function PaymentPage() {
   const [isFormValid, setIsFormValid] = useState(false);
   const [isPaymentStepVisible, setIsPaymentStepVisible] = useState(false);
   
-  // --- STATE FOR DETAILS VISIBILITY ---
   const [isDetailsVisible, setIsDetailsVisible] = useState(false);
 
   const handleInputChange = (
@@ -164,7 +163,6 @@ export default function PaymentPage() {
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   
-  // --- HANDLER TO TOGGLE DETAILS ---
   const toggleDetails = () => setIsDetailsVisible(!isDetailsVisible);
 
   const handleContinueToPayment = () => {
@@ -176,10 +174,13 @@ export default function PaymentPage() {
   };
 
   const formattedPrice = service.price ? formatPrice(service.price) : 'Price not available';
+  
+  // --- THIS IS THE FIX ---
+  // This now correctly formats the current date.
   const formattedDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   });
-  const formattedTime = '1:30 pm';
+  
   const totalAmount = service.price ? (service.price.value * participants).toFixed(2) : '0.00';
 
   return (
@@ -353,8 +354,8 @@ export default function PaymentPage() {
                         </div>
                         <button
                           type="button"
-                          onClick={toggleDetails} // --- ADDED ONCLICK HANDLER ---
-                          aria-expanded={isDetailsVisible} // --- ADDED ARIA ATTRIBUTE ---
+                          onClick={toggleDetails}
+                          aria-expanded={isDetailsVisible}
                           className="text-black hover:underline bg-none border-none p-0 text-sm mt-1 flex items-center gap-1"
                         >
                           More Details
@@ -364,12 +365,12 @@ export default function PaymentPage() {
                         </button>
                       </div>
                     </div>
-                    {/* --- CONDITIONAL RENDERING OF DETAILS --- */}
                     {isDetailsVisible && (
                       <BookingDetails 
-                        date={formattedDate} 
-                        time={formattedTime} 
-                        location="Las Vegas, NV" // Placeholder location
+                        date={formattedDate} // --- PASSING THE DYNAMIC DATE ---
+                        location="Las Vegas, NV"
+                        provider="Code Mage"
+                        price={formattedPrice}
                       />
                     )}
                   </li>
