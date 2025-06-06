@@ -53,7 +53,7 @@ function PlanCard({
       </div>
       
       {/* Section 3: Description */}
-      <p className="text-sm h-1/5 text-center">
+      <p className="text-sm h-1/7 text-center">
         {plan.description} This is a monthly subscription.
       </p>
       
