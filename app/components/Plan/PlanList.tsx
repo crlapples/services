@@ -58,7 +58,7 @@ function PlanCard({
       </p>
       
       {/* Section 4: Perks List */}
-      <ul className="list-disc pl-5 py-8 flex-grow">
+      <ul className="list-disc h-1/3 pl-5 py-8 flex-grow">
         {plan.perks.values.map((perk, index) => (
           <li key={index} className="text-sm">{perk}</li>
         ))}
