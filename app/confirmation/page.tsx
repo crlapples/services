@@ -206,7 +206,7 @@ export default function BookingFormPage() {
           </div>
 
           <div className="flex flex-col lg:flex-row gap-10 lg:gap-12">
-            <div className="flex-grow lg:w-3/5">
+            <div className="flex-grow mb-20 lg:w-3/5">
               <div className="mb-8">
                 <h1 className="text-3xl font-semibold text-gray-900 mb-2">Client Details</h1>
                 <hr className="border-gray-200" />
@@ -267,7 +267,7 @@ export default function BookingFormPage() {
                   rows={2}
                 />
 
-                <fieldset className="mt-8 mb-12 pt-1">
+                <fieldset className="mt-8 pt-1">
                   <hr className="text-gray-300 mb-2" />
                   <legend className="text-2xl font-semibold text-gray-900 mb-4">Payment Option</legend>
                   <div className="bg-white rounded-xl space-y-3">
