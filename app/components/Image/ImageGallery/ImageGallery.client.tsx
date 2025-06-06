@@ -22,6 +22,10 @@ export default function ImageGalleryClient({
                 ...theme.carousel.scrollContainer,
                 base: theme.carousel.scrollContainer.base + ' rounded-none',
               },
+              indicators: {
+                ...theme.carousel.indicators,
+                wrapper: (theme.carousel.indicators?.wrapper || '') + ' hidden', // This would hide the indicator wrapper
+              },
             },
           },
         }}

@@ -1,31 +1,39 @@
+// app/subscription/page.tsx
 "use client";
 
 import React, { useState } from 'react';
 import Head from 'next/head';
+import { useSearchParams, notFound } from 'next/navigation';
 import { FiTag, FiLock } from 'react-icons/fi';
 import { PayPalButtons } from '@paypal/react-paypal-js';
 import type {
-    CreateOrderData,
-    CreateOrderActions,
-    OnApproveData,
-    OrderResponseBody,
+  CreateOrderData,
+  CreateOrderActions,
+  OnApproveData,
+  OrderResponseBody,
 } from '@paypal/paypal-js';
-import '.././globals.css'
+
+import { Plan } from 'lib/plan-types';
+import rawPlansData from 'lib/plans.json';
+import '.././globals.css';
+
+const plans: Plan[] = rawPlansData as Plan[];
 
 const SubscriptionCheckoutPage: React.FC = () => {
+  const searchParams = useSearchParams();
+  const planId = searchParams.get('planId');
+  
+  const planDetails = plans.find(p => p._id === planId);
+
   const [activeStep, setActiveStep] = useState<1 | 2>(1);
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
   const [orderDetails, setOrderDetails] = useState<OrderResponseBody | null>(null);
 
-  const planDetails = {
-    name: 'Private Membership',
-    price: 375.00,
-    duration: '12 months',
-    sessions: 4,
-    billingCycle: 'every month',
-    disclaimer: 'You will be charged monthly for 12 months.',
-  };
+  if (!planDetails) {
+    notFound();
+    return null;
+  }
 
   const handleAuthAction = (action: 'login' | 'signup') => {
     console.log(`${action} action triggered`);
@@ -37,14 +45,13 @@ const SubscriptionCheckoutPage: React.FC = () => {
     setPaymentError(null);
     setPaymentSuccess(false);
     return actions.order.create({
-      // Add the intent property here
-      intent: 'CAPTURE', // Or 'AUTHORIZE' if you want to capture later
+      intent: 'CAPTURE',
       purchase_units: [
         {
           description: planDetails.name,
           amount: {
-            currency_code: 'USD',
-            value: planDetails.price.toFixed(2),
+            currency_code: planDetails.pricing.price.currency,
+            value: planDetails.pricing.price.value.toFixed(2),
           },
         },
       ],
@@ -71,11 +78,14 @@ const SubscriptionCheckoutPage: React.FC = () => {
       setPaymentError('An unexpected error occurred with PayPal. Please try again.');
     }
   };
-  
+
   const onError = (err: any) => {
     console.error('PayPal Error:', err);
     setPaymentError('An error occurred with PayPal. Please check your details or try again later.');
   };
+
+  const billingCycleText = `every ${planDetails.pricing.subscription?.cycleDuration.unit.toLowerCase()}`;
+  const perks = planDetails.perks.values || [];
 
   return (
     <div className="bg-white min-w-screen min-h-screen">
@@ -87,9 +97,7 @@ const SubscriptionCheckoutPage: React.FC = () => {
         <hr className="mb-8 border-gray-300" />
 
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Left Column: Steps */}
           <div className="w-full md:w-2/3 space-y-6">
-            {/* Step 1: Sign Up */}
             <div className={`p-6 ${activeStep === 1 ? 'border-blue-500 bg-white' : 'border-gray-300 bg-gray-50'}`}>
               <header className="flex items-center mb-4">
                 <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 text-black ${activeStep === 1 ? 'bg-white' : 'bg-white'}`}>1</span>
@@ -120,7 +128,6 @@ const SubscriptionCheckoutPage: React.FC = () => {
 
             <hr className="border-gray-300 md:hidden" />
 
-            {/* Step 2: Payment */}
             <div className={`p-6 border-t ${activeStep === 2 ? 'border-gray-500 bg-white' : 'border-gray-500 bg-white'}`}>
               <header className="flex items-center mb-4">
                 <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 text-gray-300 ${activeStep === 2 ? 'bg-white' : 'bg-white'}`}>2</span>
@@ -144,7 +151,7 @@ const SubscriptionCheckoutPage: React.FC = () => {
                         createOrder={createOrder}
                         onApprove={onApprove}
                         onError={onError}
-                        forceReRender={[planDetails.price]}
+                        forceReRender={[planDetails.pricing.price.value]}
                       />
                       {paymentError && <p className="text-red-500 mt-2 text-sm">{paymentError}</p>}
                     </>
@@ -154,7 +161,6 @@ const SubscriptionCheckoutPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Order Summary */}
           <div className="w-full md:w-1/3">
             <div className="bg-white p-6 border border-gray-200">
               <h2 className="text-xl font-semibold text-gray-700 mb-4">Order summary</h2>
@@ -162,10 +168,14 @@ const SubscriptionCheckoutPage: React.FC = () => {
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between">
                   <span className="text-gray-700 font-medium">{planDetails.name}</span>
-                  <span className="text-gray-800 font-semibold">${planDetails.price.toFixed(2)}</span>
+                  <span className="text-gray-800 font-semibold">${planDetails.pricing.price.value.toFixed(2)}</span>
                 </div>
-                <p className="text-sm text-gray-500">Duration: {planDetails.duration}</p>
-                <p className="text-sm text-gray-500">Sessions: {planDetails.sessions}</p>
+                <p className="text-sm text-gray-500">{planDetails.description}</p>
+                {perks.length > 0 && (
+                    <ul className="text-sm text-gray-500 list-disc list-inside pt-2">
+                        {perks.map((perk, i) => <li key={i}>{perk}</li>)}
+                    </ul>
+                )}
               </div>
 
               <hr className="my-4 border-gray-200" />
@@ -180,10 +190,9 @@ const SubscriptionCheckoutPage: React.FC = () => {
               <div className="space-y-1">
                 <div className="flex justify-between items-baseline">
                   <span className="text-lg font-semibold text-gray-700">Total</span>
-                  <span className="text-xl font-bold text-gray-800">${planDetails.price.toFixed(2)}</span>
+                  <span className="text-xl font-bold text-gray-800">${planDetails.pricing.price.value.toFixed(2)}</span>
                 </div>
-                <p className="text-sm text-gray-500 text-right">{planDetails.billingCycle}</p>
-                <p className="text-xs text-gray-500 mt-1">{planDetails.disclaimer}</p>
+                <p className="text-sm text-gray-500 text-right">{billingCycleText}</p>
               </div>
             </div>
             <div className="mt-4 flex items-center justify-center text-sm text-black">

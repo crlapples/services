@@ -1,125 +1,87 @@
-  [
-    {
-      "_id": "premium_monthly_123",
-      "name": "Premium Monthly",
-      "description": "Best value for dedicated training",
-      "pricing": {
-        "price": {
-          "value": 89.99,
-          "currency": "USD"
-        },
-        "subscription": {
-          "cycleDuration": {
-            "count": 1,
-            "unit": "MONTH"
-          }
-        },
-        "singlePaymentUnlimited": false,
-        "singlePaymentForDuration": null
+[
+  {
+    "_id": "web_basic_monthly_001",
+    "name": "Basic Web Presence",
+    "description": "Complete build of your website, essential monthly support and hosting for your existing small website.",
+    "pricing": {
+      "price": {
+        "value": 249,
+        "currency": "USD"
       },
-      "perks": {
-        "values": [
-          "Unlimited gym access",
-          "4 personal training sessions",
-          "Custom meal plans",
-          "24/7 support",
-          "Progress tracking"
-        ]
-      }
-    },
-    {
-      "_id": "annual_subscription_456",
-      "name": "Annual Pro",
-      "description": "Save 20% with yearly commitment",
-      "pricing": {
-        "price": {
-          "value": 899,
-          "currency": "USD"
-        },
-        "subscription": {
-          "cycleDuration": {
-            "count": 1,
-            "unit": "YEAR"
-          }
-        }
-      },
-      "perks": {
-        "values": [
-          "All Premium benefits",
-          "2 free guest passes",
-          "Priority class booking",
-          "Annual fitness assessment",
-          "VIP locker"
-        ]
-      }
-    },
-    {
-      "_id": "lifetime_789",
-      "name": "Lifetime Membership",
-      "description": "One-time payment for permanent access",
-      "pricing": {
-        "price": {
-          "value": 2499,
-          "currency": "USD"
-        },
-        "singlePaymentUnlimited": true,
-        "subscription": null
-      },
-      "perks": {
-        "values": [
-          "Permanent access to all facilities",
-          "10 personal training sessions",
-          "Lifetime nutrition counseling",
-          "Family discount (25%)",
-          "Exclusive member events"
-        ]
-      }
-    },
-    {
-      "_id": "summer_special_101",
-      "name": "Summer Challenge",
-      "description": "3-month transformation program",
-      "pricing": {
-        "price": {
-          "value": 399,
-          "currency": "USD"
-        },
-        "singlePaymentForDuration": {
-          "count": 3,
+      "subscription": {
+        "cycleDuration": {
+          "count": 1,
           "unit": "MONTH"
         }
       },
-      "perks": {
-        "values": [
-          "12-week workout plan",
-          "Weekly coaching",
-          "Nutrition guide",
-          "Before/after assessment",
-          "Community support"
-        ]
-      }
+      "singlePaymentUnlimited": false,
+      "singlePaymentForDuration": null
     },
-    {
-      "_id": "trial_week_202",
-      "name": "7-Day Trial",
-      "description": "Experience our facilities",
-      "pricing": {
-        "price": {
-          "value": 19,
-          "currency": "USD"
-        },
-        "singlePaymentForDuration": {
-          "count": 7,
-          "unit": "DAY"
+    "perks": {
+      "values": [
+        "Secure website hosting",
+        "Monthly WordPress/CMS updates",
+        "Basic security monitoring",
+        "Email support (24hr response)",
+        "Minor content updates"
+      ]
+    }
+  },
+  {
+    "_id": "web_growth_monthly_002",
+    "name": "Growth & Development Monthly",
+    "description": "Ongoing development, optimization, and support to actively grow your online presence.",
+    "pricing": {
+      "price": {
+        "value": 599,
+        "currency": "USD"
+      },
+      "subscription": {
+        "cycleDuration": {
+          "count": 1,
+          "unit": "MONTH"
         }
       },
-      "perks": {
-        "values": [
-          "Full gym access",
-          "1 free class",
-          "Intro session with trainer",
-          "Facility tour"
-        ]
-      }
+      "singlePaymentUnlimited": false,
+      "singlePaymentForDuration": null
+    },
+    "perks": {
+      "values": [
+        "All Basic Web Presence benefits",
+        "Dedicated development hours (5 hours/month)",
+        "SEO performance monitoring & recommendations",
+        "Monthly analytics report",
+        "Priority support (phone & email)"
+      ]
     }
-  ]
+  },
+  {
+    "_id": "web_pro_strategic_monthly_003",
+    "name": "Pro Strategic Partner",
+    "description": "Comprehensive monthly partnership for continuous improvement, new features, and strategic guidance.",
+    "pricing": {
+      "price": {
+        "value": 1299,
+        "currency": "USD"
+      },
+      "subscription": {
+        "cycleDuration": {
+          "count": 1,
+          "unit": "MONTH"
+        }
+      },
+      "singlePaymentUnlimited": false,
+      "singlePaymentForDuration": null
+    },
+    "perks": {
+      "values": [
+        "All Growth & Development benefits",
+        "Expanded development hours (15 hours/month)",
+        "Advanced feature development & integrations",
+        "Quarterly strategic review & planning session",
+        "A/B testing & conversion optimization",
+        "Dedicated account manager"
+      ]
+    }
+  }
+]

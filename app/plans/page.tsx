@@ -1,6 +1,5 @@
-// src/app/plans/page.tsx
 import PlansList from 'app/components/Plan/PlanList';
-import { getPlans } from '../service/plans-api'
+import { getPlans } from '../service/plans-api';
 import testIds from 'app/utils/test-ids';
 
 // Manually opt out static rendering
