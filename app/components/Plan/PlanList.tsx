@@ -37,23 +37,23 @@ function PlanCard({
 
   return (
     // The background color is now hard-coded to a single color for all cards.
-    <div className="border-2 border-gray-c2 p-6 rounded-none text-white flex flex-col w-full md:w-1/3 bg-gray-800">
+    <div className="border-2 border-gray-c2 p-6 rounded-none text-white flex flex-col w-full md:w-1/3 bg-red-300">
       {plan.images && plan.images[0] && (
         <MediaImage media={plan.images[0]} width={640} height={480} />
       )}
       
       {/* Section 1: Title */}
-      <div className="text-center pt-4">
+      <div className="text-center h-1/5 pt-4">
         <h2 className="text-3xl font-bold">{plan.name}</h2>
       </div>
 
       {/* Section 2: Price */}
-      <div className="text-center py-6">
+      <div className="text-center h-1/5 py-6">
         <p className="text-6xl font-bold">{formattedPrice}</p>
       </div>
       
       {/* Section 3: Description */}
-      <p className="text-sm text-center">
+      <p className="text-sm h-1/5 text-center">
         {plan.description} This is a monthly subscription.
       </p>
       
@@ -67,7 +67,12 @@ function PlanCard({
       {/* Section 5: Button */}
       <Link
         href={`/subscription?planId=${plan._id}`}
-        className="block bg-highlight text-white text-center p-3 no-underline"
+        className="
+          block text-center p-3 no-underline 
+          bg-gray-c1 text-highlight          
+          hover:bg-highlight hover:text-black
+          transition-colors duration-300
+        "
       >
         Select Plan
       </Link>
