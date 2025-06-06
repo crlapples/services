@@ -206,7 +206,7 @@ export default function BookingFormPage() {
           </div>
 
           <div className="flex flex-col lg:flex-row gap-10 lg:gap-12">
-            <div className="flex-grow mb-20 lg:w-3/5">
+            <div className="flex-grow mb-30 lg:w-3/5">
               <div className="mb-8">
                 <h1 className="text-3xl font-semibold text-gray-900 mb-2">Client Details</h1>
                 <hr className="border-gray-200" />
@@ -216,7 +216,7 @@ export default function BookingFormPage() {
               <div className="mb-8 p-2 w-full bg-gray-100 text-sm text-black">
                 <span>Already have an account? </span>
                 <button
-                  className="text-black hover:text-gray-600 underline font-semibold focus:outline-none rounded"
+                  className="text-black hover:text-gray-600 underline focus:outline-none rounded"
                   type="button"
                   onClick={toggleMobileMenu}
                 >

@@ -116,13 +116,13 @@ const SubscriptionCheckoutPage: React.FC = () => {
               <div className={`p-6 ${isLoggedIn ? 'border-green-500 bg-white' : 'border-blue-500 bg-white'}`}>
                 <header className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
-                    <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 text-white ${isLoggedIn ? 'bg-green-500' : 'bg-black'}`}>
+                    <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 text-black ${isLoggedIn ? 'bg-white' : 'bg-white'}`}>
                       {isLoggedIn ? <FiCheck size={20} /> : '1'}
                     </span>
                     <h2 className="text-xl font-semibold text-gray-700">Sign Up</h2>
                   </div>
                   {isLoggedIn && (
-                    <button onClick={handleLogout} className="text-sm text-gray-600 hover:text-black underline">
+                    <button onClick={handleLogout} className="text-sm text-black hover:text-gray-600 underline">
                       Log Out
                     </button>
                   )}
@@ -160,7 +160,7 @@ const SubscriptionCheckoutPage: React.FC = () => {
 
               <div className={`p-6 border-t ${activeStep === 2 ? 'border-gray-500 bg-white' : 'border-gray-300 bg-gray-50'}`}>
                 <header className="flex items-center mb-4">
-                  <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 ${activeStep === 2 ? 'bg-black text-white' : 'bg-gray-200 text-gray-400'}`}>2</span>
+                  <span className={`flex items-center justify-center w-8 h-8 rounded-full mr-3 ${activeStep === 2 ? 'bg-white text-black' : 'bg-white text-gray-400'}`}>2</span>
                   <h2 className={`text-xl font-semibold ${activeStep === 2 ? 'text-black' : 'text-gray-400'}`}>Payment</h2>
                 </header>
                 {activeStep === 2 && (
@@ -173,9 +173,6 @@ const SubscriptionCheckoutPage: React.FC = () => {
                        </div>
                     ) : (
                       <>
-                        <p className="text-gray-600 mb-4">
-                          Please complete your payment using PayPal.
-                        </p>
                         <PayPalButtons
                           style={{ layout: "vertical", color: "black", shape: "rect", label: "paypal" }}
                           createOrder={createOrder}

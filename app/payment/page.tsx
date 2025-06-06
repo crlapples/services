@@ -240,11 +240,11 @@ export default function PaymentPage() {
                 </div>
                 
                 <div className="mt-5">
-                  <div className="pb-2 mb-5">
+                  <div className="pb-2 mb-3">
                     <h2 className={`text-lg font-bold ${isPaymentStepVisible ? 'text-black' : 'text-gray-300'}`}>Payment</h2>
                   </div>
                   {isPaymentStepVisible && (
-                    <div className="border-gray-200 pt-4">
+                    <div className="border-gray-200">
                       <PayPalButtons
                         style={{ layout: 'vertical', color: 'black' }}
                         disabled={!isFormValid}
