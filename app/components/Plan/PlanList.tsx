@@ -48,7 +48,7 @@ function PlanCard({
       </div>
 
       {/* Section 2: Price */}
-      <div className="text-center h-1/5 py-6">
+      <div className="text-center py-12">
         <p className="text-6xl font-bold">{formattedPrice}</p>
       </div>
       
