@@ -23,7 +23,7 @@ const BookingDetails = ({ date, location, provider, price }: { date: string, loc
 );
 
 
-// Transform raw service data (assuming this is correct from previous fixes)
+// Transform raw service data
 const transformRawServiceData = (rawService: any): Service => {
   return {
     id: rawService.id || '',
@@ -63,37 +63,6 @@ const transformRawServiceData = (rawService: any): Service => {
     payment: rawService.payment
       ? {
           rateType: rawService.payment.rateType as 'FIXED' | 'VARIED' | 'NO_FEE' | undefined,
-          fixed: rawService.payment.fixed?.price
-            ? { price: rawService.payment.fixed.price as Money }
-            : undefined,
-          varied: rawService.payment.varied
-            ? {
-                defaultPrice: rawService.payment.varied.defaultPrice
-                  ? (rawService.payment.varied.defaultPrice as Money)
-                  : undefined,
-                deposit: rawService.payment.varied.deposit
-                  ? (rawService.payment.varied.deposit as Money)
-                  : undefined,
-                minPrice: rawService.payment.varied.minPrice
-                  ? (rawService.payment.varied.minPrice as Money)
-                  : undefined,
-                maxPrice: rawService.payment.varied.maxPrice
-                  ? (rawService.payment.varied.maxPrice as Money)
-                  : undefined,
-              }
-            : undefined,
-          custom: rawService.payment.custom
-            ? {
-                description: rawService.payment.custom.description || '',
-              }
-            : undefined,
-          options: rawService.payment.options
-            ? {
-                online: rawService.payment.options.online || false,
-                inPerson: rawService.payment.options.inPerson || false,
-                pricingPlan: rawService.payment.options.pricingPlan || false,
-              }
-            : undefined,
         }
       : undefined,
     schedule: rawService.schedule || null,
@@ -128,21 +97,13 @@ export default function PaymentPage() {
     lastName: nameFromParams.split(' ').slice(1).join(' ') || 'Doe',
     email: emailFromParams,
     phone: phoneFromParams,
-    address: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    country: '',
-    formPaymentChoice: service.payment?.options
-        ? Object.keys(service.payment.options).find(key => service.payment!.options![key as keyof typeof service.payment.options]) || 'Pay now'
-        : 'Pay now',
   });
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const [isPaymentStepVisible, setIsPaymentStepVisible] = useState(false);
-  
   const [isDetailsVisible, setIsDetailsVisible] = useState(false);
+  const [isEditingDetails, setIsEditingDetails] = useState(true);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -162,25 +123,26 @@ export default function PaymentPage() {
   }, [formData]);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
-  
   const toggleDetails = () => setIsDetailsVisible(!isDetailsVisible);
 
   const handleContinueToPayment = () => {
     if (isFormValid) {
       setIsPaymentStepVisible(true);
+      setIsEditingDetails(false);
     } else {
       alert('Please fill in all required customer details.');
     }
   };
 
+  const handleEditDetails = () => {
+    setIsEditingDetails(true);
+    setIsPaymentStepVisible(false);
+  };
+
   const formattedPrice = service.price ? formatPrice(service.price) : 'Price not available';
-  
-  // --- THIS IS THE FIX ---
-  // This now correctly formats the current date.
   const formattedDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   });
-  
   const totalAmount = service.price ? (service.price.value * participants).toFixed(2) : '0.00';
 
   return (
@@ -191,13 +153,6 @@ export default function PaymentPage() {
       }}
     >
       <div className="max-w-7xl text-gray-800 bg-white">
-        <button
-          className="absolute -left-[9999px] focus:static focus:w-auto focus:h-auto focus:p-2 focus:bg-gray-200 focus:border focus:border-gray-300"
-          onClick={() => document.getElementById('main-content')?.focus()}
-        >
-          Skip to Main Content
-        </button>
-
         <main id="main-content" className="p-5" tabIndex={-1}>
           <section>
             <div className="flex justify-between items-center md:mx-20 mb-5">
@@ -224,11 +179,17 @@ export default function PaymentPage() {
                   </span>
                 </div>
 
-                {!isPaymentStepVisible && (
-                  <div>
-                    <div className="border-b border-gray-200 pb-2 mb-5">
-                      <h2 className="text-lg font-bold">Customer details</h2>
-                    </div>
+                <div>
+                  <div className="border-b border-gray-200 pb-2 mb-5 flex justify-between items-center">
+                    <h2 className="text-lg font-bold">Customer details</h2>
+                    {!isEditingDetails && (
+                      <button onClick={handleEditDetails} className="text-sm text-black hover:text-gray-600 underline">
+                        Edit
+                      </button>
+                    )}
+                  </div>
+
+                  {isEditingDetails ? (
                     <form aria-label="Customer Details Form" onSubmit={(e) => e.preventDefault()}>
                       <fieldset>
                         <div className="mb-4">
@@ -269,17 +230,23 @@ export default function PaymentPage() {
                         </button>
                       </div>
                     </form>
-                  </div>
-                )}
+                  ) : (
+                    <div className="text-sm text-gray-700 space-y-1">
+                      <p>{formData.firstName} {formData.lastName}</p>
+                      <p>{formData.email}</p>
+                      <p>{formData.phone}</p>
+                    </div>
+                  )}
+                </div>
                 
                 <div className="mt-5">
                   <div className="pb-2 mb-5">
-                    <h2 className="text-lg text-gray-300 font-bold">Payment</h2>
+                    <h2 className={`text-lg font-bold ${isPaymentStepVisible ? 'text-black' : 'text-gray-300'}`}>Payment</h2>
                   </div>
                   {isPaymentStepVisible && (
-                    <div className="border-t border-gray-200">
+                    <div className="border-t border-gray-200 pt-4">
                       <PayPalButtons
-                        style={{ layout: 'vertical' }}
+                        style={{ layout: 'vertical', color: 'white' }}
                         disabled={!isFormValid}
                         createOrder={(data: any, actions: any) => {
                           return actions.order.create({
@@ -288,9 +255,6 @@ export default function PaymentPage() {
                                 amount: {
                                   currency_code: 'USD',
                                   value: totalAmount,
-                                  breakdown: {
-                                    item_total: { currency_code: 'USD', value: totalAmount },
-                                  },
                                 },
                                 items: [
                                   {
@@ -327,7 +291,7 @@ export default function PaymentPage() {
                       />
                     </div>
                   )}
-                  </div>
+                </div>
               </section>
 
               <aside className="flex-[2_1_0%] h-full min-w-[280px] bg-gray-100" aria-labelledby="summary-section-title">
@@ -367,7 +331,7 @@ export default function PaymentPage() {
                     </div>
                     {isDetailsVisible && (
                       <BookingDetails 
-                        date={formattedDate} // --- PASSING THE DYNAMIC DATE ---
+                        date={formattedDate}
                         location="Las Vegas, NV"
                         provider="Code Mage"
                         price={formattedPrice}
