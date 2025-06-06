@@ -37,13 +37,13 @@ function PlanCard({
 
   return (
     // The background color is now hard-coded to a single color for all cards.
-    <div className="border-2 border-gray-c2 p-6 rounded-none text-white flex flex-col w-full md:w-1/3 bg-red-300">
+    <div className="border-2 border-gray-c2 p-6 rounded-none text-black flex flex-col w-full md:w-1/3 bg-red-300">
       {plan.images && plan.images[0] && (
         <MediaImage media={plan.images[0]} width={640} height={480} />
       )}
       
       {/* Section 1: Title */}
-      <div className="text-center h-1/5 pt-4">
+      <div className="text-center h-1/7 pt-4">
         <h2 className="text-3xl font-bold">{plan.name}</h2>
       </div>
 
@@ -53,7 +53,7 @@ function PlanCard({
       </div>
       
       {/* Section 3: Description */}
-      <p className="text-sm h-1/5 text-center">
+      <p className="text-sm h-1/4 text-center">
         {plan.description} This is a monthly subscription.
       </p>
       
