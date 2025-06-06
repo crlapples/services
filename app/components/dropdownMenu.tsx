@@ -1,50 +1,70 @@
 // app/components/dropdownMenu.tsx
 'use client';
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { ChevronDownIcon, CheckIcon } from '@heroicons/react/20/solid';
-import { Fragment } from 'react';
 
-// Import the canonical types
-import { Service, OfferedAsType } from 'lib/service-types'; // Adjust path if necessary
-import { Plan } from 'lib/plan-types'; // Adjust path if necessary
-import { formatPrice } from 'app/utils/price-formtter'; // Adjust path if necessary
+import { Service, OfferedAsType } from 'lib/service-types';
+import { Plan } from 'lib/plan-types';
+import { formatPrice } from 'app/utils/price-formtter';
 
-// This function now handles enums, plan objects, and fallback strings.
-export const getOptionDisplayText = (
-  option: OfferedAsType | string | undefined,
-  plan?: Plan
-): string => {
-  if (!option) return "Select payment method";
+/**
+ * Interface for the new, complex display object for each option.
+ * EXPORTED so other components can use it.
+ */
+export interface DisplayOption {
+  value: OfferedAsType | string;
+  title: string;
+  actionText: string;
+  priceText: string;
+}
 
-  // Handle the specific plan option
-  if (plan && option === plan._id) {
-    const price = formatPrice(plan.pricing.price);
-    return `${plan.name} (${price}/month)`;
+/**
+ * Builds the array of complex DisplayOption objects to be rendered.
+ * EXPORTED so other components can use it.
+ */
+export const buildDisplayOptions = (service: Service, plan?: Plan): DisplayOption[] => {
+  const options: DisplayOption[] = [];
+
+  if (service.offeredAs.includes(OfferedAsType.ONLINE) && service.price) {
+    options.push({
+      value: OfferedAsType.ONLINE,
+      title: 'One-Time Payment',
+      actionText: 'Pay Now',
+      priceText: formatPrice(service.price),
+    });
   }
 
-  // Handle enum members
-  switch (option) {
-    case OfferedAsType.ONLINE:
-      return "One-Time Payment"; // Changed for clarity
-    case OfferedAsType.OFFLINE:
-      return "Pay In Person";
-    case OfferedAsType.PRICING_PLAN:
-      // This might refer to other plans associated with the service, not the one we inject
-      return "Paid Plan / Membership";
-    default:
-      // Fallback for any other unmapped string values
-      const s = String(option);
-      return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase().replace(/_/g, ' ');
+  if (plan) {
+    options.push({
+      value: plan._id,
+      title: 'Subscription',
+      actionText: plan.name,
+      priceText: `${formatPrice(plan.pricing.price)} / month`,
+    });
   }
+
+  return options;
 };
+
+/**
+ * A simple text getter for the main button display.
+ * EXPORTED so other components can use it.
+ */
+export const getButtonDisplayText = (
+  optionValue: OfferedAsType | string,
+  options: DisplayOption[]
+): string => {
+  const selected = options.find(opt => opt.value === optionValue);
+  if (!selected) return "Select payment method";
+  return `${selected.title}: ${selected.actionText}`;
+};
+
 
 interface PaymentOptionDropdownProps {
   service: Service;
-  // The specific plan to offer as an additional option
   plan?: Plan;
-  // Controlled component props
   selectedOption: OfferedAsType | string;
   onOptionSelect: (option: OfferedAsType | string) => void;
 }
@@ -55,16 +75,10 @@ const CustomStyledPaymentDropdown: React.FC<PaymentOptionDropdownProps> = ({
   selectedOption,
   onOptionSelect,
 }) => {
-  // Combine service payment options with the injected plan
-  const availableOptions: (OfferedAsType | string)[] = [...service.offeredAs];
-  if (plan) {
-    // Add the plan ID as a unique option value
-    availableOptions.push(plan._id);
-  }
+  const displayOptions = buildDisplayOptions(service, plan);
 
-  // If there are no options, provide a default
-  if (availableOptions.length === 0) {
-    availableOptions.push(OfferedAsType.ONLINE);
+  if (displayOptions.length === 0) {
+    return <div className="text-gray-500">No payment options available.</div>;
   }
 
   return (
@@ -77,7 +91,7 @@ const CustomStyledPaymentDropdown: React.FC<PaymentOptionDropdownProps> = ({
             border border-gray-600 rounded-full sm:text-sm focus:outline-none"
           >
             <span className="block truncate">
-              {getOptionDisplayText(selectedOption, plan)}
+              {getButtonDisplayText(selectedOption, displayOptions)}
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
               <ChevronDownIcon
@@ -97,39 +111,37 @@ const CustomStyledPaymentDropdown: React.FC<PaymentOptionDropdownProps> = ({
               className="absolute z-10 w-full overflow-auto bg-white
               py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5
               focus:outline-none sm:text-sm
-              bottom-full mb-2 rounded-full max-h-60"
+              bottom-full mb-2 rounded-lg"
             >
-              {availableOptions.map((optionValue, optionIdx) => (
+              {displayOptions.map((option, optionIdx) => (
                 <Listbox.Option
                   key={optionIdx}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? 'bg-gray-100 text-black' : 'text-gray-900'
-                    } ${
-                      availableOptions.length === 1
-                        ? 'rounded-full'
-                        : optionIdx === 0
-                        ? 'rounded-t-full'
-                        : ''
-                    }${
-                      optionIdx === availableOptions.length - 1
-                        ? ' rounded-b-full'
-                        : ''
+                    `relative cursor-default select-none p-3 group ${
+                      active ? 'bg-gray-100' : 'bg-white'
                     }`
                   }
-                  value={optionValue}
+                  value={option.value}
                 >
                   {({ selected }) => (
                     <>
-                      <span
-                        className={`block ${
-                          selected ? 'font-medium' : 'font-normal'
-                        } whitespace-normal`}
-                      >
-                        {getOptionDisplayText(optionValue, plan)}
-                      </span>
+                      <div className="flex flex-col">
+                        <span className={`block text-xs font-semibold uppercase tracking-wider ${selected ? 'text-blue-700' : 'text-gray-500'}`}>
+                          {option.title}
+                        </span>
+                        
+                        <div className="pl-4 mt-1">
+                          <span className={`block truncate font-medium text-gray-900 transition-colors duration-150 ${selected ? 'font-bold' : ''} group-hover:text-blue-600`}>
+                            {option.actionText}
+                          </span>
+                          <span className={`block text-sm text-gray-700 transition-colors duration-150 ${selected ? 'font-bold' : ''} group-hover:text-blue-600`}>
+                            {option.priceText}
+                          </span>
+                        </div>
+                      </div>
+
                       {selected ? (
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-black">
+                        <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600">
                           <CheckIcon className="h-5 w-5" aria-hidden="true" />
                         </span>
                       ) : null}

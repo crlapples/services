@@ -11,15 +11,19 @@ import { Image } from "lib/image-types";
 import { Plan } from 'lib/plan-types';
 
 import rawServicesData from 'lib/services.json';
-import rawPlansData from 'lib/plans.json'; // Assuming your plans are in this file
+import rawPlansData from 'lib/plans.json';
 
-import CustomStyledPaymentDropdown, { getOptionDisplayText } from '@app/components/dropdownMenu';
+// --- CORRECTED IMPORT ---
+import CustomStyledPaymentDropdown, {
+  buildDisplayOptions,
+  getButtonDisplayText,
+} from '@app/components/dropdownMenu';
 import StyledInput from "@app/components/styledInput";
 import StyledTextarea from '@app/components/styledTextarea';
 
 import '.././globals.css';
 
-// --- Data Transformation ---
+// --- Data Transformation (No changes here) ---
 const transformRawServiceData = (rawService: any): Service => {
     const offeredAsValues = rawService.offeredAs
     ? rawService.offeredAs.map((oa: string) => {
@@ -83,7 +87,6 @@ export default function BookingFormPage() {
   const serviceId = searchParams.get('serviceId');
 
   const service = services.find((s) => s.id === serviceId);
-  // Get the first monthly plan to offer it as an option
   const firstMonthlyPlan = plans.find(p => p._id === "web_basic_monthly_001");
 
   const [formData, setFormData] = useState({
@@ -96,10 +99,8 @@ export default function BookingFormPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPlanDetailsOpen, setIsPlanDetailsOpen] = useState(true);
 
-  // State for selected payment option is now managed here
   const [selectedPaymentOption, setSelectedPaymentOption] = useState<OfferedAsType | string>(() => {
     if (!service) return OfferedAsType.ONLINE;
-    // Default to one-time payment if available
     return service.offeredAs.includes(OfferedAsType.ONLINE) ? OfferedAsType.ONLINE : service.offeredAs[0] || OfferedAsType.ONLINE;
   });
 
@@ -129,10 +130,8 @@ export default function BookingFormPage() {
     const isPlanSelected = firstMonthlyPlan && selectedPaymentOption === firstMonthlyPlan._id;
 
     if (isPlanSelected) {
-      // Route to the subscription page with the plan ID
       router.push(`/subscription?planId=${firstMonthlyPlan._id}`);
     } else {
-      // Route to the standard one-time payment page
       const queryParams = new URLSearchParams({
         serviceId: service.id,
         name: encodeURIComponent(formData.name),
@@ -153,6 +152,9 @@ export default function BookingFormPage() {
   const formattedDate = searchParams.get('date') || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const formattedTime = searchParams.get('time') || 'Time not specified';
   
+  // --- ADDED THIS LINE ---
+  // We need to build the display options here to pass to the display text function
+  const displayOptions = buildDisplayOptions(service, firstMonthlyPlan);
   const isPlanSelected = firstMonthlyPlan && selectedPaymentOption === firstMonthlyPlan._id;
 
   return (
@@ -308,7 +310,8 @@ export default function BookingFormPage() {
               <div className="bg-white border-t border-b border-gray-200 p-4">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Payment Details</h3>
                 <div className="text-sm text-gray-700">
-                  <p>{getOptionDisplayText(selectedPaymentOption, firstMonthlyPlan)}</p>
+                  {/* --- CORRECTED FUNCTION CALL --- */}
+                  <p>{getButtonDisplayText(selectedPaymentOption, displayOptions)}</p>
                 </div>
               </div>
 
