@@ -31,29 +31,6 @@ export function NavBar() {
   );
   return (
     <>
-      <button
-        className="block md:hidden absolute right-8 top-6 z-50"
-        onClick={toggleOpen}
-      >
-        <div className="space-y-2.5">
-          {(isMenuShown
-            ? [
-                'rotate-45 translate-y-[14.5px]',
-                'opacity-0 h-0',
-                '-rotate-45 translate-y-[-14.5px]',
-              ]
-            : ['', '', '']
-          ).map((className, index) => (
-            <span
-              key={index}
-              className={
-                'block h-[3px] w-8 bg-highlight rounded transform transition duration-500 ease-in-out ' +
-                className
-              }
-            ></span>
-          ))}
-        </div>
-      </button>
       <nav
         className={`${
           isMenuShown ? 'max-md:w-full' : 'max-md:w-0 max-md:opacity-0'
